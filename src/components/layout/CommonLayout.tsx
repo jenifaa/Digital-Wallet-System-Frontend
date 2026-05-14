@@ -1,7 +1,16 @@
+import type { ReactNode } from "react";
 
 
-export default function CommonLayout() {
+interface IProps {
+  children: ReactNode;
+}
+
+export default function CommonLayout({ children }: IProps) {
   return (
-    <div>CommonLayout</div>
-  )
+    <div className="min-h-screen flex flex-col">
+    
+      <div className="grow">{children}</div>
+     
+    </div>
+  );
 }
