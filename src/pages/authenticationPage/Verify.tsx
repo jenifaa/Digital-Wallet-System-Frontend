@@ -1,6 +1,7 @@
+import VerifyForm from "@/components/modules/authenticationForms/VerifyForm";
 
 export default function Verify() {
   return (
-    <div>Verify</div>
+    <div><VerifyForm></VerifyForm></div>
   )
 }
