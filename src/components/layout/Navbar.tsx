@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import logo from "@/assets/icons/logo.png"
+import { useLogoutMutation, useUserInfoQuery } from "@/redux/features/auth/auth.api";
+import { useAppDispatch } from "@/redux/hook";
 export default function Navbar() {
+   const { data } = useUserInfoQuery(undefined);
+   console.log(data);
+  const [logout] = useLogoutMutation();
+  const dispatch = useAppDispatch();
     const [scrolled, setScrolled] = useState(false);
-
+ const userRole = data?.data?.role;
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
