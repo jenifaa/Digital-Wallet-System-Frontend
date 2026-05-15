@@ -1,7 +1,12 @@
+import HeroSection from "./HeroSection";
 
 
 export default function HomePage() {
   return (
-    <div>HomePage</div>
+    <div>
+      
+      
+      <HeroSection></HeroSection>
+      </div>
   )
 }
