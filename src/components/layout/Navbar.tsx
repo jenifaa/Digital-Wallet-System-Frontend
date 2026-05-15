@@ -60,13 +60,13 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="hidden items-center gap-3 lg:flex">
-          <button className="rounded-xl border px-4 py-2 text-sm font-medium transition hover:bg-muted">
+          <Link to="/login" className="rounded-xl border px-4 py-2 text-sm font-medium transition hover:bg-muted hover:text-black">
             Login
-          </button>
+          </Link>
 
-          <button className="rounded-xl bg-[#1F2340] px-5 py-2 text-sm font-medium text-primary-foreground shadow-lg transition hover:opacity-90">
+          <Link to="/register" className="rounded-xl bg-[#1F2340] px-5 py-2 text-sm font-medium text-primary-foreground shadow-lg transition hover:opacity-90">
             Get Started
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Menu */}
