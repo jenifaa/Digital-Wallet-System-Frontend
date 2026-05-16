@@ -55,7 +55,7 @@ const registerSchema = z
 
     confirmPassword: z.string().min(8),
 
-    role: z.enum(["user", "agent"], {
+    role: z.enum(["USER", "AGENT"], {
       message: "Please select a role",
     }),
   })
@@ -84,7 +84,7 @@ export default function RegisterForm({
       phone: "",
       password: "",
       confirmPassword: "",
-      role: "user",
+      role: "USER",
     },
   });
 
@@ -228,12 +228,12 @@ export default function RegisterForm({
                         </SelectTrigger>
 
                         <SelectContent>
-                          <SelectItem value="user">
-                            User
+                          <SelectItem value="USER">
+                            USER
                           </SelectItem>
 
-                          <SelectItem value="agent">
-                            Agent
+                          <SelectItem value="AGENT">
+                            AGENT
                           </SelectItem>
                         </SelectContent>
                       </Select>

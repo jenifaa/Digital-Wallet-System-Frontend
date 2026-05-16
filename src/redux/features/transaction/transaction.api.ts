@@ -9,7 +9,14 @@ export const transactionApi = baseApi.injectEndpoints({
         data: addMoneyInfo,
       }),
     }),
+    sendMoney: builder.mutation({
+      query: (sendMoneyInfo) => ({
+        url: "/transaction/send-money",
+        method: "POST",
+        data: sendMoneyInfo,
+      }),
+    }),
   }),
 });
 
-export const { useAddMoneyMutation } = transactionApi;
+export const { useAddMoneyMutation,useSendMoneyMutation } = transactionApi;

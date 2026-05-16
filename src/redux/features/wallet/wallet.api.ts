@@ -16,7 +16,21 @@ export const walletApi = baseApi.injectEndpoints({
         data: pinInfo,
       }),
     }),
+    forgetPin: builder.mutation({
+      query: (pinInfo) => ({
+        url: "/wallet/pin/forgot",
+        method: "POST",
+        data: pinInfo,
+      }),
+    }),
+    resetPin: builder.mutation({
+      query: (pinInfo) => ({
+        url: "/wallet/pin/reset",
+        method: "POST",
+        data: pinInfo,
+      }),
+    }),
   }),
 });
 
-export const { useMyWalletQuery, useSetPinMutation } = walletApi;
+export const { useMyWalletQuery, useSetPinMutation ,useForgetPinMutation,useResetPinMutation} = walletApi;
