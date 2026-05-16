@@ -18,6 +18,9 @@ import { adminSidebarItems } from "./adminSideBarItems";
 import { userSidebarItems } from "./userSidebarItems";
 import { agentSidebarItems } from "./agentSidebarItems";
 import { userPrivateRoutes } from "./userPrivateRoutes";
+import Success from "@/pages/transaction/Success";
+import Fail from "@/pages/transaction/Fail";
+import Cancel from "@/pages/transaction/Cancel";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +96,18 @@ const router = createBrowserRouter([
   {
     Component: Unauthorized,
     path: "/unauthorized",
+  },
+  {
+    Component: Success,
+    path: "/transaction/success",
+  },
+  {
+    Component: Fail,
+    path: "/transaction/fail",
+  },
+  {
+    Component: Cancel,
+    path: "/transaction/cancel",
   },
 ]);
 export default router;

@@ -1,7 +1,5 @@
 
-
-
-
+import SetPin from "@/components/modules/User/SetPin";
 import MyProfile from "@/pages/user/MyProfile";
 import MyWallet from "@/pages/user/MyWallet";
 import UserAnalytics from "@/pages/user/userAnalytics";
@@ -27,8 +25,14 @@ export const userSidebarItems : ISidebarItems[] = [
         url: "/user/wallet",
         component: MyWallet,
       },
+      {
+        title: "Set Pin",
+        url: "/user/set-pin",
+        component: SetPin,
+      },
     ],
   },
+
  
 
 ];

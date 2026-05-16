@@ -30,9 +30,9 @@ const quickActions = [
       "from-indigo-500/20 to-indigo-500/5 border-indigo-500/20",
   },
   {
-    title: "Cash In",
+    title: "Add Money",
     icon: ArrowDownLeft,
-    link: "cash-in",
+    link: "add-money",
     color:
       "from-emerald-500/20 to-emerald-500/5 border-emerald-500/20",
   },
