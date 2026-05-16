@@ -1,4 +1,6 @@
 import App from "@/App";
+import DashboardLayout from "@/components/layout/DashboardLayout";
+import { role } from "@/constant/role";
 import Login from "@/pages/authenticationPage/Login";
 import Register from "@/pages/authenticationPage/Register";
 import Unauthorized from "@/pages/authenticationPage/Unauthorized";
@@ -8,7 +10,14 @@ import About from "@/pages/publicPages/About";
 import Contact from "@/pages/publicPages/Contact";
 import Pricing from "@/pages/publicPages/Pricing";
 import Service from "@/pages/publicPages/Service";
-import { createBrowserRouter } from "react-router";
+import type { TRole } from "@/types";
+import { generateRoutes } from "@/utils/generateRoutes";
+import withAuth from "@/utils/withAuth";
+import { createBrowserRouter, Navigate } from "react-router";
+import { adminSidebarItems } from "./adminSideBarItems";
+import { userSidebarItems } from "./userSidebarItems";
+import { agentSidebarItems } from "./agentSidebarItems";
+import { userPrivateRoutes } from "./userPrivateRoutes";
 
 const router = createBrowserRouter([
   {
@@ -20,21 +29,53 @@ const router = createBrowserRouter([
         index: true,
       },
       {
-        Component:About,
-        path:"about"
+        Component: About,
+        path: "about",
       },
       {
-        Component:Pricing,
-        path:"pricing"
+        Component: Pricing,
+        path: "pricing",
       },
       {
-        Component:Service,
-        path:"service"
+        Component: Service,
+        path: "service",
       },
       {
-        Component:Contact,
-        path:"contact"
-      }
+        Component: Contact,
+        path: "contact",
+      },
+    ],
+  },
+  {
+    Component: withAuth(
+      DashboardLayout,
+      (role.superAdmin as TRole) || (role.admin as TRole),
+    ),
+    path: "/admin",
+
+    children: [
+      { index: true, element: <Navigate to="/admin/analytics" /> },
+      ...generateRoutes(adminSidebarItems),
+    ],
+  },
+
+  {
+    Component: withAuth(DashboardLayout, role.user as TRole),
+    path: "/user",
+    children: [
+      { index: true, element: <Navigate to="/user/analytics" /> },
+
+      ...generateRoutes(userSidebarItems),
+      ...userPrivateRoutes,
+    ],
+  },
+  {
+    Component: withAuth(DashboardLayout, role.agent as TRole),
+    path: "/agent",
+    children: [
+      { index: true, element: <Navigate to="/agent/analytics" /> },
+
+      ...generateRoutes(agentSidebarItems),
     ],
   },
   {

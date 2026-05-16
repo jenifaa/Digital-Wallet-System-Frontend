@@ -1,4 +1,5 @@
-import Analytics from "@/pages/agent/Analytics";
+import agentAnalytics from "@/pages/agent/agentAnalytics";
+
 import MyProfile from "@/pages/agent/MyProfile";
 import type { ISidebarItems } from "@/types";
 
@@ -8,12 +9,12 @@ export const agentSidebarItems: ISidebarItems[] = [
     items: [
       {
         title: "Analytics",
-        url: "/admin/analytics",
-        component: Analytics,
+        url: "/agent/analytics",
+        component: agentAnalytics,
       },
       {
         title: "My Profile",
-        url: "/admin/profile",
+        url: "/agent/profile",
         component: MyProfile,
       },
     ],

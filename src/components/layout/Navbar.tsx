@@ -9,6 +9,7 @@ import {
 import { useAppDispatch } from "@/redux/hook";
 import { Button } from "../ui/button";
 import { ModeToggle } from "./MoodToggler";
+import { role } from "@/constant/role";
 export default function Navbar() {
   const { data } = useUserInfoQuery(undefined);
   console.log(data);
@@ -35,8 +36,11 @@ export default function Navbar() {
     { to: "/about", label: "About", role: "PUBLIC" },
     { to: "/services", label: "Services", role: "PUBLIC" },
     { to: "/pricing", label: "Pricing", role: "PUBLIC" },
-
     { to: "/contact", label: "Contact", role: "PUBLIC" },
+    { to: "/admin", label: "Dashboard", role: role.admin },
+    { to: "/admin", label: "Dashboard", role: role.superAdmin },
+    { to: "/user", label: "Dashboard", role: role.user },
+    { to: "/agent", label: "Dashboard", role: role.agent },
   ];
 
   return (
@@ -83,9 +87,12 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="hidden items-center gap-3 lg:flex">
-         
           {data?.data?.email && (
-            <Button onClick={handleLogout} variant="outline" className="text-black">
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="text-black"
+            >
               LogOut
             </Button>
           )}
@@ -106,14 +113,13 @@ export default function Navbar() {
               </Link>
             </>
           )}
-          <ModeToggle/>
+          <ModeToggle />
         </div>
 
         {/* Mobile Menu */}
         <details className="relative lg:hidden">
-         
           <summary className="flex gap-4 cursor-pointer list-none items-center rounded-xl border p-2 hover:bg-muted">
-            <ModeToggle/>
+            <ModeToggle />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -149,7 +155,11 @@ export default function Navbar() {
 
             <div className="mt-4 flex flex-col gap-2 border-t pt-4">
               {data?.data?.email && (
-                <Button onClick={handleLogout} variant="outline" className="text-black">
+                <Button
+                  onClick={handleLogout}
+                  variant="outline"
+                  className="text-black"
+                >
                   LogOut
                 </Button>
               )}
