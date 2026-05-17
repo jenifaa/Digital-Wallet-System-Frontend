@@ -3,7 +3,7 @@
 
 import AllUsers from "@/pages/admin/AllUsers";
 import AllWallet from "@/pages/admin/AllWallet";
-import MyProfile from "@/pages/admin/MyProfile";
+
 import type { ISidebarItems } from "@/types";
 import { lazy } from "react";
 
@@ -18,11 +18,7 @@ export const adminSidebarItems: ISidebarItems[] = [
         url: "/admin/analytics",
         component: Analytics,
       },
-      {
-        title: "My Profile",
-        url: "/admin/profile",
-        component: MyProfile,
-      },
+    
       {
         title: "All Users",
         url: "/admin/allUsers",
