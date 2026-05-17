@@ -21,6 +21,7 @@ import { userPrivateRoutes } from "./userPrivateRoutes";
 import Success from "@/pages/transaction/Success";
 import Fail from "@/pages/transaction/Fail";
 import Cancel from "@/pages/transaction/Cancel";
+// import UpdateProfile from "@/pages/user/UpdateProfile";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
         Component: Contact,
         path: "contact",
       },
+      // {
+      //   Component: UpdateProfile,
+      //   path: "user/:id",
+      // },
     ],
   },
   {

@@ -1,5 +1,8 @@
 
 
+
+import AllUsers from "@/pages/admin/AllUsers";
+import AllWallet from "@/pages/admin/AllWallet";
 import MyProfile from "@/pages/admin/MyProfile";
 import type { ISidebarItems } from "@/types";
 import { lazy } from "react";
@@ -19,7 +22,18 @@ export const adminSidebarItems: ISidebarItems[] = [
         title: "My Profile",
         url: "/admin/profile",
         component: MyProfile,
-      }
+      },
+      {
+        title: "All Users",
+        url: "/admin/allUsers",
+        component: AllUsers,
+      },
+      {
+        title: "My Wallet",
+        url: "/admin/wallet",
+        component: AllWallet,
+      },
+   
     ],
   },
   

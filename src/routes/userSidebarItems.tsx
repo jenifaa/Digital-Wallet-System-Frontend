@@ -1,6 +1,7 @@
 
 import SetPin from "@/components/modules/User/SetPin";
 import MyProfile from "@/pages/user/MyProfile";
+import MyTransactions from "@/pages/user/MyTransactions";
 import MyWallet from "@/pages/user/MyWallet";
 import UserAnalytics from "@/pages/user/userAnalytics";
 
@@ -29,6 +30,11 @@ export const userSidebarItems : ISidebarItems[] = [
         title: "Set Pin",
         url: "/user/set-pin",
         component: SetPin,
+      },
+      {
+        title: "My Transactions",
+        url: "/user/history",
+        component: MyTransactions,
       },
     ],
   },
