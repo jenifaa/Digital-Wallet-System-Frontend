@@ -10,6 +10,15 @@ import { useAppDispatch } from "@/redux/hook";
 import { Button } from "../ui/button";
 import { ModeToggle } from "./MoodToggler";
 import { role } from "@/constant/role";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 export default function Navbar() {
   const { data } = useUserInfoQuery(undefined);
   console.log(data);
@@ -88,13 +97,40 @@ export default function Navbar() {
         {/* Actions */}
         <div className="hidden items-center gap-3 lg:flex">
           {data?.data?.email && (
-            <Button
-              onClick={handleLogout}
-              variant="outline"
-              className="text-black"
-            >
-              LogOut
-            </Button>
+            <>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <img
+                    src={
+                      data?.data?.picture ||
+                      "https://i.ibb.co.com/xttK0CDW/pp.jpg"
+                    }
+                    className="w-10 h-10 rounded-full"
+                    alt=""
+                  />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuGroup>
+                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                    <DropdownMenuItem>Profile</DropdownMenuItem>
+                    <DropdownMenuItem>Billing</DropdownMenuItem>
+                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>GitHub</DropdownMenuItem>
+                  <DropdownMenuItem>Support</DropdownMenuItem>
+                  <DropdownMenuItem disabled>API</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                className="text-black"
+              >
+                LogOut
+              </Button>
+            </>
           )}
 
           {!data?.data?.email && (

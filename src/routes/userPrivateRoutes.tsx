@@ -3,7 +3,6 @@ import CashIn from "@/components/modules/User/CashIn";
 import CashOut from "@/components/modules/User/CashOut";
 import Payment from "@/components/modules/User/Payment";
 import SendMoney from "@/components/modules/User/SendMoney";
-import UpdateProfile from "@/pages/user/UpdateProfile";
 
 export const userPrivateRoutes = [
   {
@@ -25,9 +24,5 @@ export const userPrivateRoutes = [
   {
     path: "payment",
     Component: Payment,
-  },
-  {
-    Component: UpdateProfile,
-    path: ":id",
   },
 ];
