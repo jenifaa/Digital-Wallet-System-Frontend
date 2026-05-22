@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import logo from "@/assets/icons/logo.png";
+import logo from "@/assets/icons/lgo.png";
 import {
   authApi,
   useLogoutMutation,
@@ -36,8 +36,8 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleLogout = () => {
-    logout(undefined);
+  const handleLogout = async () => {
+    await logout(undefined).unwrap();
     dispatch(authApi.util.resetApiState());
   };
   const navLinks = [
@@ -72,7 +72,12 @@ export default function Navbar() {
           </div>
 
           <div>
-            <h1 className="text-base font-semibold tracking-tight">WalletIQ</h1>
+            <h1 className="text-base font-semibold tracking-tight">
+              Wallet
+              <span className="bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent font-extrabold tracking-tight">
+                IQ
+              </span>{" "}
+            </h1>
             <p className="text-xs text-muted-foreground -mt-0.5">
               Modern Experience
             </p>
@@ -115,13 +120,12 @@ export default function Navbar() {
                     <DropdownMenuItem>
                       <Link to="/profile">My Profile</Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>Billing</DropdownMenuItem>
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                    <DropdownMenuItem>Chatbot</DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>GitHub</DropdownMenuItem>
-                  <DropdownMenuItem>Support</DropdownMenuItem>
-                  <DropdownMenuItem disabled>API</DropdownMenuItem>
+
+                  <DropdownMenuItem>Announcement</DropdownMenuItem>
+                  <DropdownMenuItem>Settings</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 
@@ -157,6 +161,31 @@ export default function Navbar() {
         {/* Mobile Menu */}
         <details className="relative lg:hidden">
           <summary className="flex gap-4 cursor-pointer list-none items-center rounded-xl border p-2 hover:bg-muted">
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <img
+                  src={
+                    data?.data?.picture ||
+                    "https://i.ibb.co.com/xttK0CDW/pp.jpg"
+                  }
+                  className="w-10 h-10 rounded-full"
+                  alt=""
+                />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuItem>
+                    <Link to="/profile">My Profile</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>Chatbot</DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem>Announcement</DropdownMenuItem>
+                <DropdownMenuItem>Settings</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <ModeToggle />
             <svg
               xmlns="http://www.w3.org/2000/svg"

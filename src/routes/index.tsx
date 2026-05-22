@@ -23,6 +23,7 @@ import Fail from "@/pages/transaction/Fail";
 import Cancel from "@/pages/transaction/Cancel";
 import MyProfile from "@/pages/CommonPages/MyProfile";
 import UpdateProfile from "@/pages/CommonPages/UpdateProfile";
+import SetPhone from "@/pages/authenticationPage/SetPhone";
 // import UpdateProfile from "@/pages/user/UpdateProfile";
 
 const router = createBrowserRouter([
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
       {
         Component: UpdateProfile,
         path: "user/:id",
+      },
+      {
+        Component: SetPhone,
+        path: "set-phone",
       },
     ],
   },

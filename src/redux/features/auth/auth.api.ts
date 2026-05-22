@@ -25,6 +25,13 @@ export const authApi = baseApi.injectEndpoints({
         data: userInfo,
       }),
     }),
+    setPhone: builder.mutation({
+      query: (userInfo) => ({
+        url: "/auth/set-phone",
+        method: "POST",
+        data: userInfo,
+      }),
+    }),
     sendOtp: builder.mutation<IResponse<null>, ISendOtp>({
       query: (userInfo) => ({
         url: "/otp/send",
@@ -80,5 +87,6 @@ export const {
   useLogoutMutation,
   useUpdateUserMutation,
   useGetAllUsersQuery,
-  useGetSingleUserQuery
+  useGetSingleUserQuery,
+  useSetPhoneMutation
 } = authApi;
