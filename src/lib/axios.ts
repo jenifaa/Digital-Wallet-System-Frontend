@@ -17,6 +17,24 @@ AxiosInstance.interceptors.request.use(
   },
 );
 
+
+
+
+
+// AxiosInstance.interceptors.request.use(
+//   function (config) {
+//     const token = localStorage.getItem("accessToken");
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   function (error) {
+//     return Promise.reject(error);
+//   },
+// );
+
+
 // Add a response interceptor
 AxiosInstance.interceptors.response.use(
   function onFulfilled(response) {
@@ -30,3 +48,6 @@ AxiosInstance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
+
+
+
