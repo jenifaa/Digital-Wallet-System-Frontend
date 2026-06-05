@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import {
   MapPin,
@@ -26,11 +26,9 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function UpdateProfile() {
-  const { data, isLoading: userLoading } =
-    useUserInfoQuery(undefined);
+  const { data, isLoading: userLoading } = useUserInfoQuery(undefined);
 
-  const [updateUser, { isLoading }] =
-    useUpdateUserMutation();
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   const user = data?.data;
 
@@ -40,28 +38,28 @@ export default function UpdateProfile() {
     address: "",
   });
 
+  const initialized = useRef(false);
+
   useEffect(() => {
-    if (user) {
-      setForm({
-        name: user?.name || "",
-        phone: user?.phone || "",
-        address: user?.address || "",
-      });
-    }
+    if (!user || initialized.current) return;
+
+    setForm({
+      name: user.name ?? "",
+      phone: user.phone ?? "",
+      address: user.address ?? "",
+    });
+
+    initialized.current = true;
   }, [user]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent
-  ) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
@@ -104,8 +102,7 @@ export default function UpdateProfile() {
                 <div className="size-40 overflow-hidden rounded-full border-[6px] border-indigo-500/20 shadow-[0_20px_60px_rgba(79,70,229,0.35)]">
                   <img
                     src={
-                      user?.picture ||
-                      "https://i.ibb.co.com/xttK0CDW/pp.jpg"
+                      user?.picture || "https://i.ibb.co.com/xttK0CDW/pp.jpg"
                     }
                     alt="profile"
                     className="h-full w-full object-cover"
@@ -133,9 +130,7 @@ export default function UpdateProfile() {
                   </Badge>
 
                   <Badge className="rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-1.5 text-emerald-200 hover:bg-emerald-500/20">
-                    {user?.isVerified
-                      ? "Verified"
-                      : "Not Verified"}
+                    {user?.isVerified ? "Verified" : "Not Verified"}
                   </Badge>
                 </div>
               </div>
@@ -149,9 +144,7 @@ export default function UpdateProfile() {
                     </div>
 
                     <div className="text-left">
-                      <p className="text-xs text-slate-400">
-                        Email
-                      </p>
+                      <p className="text-xs text-slate-400">Email</p>
 
                       <h3 className="text-sm font-medium text-white">
                         {user?.email}
@@ -167,9 +160,7 @@ export default function UpdateProfile() {
                     </div>
 
                     <div className="text-left">
-                      <p className="text-xs text-slate-400">
-                        Phone
-                      </p>
+                      <p className="text-xs text-slate-400">Phone</p>
 
                       <h3 className="text-sm font-medium text-white">
                         {user?.phone || "Not Added"}
@@ -202,25 +193,19 @@ export default function UpdateProfile() {
                   </h2>
 
                   <p className="mt-2 text-sm text-slate-400">
-                    Update your personal information and
-                    account details
+                    Update your personal information and account details
                   </p>
                 </div>
 
                 <div className="hidden rounded-3xl border border-indigo-500/20 bg-indigo-500/10 px-5 py-3 md:block">
-                  <p className="text-sm text-indigo-300">
-                    Secure Update
-                  </p>
+                  <p className="text-sm text-indigo-300">Secure Update</p>
                 </div>
               </div>
             </div>
 
             {/* FORM */}
             <CardContent className="p-8">
-              <form
-                onSubmit={handleSubmit}
-                className="space-y-8"
-              >
+              <form onSubmit={handleSubmit} className="space-y-8">
                 {/* NAME */}
                 <div>
                   <label className="mb-3 block text-sm font-semibold text-slate-300">

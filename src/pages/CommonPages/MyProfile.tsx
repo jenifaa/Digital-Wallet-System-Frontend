@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import {
   BadgeCheck,
   CalendarDays,
@@ -23,10 +21,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router";
 
 import { Button } from "@/components/ui/button";
+import ProfileImageUploader from "@/components/ProfileImageUploader";
+import { useState } from "react";
 
 export default function MyProfile() {
   const { data: userInfo, isLoading } = useUserInfoQuery(undefined);
 
+  const [image,setImage] = useState<File | null>(null);
   const user = userInfo?.data;
 
   if (isLoading) {
@@ -35,7 +36,7 @@ export default function MyProfile() {
         <div className="mx-auto max-w-7xl space-y-6 pt-20">
           <Skeleton className="h-72 rounded-[36px] bg-slate-800" />
 
-          <Skeleton className="h-[520px] rounded-[36px] bg-slate-800" />
+          <Skeleton className="h-130 rounded-[36px] bg-slate-800" />
         </div>
       </div>
     );
@@ -45,7 +46,7 @@ export default function MyProfile() {
     <div className="min-h-screen bg-[#020617] p-4 text-white md:p-6">
       <div className="mx-auto flex max-w-7xl gap-10 pt-20">
         {/* LEFT PROFILE CARD */}
-        <Card className="sticky top-24 h-fit w-[360px] overflow-hidden rounded-[38px] border border-indigo-500/20 bg-gradient-to-br from-slate-950 via-slate-950 to-indigo-950 shadow-[0_0_80px_rgba(79,70,229,0.12)]">
+        <Card className="sticky top-24 h-fit w-90 overflow-hidden rounded-[38px] border border-indigo-500/20 bg-linear-to-br from-slate-950 via-slate-950 to-indigo-950 shadow-[0_0_80px_rgba(79,70,229,0.12)]">
           <CardContent className="relative p-8">
             {/* Glow */}
             <div className="absolute -right-16 -top-16 h-72 w-72 rounded-full bg-indigo-500/10 blur-3xl" />
@@ -103,9 +104,7 @@ export default function MyProfile() {
                   </div>
 
                   <div className="text-left">
-                    <p className="text-sm text-slate-400">
-                      Wallet Status
-                    </p>
+                    <p className="text-sm text-slate-400">Wallet Status</p>
 
                     <h3 className="text-xl font-bold text-emerald-400">
                       Active
@@ -116,10 +115,7 @@ export default function MyProfile() {
 
               {/* BUTTON */}
               <Button className="mt-7 h-12 w-full rounded-2xl bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 transition-all duration-300 hover:bg-indigo-500">
-                <Link
-                  to={`/user/${user?._id}`}
-                  className="flex items-center"
-                >
+                <Link to={`/user/${user?._id}`} className="flex items-center">
                   <Pencil className="mr-2 size-4" />
                   Update Profile
                 </Link>
@@ -133,12 +129,13 @@ export default function MyProfile() {
           {/* COMBINED INFO CARD */}
           <Card className="overflow-hidden rounded-[38px] border border-slate-800 bg-slate-950/70 shadow-[0_0_80px_rgba(0,0,0,0.25)] backdrop-blur-xl">
             {/* HEADER */}
-            <div className="border-b border-slate-800 bg-gradient-to-r from-slate-900 via-slate-900 to-indigo-950/40 px-8 py-7">
+            <div className="border-b border-slate-800 bg-linear-to-r from-slate-900 via-slate-900 to-indigo-950/40 px-8 py-7">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-3xl font-black tracking-tight text-white">
                     My Profile
                   </h2>
+                  <ProfileImageUploader onChange={setImage} />
 
                   <p className="mt-2 text-sm text-slate-400">
                     Manage your personal information and account security
@@ -146,9 +143,7 @@ export default function MyProfile() {
                 </div>
 
                 <div className="hidden rounded-3xl border border-indigo-500/20 bg-indigo-500/10 px-5 py-3 md:block">
-                  <p className="text-sm text-indigo-300">
-                    Secure Account
-                  </p>
+                  <p className="text-sm text-indigo-300">Secure Account</p>
                 </div>
               </div>
             </div>
@@ -199,9 +194,7 @@ export default function MyProfile() {
                         </div>
 
                         <div>
-                          <p className="text-sm text-slate-400">
-                            Phone Number
-                          </p>
+                          <p className="text-sm text-slate-400">Phone Number</p>
 
                           <p className="mt-1 text-base font-semibold text-white">
                             {user?.phone || "Not Added"}
@@ -217,9 +210,7 @@ export default function MyProfile() {
                         </div>
 
                         <div>
-                          <p className="text-sm text-slate-400">
-                            Address
-                          </p>
+                          <p className="text-sm text-slate-400">Address</p>
 
                           <p className="mt-1 text-base font-semibold text-white">
                             {user?.address || "No address added"}
@@ -288,9 +279,7 @@ export default function MyProfile() {
                     <div className="rounded-[28px] border border-slate-800 bg-slate-900/60 p-5">
                       <div className="flex items-center justify-between">
                         <div>
-                          <p className="text-sm text-slate-400">
-                            Account Role
-                          </p>
+                          <p className="text-sm text-slate-400">Account Role</p>
 
                           <h3 className="mt-1 text-lg font-semibold text-white">
                             Platform Permission
@@ -310,14 +299,10 @@ export default function MyProfile() {
                         </div>
 
                         <div>
-                          <p className="text-sm text-slate-400">
-                            Joined At
-                          </p>
+                          <p className="text-sm text-slate-400">Joined At</p>
 
                           <p className="mt-1 text-base font-semibold text-white">
-                            {new Date(
-                              user?.createdAt
-                            ).toLocaleDateString()}
+                            {new Date(user?.createdAt).toLocaleDateString()}
                           </p>
                         </div>
                       </div>

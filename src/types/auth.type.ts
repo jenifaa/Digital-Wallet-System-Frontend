@@ -36,3 +36,18 @@ export interface IUser {
   agents?: string[];
   createdAt?: Date;
 }
+
+
+
+
+
+
+
+
+
+
+export interface IUserApiResponse {
+  data: IUser;
+  success: boolean;
+  message?: string;
+}
