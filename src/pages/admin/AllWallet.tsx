@@ -29,26 +29,27 @@ export default function AllWallet() {
     userName: string;
   } | null>(null);
 
-  const { data, isLoading, refetch } = useAllWalletsQuery(undefined);
-  const [updateStatus, { isLoading: isUpdating }] =
-    useUpdateWalletStatusMutation();
+  const { data: wallets, isLoading, refetch } = useAllWalletsQuery(undefined);
+  const [updateStatus, { isLoading: isUpdating }] = useUpdateWalletStatusMutation();
 
-  const wallets = data?.data ?? [];
+const walletData = wallets?.data ?? [];
 
-  const filteredWallets = useMemo(() => {
-    return wallets.filter((wallet: any) => {
-      const query = search.toLowerCase();
-      const matchesSearch =
-        wallet.user?.name?.toLowerCase().includes(query) ||
-        wallet.user?.email?.toLowerCase().includes(query);
-      const matchesStatus = status === "all" || wallet.status === status;
-      return matchesSearch && matchesStatus;
-    });
-  }, [search, status, wallets]);
+const filteredWallets = useMemo(() => {
+  return walletData.filter((wallet: any) => {
+    const query = search.toLowerCase();
+    const user = wallet.user;
+    const matchesSearch =
+      typeof user === "object"
+        ? user?.name?.toLowerCase().includes(query) ||
+          user?.email?.toLowerCase().includes(query)
+        : true;
+    const matchesStatus = status === "all" || wallet.status === status;
+    return matchesSearch && matchesStatus;
+  });
+}, [walletData, search, status]);
 
   const handleConfirm = async () => {
     if (!confirmAction) return;
-
     try {
       const res = await updateStatus({
         id: confirmAction.id,
@@ -71,8 +72,8 @@ export default function AllWallet() {
   }
 
   return (
-    <PageTransition className="min-h-screen bg-[#020617] p-4 text-white md:p-6">
-      <div className="mx-auto max-w-7xl space-y-6">
+    <PageTransition className="min-h-screen bg-[#020617] p-4 md:p-6">
+      <div className="mx-auto max-w-7xl space-y-6 text-white">
         <div>
           <h1 className="text-2xl font-bold">Wallet Management</h1>
           <p className="text-sm text-slate-400">
@@ -105,69 +106,77 @@ export default function AllWallet() {
             description="Wallet records will appear here once users register."
           />
         ) : (
-          <Card className="rounded-3xl border border-slate-800 bg-slate-950/60">
+          <Card className="rounded-3xl border border-slate-800 bg-slate-950/60 text-white">
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
                   <TableRow className="border-slate-800">
-                    <TableHead>User</TableHead>
-                    <TableHead>Balance</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                    <TableHead className="text-white">User</TableHead>
+                    <TableHead className="text-white">Balance</TableHead>
+                    <TableHead className="text-white">Currency</TableHead>
+                    <TableHead className="text-white">Status</TableHead>
+                    <TableHead className="text-right text-white">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredWallets.map((wallet: any) => (
-                    <TableRow key={wallet._id} className="border-slate-800">
-                      <TableCell>
-                        <div>
-                          <p className="font-medium">{wallet.user?.name ?? "—"}</p>
-                          <p className="text-xs text-slate-400">
-                            {wallet.user?.email}
-                          </p>
-                        </div>
-                      </TableCell>
-                      <TableCell>৳{wallet.balance?.toLocaleString()}</TableCell>
-                      <TableCell>
-                        <StatusBadge status={wallet.status ?? "ACTIVE"} />
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          {wallet.status !== "ACTIVE" && (
-                            <Button
-                              size="sm"
-                              className="rounded-xl"
-                              onClick={() =>
-                                setConfirmAction({
-                                  id: wallet._id,
-                                  status: "ACTIVE",
-                                  userName: wallet.user?.name ?? "User",
-                                })
-                              }
-                            >
-                              Activate
-                            </Button>
-                          )}
-                          {wallet.status !== "BLOCKED" && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="rounded-xl"
-                              onClick={() =>
-                                setConfirmAction({
-                                  id: wallet._id,
-                                  status: "BLOCKED",
-                                  userName: wallet.user?.name ?? "User",
-                                })
-                              }
-                            >
-                              Block
-                            </Button>
-                          )}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                  {filteredWallets.map((wallet: any) => {
+                    const user = wallet.user;
+                    const name = typeof user === "object" ? user?.name : "—";
+                    const email = typeof user === "object" ? user?.email : typeof user === "string" ? user : "—";
+
+                    return (
+                      <TableRow key={wallet._id} className="border-slate-800">
+                        <TableCell>
+                          <div>
+                            <p className="font-medium">{name}</p>
+                            <p className="text-xs text-slate-400">{email}</p>
+                          </div>
+                        </TableCell>
+                        <TableCell>৳{wallet.balance?.toLocaleString()}</TableCell>
+                        <TableCell>
+                          <span className="text-xs text-slate-400">{wallet.currency ?? "BDT"}</span>
+                        </TableCell>
+                        <TableCell>
+                          <StatusBadge status={wallet.status ?? "ACTIVE"} />
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex justify-end gap-2">
+                            {wallet.status !== "ACTIVE" && (
+                              <Button
+                                size="sm"
+                                className="rounded-xl"
+                                onClick={() =>
+                                  setConfirmAction({
+                                    id: wallet._id,
+                                    status: "ACTIVE",
+                                    userName: name ?? "User",
+                                  })
+                                }
+                              >
+                                Activate
+                              </Button>
+                            )}
+                            {wallet.status !== "BLOCKED" && (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                className="rounded-xl text-black"
+                                onClick={() =>
+                                  setConfirmAction({
+                                    id: wallet._id,
+                                    status: "BLOCKED",
+                                    userName: name ?? "User",
+                                  })
+                                }
+                              >
+                                Block
+                              </Button>
+                            )}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </CardContent>
@@ -178,7 +187,7 @@ export default function AllWallet() {
       <ConfirmationDialog
         open={!!confirmAction}
         onOpenChange={(open) => !open && setConfirmAction(null)}
-        title={`Update wallet status?`}
+        title="Update wallet status?"
         description={`This will set ${confirmAction?.userName}'s wallet to ${confirmAction?.status?.toLowerCase()}.`}
         confirmLabel="Update Status"
         onConfirm={handleConfirm}

@@ -36,14 +36,14 @@ export const loanApi = baseApi.injectEndpoints({
     }),
     approveLoan: builder.mutation<IResponse<ILoan>, string>({
       query: (id) => ({
-        url: `/loan/${id}/approve`,
+        url: `/loan/approve/${id}`,
         method: "PATCH",
       }),
       invalidatesTags: ["LOAN"],
     }),
     rejectLoan: builder.mutation<IResponse<ILoan>, string>({
       query: (id) => ({
-        url: `/loan/${id}/reject`,
+        url: `/loan/reject/${id}`,
         method: "PATCH",
       }),
       invalidatesTags: ["LOAN"],
