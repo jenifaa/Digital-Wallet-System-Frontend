@@ -1,8 +1,7 @@
 import HeroSection from "./HeroSection";
 import FeaturesSection from "@/components/marketing/FeaturesSection";
-import {
+import StatsSection, {
   CTASection,
-  StatsSection,
   TestimonialsSection,
 } from "@/components/marketing/LandingSections";
 

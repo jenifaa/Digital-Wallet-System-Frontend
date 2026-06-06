@@ -31,8 +31,8 @@ import {
 } from "@/redux/features/loan/loan.api";
 
 const schema = z.object({
-  amount: z.coerce.number().min(100, "Minimum loan amount is ৳100"),
-  duration: z.coerce.number().min(1, "Duration must be at least 1 month"),
+  amount: z.number().min(100, "Minimum loan amount is ৳100"),
+  duration: z.number().min(1, "Duration must be at least 1 month"),
   purpose: z.string().min(10, "Please describe your loan purpose"),
 });
 
@@ -128,7 +128,7 @@ export default function UserLoans() {
                     <Input
                       type="number"
                       className="border-slate-800 bg-slate-900"
-                      {...form.register("amount")}
+                      {...form.register("amount", { valueAsNumber: true })}
                     />
                   </Field>
                   <Field>
@@ -138,7 +138,7 @@ export default function UserLoans() {
                     <Input
                       type="number"
                       className="border-slate-800 bg-slate-900"
-                      {...form.register("duration")}
+                      {...form.register("duration", { valueAsNumber: true })}
                     />
                   </Field>
                 </FieldGroup>

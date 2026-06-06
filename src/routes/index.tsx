@@ -5,16 +5,13 @@ import Login from "@/pages/authenticationPage/Login";
 import Register from "@/pages/authenticationPage/Register";
 import Unauthorized from "@/pages/authenticationPage/Unauthorized";
 import Verify from "@/pages/authenticationPage/Verify";
-import ForgotPassword from "@/pages/authenticationPage/ForgotPassword";
-import ResetPassword from "@/pages/authenticationPage/ResetPassword";
-import ChangePassword from "@/pages/authenticationPage/ChangePassword";
+
 import HomePage from "@/pages/HomePage/HomePage";
 import About from "@/pages/publicPages/About";
 import Contact from "@/pages/publicPages/Contact";
 import Pricing from "@/pages/publicPages/Pricing";
 import Service from "@/pages/publicPages/Service";
-import FAQ from "@/pages/publicPages/FAQ";
-import Features from "@/pages/publicPages/Features";
+
 import type { TRole } from "@/types";
 import { generateRoutes } from "@/utils/generateRoutes";
 import withAuth from "@/utils/withAuth";
@@ -29,6 +26,11 @@ import Cancel from "@/pages/transaction/Cancel";
 import MyProfile from "@/pages/CommonPages/MyProfile";
 import UpdateProfile from "@/pages/CommonPages/UpdateProfile";
 import SetPhone from "@/pages/authenticationPage/SetPhone";
+import Features from "@/pages/publicPages/Features";
+import ForgotPassword from "@/pages/authenticationPage/ForgotPassword";
+import ResetPassword from "@/pages/authenticationPage/ResetPassword";
+import ChangePassword from "@/pages/authenticationPage/ChangePassword";
+import FAQ from "@/pages/publicPages/FAQ";
 
 const router = createBrowserRouter([
   {

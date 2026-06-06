@@ -53,7 +53,10 @@ export default function SearchFilterBar({
       </div>
 
       {statusOptions && onStatusChange && (
-        <Select value={statusValue} onValueChange={onStatusChange}>
+        <Select
+          value={statusValue}
+          onValueChange={(value) => onStatusChange(value ?? "all")}
+        >
           <SelectTrigger className="h-11 w-full border-slate-800 bg-slate-900 lg:w-44">
             <SelectValue placeholder="Status" />
           </SelectTrigger>
@@ -68,7 +71,10 @@ export default function SearchFilterBar({
       )}
 
       {sortOptions && onSortChange && (
-        <Select value={sortValue} onValueChange={onSortChange}>
+        <Select
+          value={sortValue}
+          onValueChange={(value) => onSortChange(value ?? sortOptions[0]?.value ?? "")}
+        >
           <SelectTrigger className="h-11 w-full border-slate-800 bg-slate-900 lg:w-44">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>

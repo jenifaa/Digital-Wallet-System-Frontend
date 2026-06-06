@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Bell, CheckCheck } from "lucide-react";
-import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -110,10 +109,13 @@ export default function NotificationDropdown() {
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
-        <DropdownMenuItem asChild>
-          <Link to="/user/notifications" className="w-full justify-center">
-            View all notifications
-          </Link>
+        <DropdownMenuItem
+          className="w-full justify-center"
+          onClick={() => {
+            window.location.href = "/user/notifications";
+          }}
+        >
+          View all notifications
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

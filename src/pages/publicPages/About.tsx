@@ -1,4 +1,4 @@
-import PublicPageHero, { FeatureCard } from "@/components/marketing/PublicPageHero";
+import PublicPageHero from "@/components/marketing/PublicPageHero";
 import PageTransition from "@/components/shared/PageTransition";
 import {
   Heart,
