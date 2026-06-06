@@ -18,7 +18,17 @@ export interface ISidebarItems {
   }[];
 }
 
-export type TRole = "SUPER_ADMIN " | "ADMIN" | "USER";
+export type TRole = "SUPER_ADMIN" | "ADMIN" | "USER" | "AGENT";
+
+export type { IWallet, WalletStatus } from "./wallet.type";
+export type { ILoan, ILoanRepayment, ILoanRequestPayload, LoanStatus } from "./loan.type";
+export type { INotification, NotificationType } from "./notification.type";
+export type {
+  ITransaction,
+  TransactionType,
+  TransactionStatus,
+  TransactionEntry,
+} from "./transaction.type";
 
 type ZodIssue = {
   code: string;

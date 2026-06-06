@@ -43,8 +43,10 @@ export default function Navbar() {
   const navLinks = [
     { to: "/", label: "Home", role: "PUBLIC" },
     { to: "/about", label: "About", role: "PUBLIC" },
-    { to: "/services", label: "Services", role: "PUBLIC" },
+    { to: "/features", label: "Features", role: "PUBLIC" },
+    { to: "/service", label: "Services", role: "PUBLIC" },
     { to: "/pricing", label: "Pricing", role: "PUBLIC" },
+    { to: "/faq", label: "FAQ", role: "PUBLIC" },
     { to: "/contact", label: "Contact", role: "PUBLIC" },
     { to: "/admin", label: "Dashboard", role: role.admin },
     { to: "/admin", label: "Dashboard", role: role.superAdmin },
@@ -118,9 +120,11 @@ export default function Navbar() {
                   <DropdownMenuGroup>
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuItem>
+                      <Link to="/change-password">Change Password</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
                       <Link to="/profile">My Profile</Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>Chatbot</DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
 
@@ -176,9 +180,11 @@ export default function Navbar() {
                 <DropdownMenuGroup>
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuItem>
+                    <Link to="/change-password">Change Password</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
                     <Link to="/profile">My Profile</Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem>Chatbot</DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
 

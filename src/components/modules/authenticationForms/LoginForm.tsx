@@ -148,6 +148,15 @@ export function LoginForm({
                     </Field>
                   )}
                 />
+
+                <div className="flex justify-end">
+                  <Link
+                    to="/forgot-password"
+                    className="text-sm font-medium text-primary hover:underline"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
               </FieldGroup>
 
               {/* ACTION BUTTON */}

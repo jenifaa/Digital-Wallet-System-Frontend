@@ -5,11 +5,16 @@ import Login from "@/pages/authenticationPage/Login";
 import Register from "@/pages/authenticationPage/Register";
 import Unauthorized from "@/pages/authenticationPage/Unauthorized";
 import Verify from "@/pages/authenticationPage/Verify";
+import ForgotPassword from "@/pages/authenticationPage/ForgotPassword";
+import ResetPassword from "@/pages/authenticationPage/ResetPassword";
+import ChangePassword from "@/pages/authenticationPage/ChangePassword";
 import HomePage from "@/pages/HomePage/HomePage";
 import About from "@/pages/publicPages/About";
 import Contact from "@/pages/publicPages/Contact";
 import Pricing from "@/pages/publicPages/Pricing";
 import Service from "@/pages/publicPages/Service";
+import FAQ from "@/pages/publicPages/FAQ";
+import Features from "@/pages/publicPages/Features";
 import type { TRole } from "@/types";
 import { generateRoutes } from "@/utils/generateRoutes";
 import withAuth from "@/utils/withAuth";
@@ -24,7 +29,6 @@ import Cancel from "@/pages/transaction/Cancel";
 import MyProfile from "@/pages/CommonPages/MyProfile";
 import UpdateProfile from "@/pages/CommonPages/UpdateProfile";
 import SetPhone from "@/pages/authenticationPage/SetPhone";
-// import UpdateProfile from "@/pages/user/UpdateProfile";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +44,10 @@ const router = createBrowserRouter([
         path: "about",
       },
       {
+        Component: Features,
+        path: "features",
+      },
+      {
         Component: Pricing,
         path: "pricing",
       },
@@ -50,6 +58,10 @@ const router = createBrowserRouter([
       {
         Component: Contact,
         path: "contact",
+      },
+      {
+        Component: FAQ,
+        path: "faq",
       },
       {
         Component: MyProfile,
@@ -66,24 +78,21 @@ const router = createBrowserRouter([
     ],
   },
   {
-    Component: withAuth(
-      DashboardLayout,
-      (role.superAdmin as TRole) || (role.admin as TRole),
-    ),
+    Component: withAuth(DashboardLayout, [
+      role.superAdmin as TRole,
+      role.admin as TRole,
+    ]),
     path: "/admin",
-
     children: [
       { index: true, element: <Navigate to="/admin/analytics" /> },
       ...generateRoutes(adminSidebarItems),
     ],
   },
-
   {
     Component: withAuth(DashboardLayout, role.user as TRole),
     path: "/user",
     children: [
       { index: true, element: <Navigate to="/user/analytics" /> },
-
       ...generateRoutes(userSidebarItems),
       ...userPrivateRoutes,
     ],
@@ -93,7 +102,6 @@ const router = createBrowserRouter([
     path: "/agent",
     children: [
       { index: true, element: <Navigate to="/agent/analytics" /> },
-
       ...generateRoutes(agentSidebarItems),
     ],
   },
@@ -108,6 +116,18 @@ const router = createBrowserRouter([
   {
     Component: Verify,
     path: "/verify",
+  },
+  {
+    Component: ForgotPassword,
+    path: "/forgot-password",
+  },
+  {
+    Component: ResetPassword,
+    path: "/reset-password",
+  },
+  {
+    Component: ChangePassword,
+    path: "/change-password",
   },
   {
     Component: Unauthorized,
@@ -126,4 +146,5 @@ const router = createBrowserRouter([
     path: "/transaction/cancel",
   },
 ]);
+
 export default router;

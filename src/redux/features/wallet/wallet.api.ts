@@ -1,13 +1,33 @@
 import { baseApi } from "@/redux/baseApi";
+import type { IResponse } from "@/types";
+import type { IWallet } from "@/types/wallet.type";
 
 export const walletApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    myWallet: builder.query({
+    myWallet: builder.query<IResponse<IWallet>, void>({
       query: () => ({
         url: "/wallet/me",
         method: "GET",
       }),
       providesTags: ["WALLET"],
+    }),
+    allWallets: builder.query<IResponse<IWallet[]>, void>({
+      query: () => ({
+        url: "/wallet/all",
+        method: "GET",
+      }),
+      providesTags: ["WALLET"],
+    }),
+    updateWalletStatus: builder.mutation<
+      IResponse<IWallet>,
+      { id: string; status: string }
+    >({
+      query: ({ id, ...data }) => ({
+        url: `/wallet/${id}/status`,
+        method: "PATCH",
+        data,
+      }),
+      invalidatesTags: ["WALLET"],
     }),
     setPin: builder.mutation({
       query: (pinInfo) => ({
@@ -33,4 +53,4 @@ export const walletApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useMyWalletQuery, useSetPinMutation ,useForgetPinMutation,useResetPinMutation} = walletApi;
+export const { useMyWalletQuery, useSetPinMutation ,useForgetPinMutation,useResetPinMutation, useAllWalletsQuery, useUpdateWalletStatusMutation} = walletApi;

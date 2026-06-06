@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { Toaster } from "../ui/sonner";
+import ChatbotWidget from "../chatbot/ChatbotWidget";
 
 interface IProps {
   children: ReactNode;
@@ -14,6 +15,7 @@ export default function CommonLayout({ children }: IProps) {
       <Navbar></Navbar>
       <div className=" min-h-screen">{children}</div>
       <Footer></Footer>
+      <ChatbotWidget />
     </div>
   );
 }

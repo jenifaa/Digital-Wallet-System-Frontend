@@ -1,7 +1,5 @@
-
+import Features from "./Features";
 
 export default function Service() {
-  return (
-    <div>Service</div>
-  )
+  return <Features />;
 }

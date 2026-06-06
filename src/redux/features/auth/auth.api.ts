@@ -83,6 +83,37 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
+    forgotPassword: builder.mutation({
+      query: (data: { email: string }) => ({
+        url: "/auth/forgot-password",
+        method: "POST",
+        data,
+      }),
+    }),
+    resetPassword: builder.mutation({
+      query: (data: { token: string; password: string }) => ({
+        url: "/auth/reset-password",
+        method: "POST",
+        data,
+      }),
+    }),
+    changePassword: builder.mutation({
+      query: (data: {
+        currentPassword: string;
+        newPassword: string;
+      }) => ({
+        url: "/auth/change-password",
+        method: "POST",
+        data,
+      }),
+    }),
+    searchUsers: builder.query({
+      query: (query: string) => ({
+        url: "/user/search",
+        method: "GET",
+        params: { query },
+      }),
+    }),
   }),
 });
 
@@ -98,4 +129,9 @@ export const {
   useGetSingleUserQuery,
   useSetPhoneMutation,
   useUpdateUserProfileMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+  useChangePasswordMutation,
+  useSearchUsersQuery,
+  useLazySearchUsersQuery,
 } = authApi;

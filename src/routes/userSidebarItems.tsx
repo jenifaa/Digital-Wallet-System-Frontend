@@ -3,6 +3,8 @@ import SetPin from "@/components/modules/User/SetPin";
 import MyTransactions from "@/pages/user/MyTransactions";
 import MyWallet from "@/pages/user/MyWallet";
 import UserAnalytics from "@/pages/user/userAnalytics";
+import UserLoans from "@/pages/user/UserLoans";
+import NotificationCenter from "@/pages/user/NotificationCenter";
 
 import type { ISidebarItems } from "@/types";
 
@@ -30,9 +32,16 @@ export const userSidebarItems : ISidebarItems[] = [
         url: "/user/history",
         component: MyTransactions,
       },
+      {
+        title: "Loans",
+        url: "/user/loans",
+        component: UserLoans,
+      },
+      {
+        title: "Notifications",
+        url: "/user/notifications",
+        component: NotificationCenter,
+      },
     ],
   },
-
- 
-
 ];

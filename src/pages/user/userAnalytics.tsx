@@ -2,7 +2,6 @@
 import {
   ArrowDownLeft,
   ArrowUpRight,
-  Bell,
   CreditCard,
   Eye,
   EyeOff,
@@ -50,9 +49,9 @@ const quickActions = [
   },
 
   {
-    title: "Offers",
+    title: "Loans",
     icon: Gift,
-    link: "offers",
+    link: "loans",
     color: "from-pink-500/20 to-pink-500/5 border-pink-500/20",
   },
   {
@@ -85,10 +84,6 @@ export default function UserAnalytics() {
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="rounded-2xl border border-slate-800 bg-slate-900/70 p-3 transition hover:border-indigo-500/30">
-              <Bell className="size-5 text-slate-300" />
-            </button>
-
             <div className="size-11 overflow-hidden rounded-2xl border border-slate-700">
               <img
                 src={
@@ -296,9 +291,9 @@ export default function UserAnalytics() {
                   On mobile recharge and utility bill payments.
                 </p>
 
-                <Link to="/user/offers">
+                <Link to="/user/loans">
                   <Button className="mt-5 rounded-2xl bg-white text-slate-900 hover:bg-slate-100">
-                    Claim Offer
+                    View Loans
                   </Button>
                 </Link>
               </CardContent>

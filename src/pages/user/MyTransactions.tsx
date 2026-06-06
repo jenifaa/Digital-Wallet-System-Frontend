@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   ArrowDownLeft,
   ArrowUpRight,
   Wallet,
   BadgeDollarSign,
+  Download,
 } from "lucide-react";
 
 import {
@@ -36,6 +37,9 @@ import {
 } from "@/components/ui/pagination";
 
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import PageSkeleton from "@/components/shared/PageSkeleton";
+import SearchFilterBar from "@/components/shared/SearchFilterBar";
 import { useMyTransactionsQuery } from "@/redux/features/transaction/transaction.api";
 
 
@@ -44,23 +48,54 @@ const ITEMS_PER_PAGE = 10;
 
 export default function MyTransactions() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortBy, setSortBy] = useState("newest");
 
   const { data, isLoading } = useMyTransactionsQuery(undefined);
 
   const transactions = data?.data || [];
 
-  const totalPages = Math.ceil(
-    transactions.length / ITEMS_PER_PAGE,
+  const filteredTransactions = useMemo(() => {
+    let result = [...transactions];
+
+    if (search) {
+      const query = search.toLowerCase();
+      result = result.filter(
+        (tx: any) =>
+          tx.transactionId?.toLowerCase().includes(query) ||
+          tx.type?.toLowerCase().includes(query),
+      );
+    }
+
+    if (typeFilter !== "all") {
+      result = result.filter((tx: any) => tx.type === typeFilter);
+    }
+
+    if (statusFilter !== "all") {
+      result = result.filter((tx: any) => tx.status === statusFilter);
+    }
+
+    result.sort((a: any, b: any) => {
+      if (sortBy === "amount-high") return b.amount - a.amount;
+      if (sortBy === "amount-low") return a.amount - b.amount;
+      return (
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
+    });
+
+    return result;
+  }, [transactions, search, sortBy, statusFilter, typeFilter]);
+
+  const totalPages = Math.ceil(filteredTransactions.length / ITEMS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const paginatedTransactions = filteredTransactions.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE,
   );
-
-  const startIndex =
-    (currentPage - 1) * ITEMS_PER_PAGE;
-
-  const paginatedTransactions =
-    transactions.slice(
-      startIndex,
-      startIndex + ITEMS_PER_PAGE,
-    );
 
   const getTransactionIcon = (type: string) => {
     switch (type) {
@@ -93,25 +128,95 @@ export default function MyTransactions() {
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#020617] text-white">
-        Loading transactions...
+      <div className="min-h-screen bg-[#020617] text-white">
+        <PageSkeleton />
       </div>
     );
   }
+
+  const handleExport = () => {
+    const csv = [
+      ["Type", "Entry", "Amount", "Fee", "Status", "Transaction ID", "Date"],
+      ...filteredTransactions.map((tx: any) => [
+        tx.type,
+        tx.entry,
+        tx.amount,
+        tx.fee || 0,
+        tx.status,
+        tx.transactionId,
+        new Date(tx.createdAt).toLocaleString(),
+      ]),
+    ]
+      .map((row) => row.join(","))
+      .join("\n");
+
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "transactions.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div className="min-h-screen bg-[#020617] p-4 text-white md:p-6">
       <div className="mx-auto max-w-7xl space-y-6">
         <Card className="rounded-3xl border border-slate-800 bg-slate-950/60">
-          <CardHeader className="space-y-2">
-            <CardTitle className="text-2xl text-white">
-              Transaction History
-            </CardTitle>
+          <CardHeader className="space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <CardTitle className="text-2xl text-white">
+                  Transaction History
+                </CardTitle>
+                <CardDescription className="text-slate-400">
+                  Advanced filters, sorting, and export for all wallet activities.
+                </CardDescription>
+              </div>
+              <Button
+                variant="outline"
+                className="gap-2 rounded-xl border-slate-700"
+                onClick={handleExport}
+              >
+                <Download className="size-4" />
+                Export CSV
+              </Button>
+            </div>
 
-            <CardDescription className="text-slate-400">
-              View all your wallet activities and recent
-              transactions.
-            </CardDescription>
+            <SearchFilterBar
+              searchValue={search}
+              onSearchChange={(value) => {
+                setSearch(value);
+                setCurrentPage(1);
+              }}
+              searchPlaceholder="Search by transaction ID or type..."
+              statusValue={typeFilter}
+              onStatusChange={(value) => {
+                setTypeFilter(value);
+                setCurrentPage(1);
+              }}
+              statusOptions={[
+                { label: "All types", value: "all" },
+                { label: "Send", value: "SEND" },
+                { label: "Add Money", value: "ADD" },
+                { label: "Cash In", value: "CASH_IN" },
+                { label: "Cash Out", value: "CASH_OUT" },
+              ]}
+              sortValue={sortBy}
+              onSortChange={setSortBy}
+              sortOptions={[
+                { label: "Newest first", value: "newest" },
+                { label: "Amount: High to low", value: "amount-high" },
+                { label: "Amount: Low to high", value: "amount-low" },
+              ]}
+              onReset={() => {
+                setSearch("");
+                setTypeFilter("all");
+                setStatusFilter("all");
+                setSortBy("newest");
+                setCurrentPage(1);
+              }}
+            />
           </CardHeader>
 
           <CardContent>

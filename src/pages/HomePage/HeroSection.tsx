@@ -59,7 +59,7 @@
 //             {/* buttons */}
 //             <div className="mt-10 flex flex-wrap items-center gap-6">
 //               <Link
-//                 to="/dashboard"
+//                 to="/register"
 //                 className="group flex h-14 items-center rounded-2xl bg-emerald-500 px-8 text-base font-bold text-black transition hover:bg-emerald-400"
 //               >
 //                 Launch Wallet
@@ -343,7 +343,7 @@ export default function HeroSection() {
             {/* buttons */}
             <div className="mt-10 flex flex-wrap items-center gap-6">
               <Link
-                to="/dashboard"
+                to="/register"
                 className="group flex h-14 items-center rounded-2xl bg-[#8B90D0] px-8 text-base font-bold text-[#1F2340] transition hover:bg-[#A2A7E6]"
               >
                 Launch Wallet
