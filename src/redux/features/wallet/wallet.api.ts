@@ -13,7 +13,7 @@ export const walletApi = baseApi.injectEndpoints({
     }),
     allWallets: builder.query<IResponse<IWallet[]>, void>({
       query: () => ({
-        url: "/wallet/all",
+        url: "/wallet/all-wallet",
         method: "GET",
       }),
       providesTags: ["WALLET"],

@@ -4,12 +4,20 @@ import type { INotification } from "@/types/notification.type";
 
 export const notificationApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    sendNotifications: builder.mutation({
+      query: (notification) => ({
+        url: "/notification/send",
+        method: "POST",
+        data: notification,
+      }),
+    }),
+
     myNotifications: builder.query<
       IResponse<INotification[]>,
       { page?: number; limit?: number } | void
     >({
       query: (params) => ({
-        url: "/notification/my-notifications",
+        url: "/notification/my",
         method: "GET",
         params: params ?? undefined,
       }),
@@ -24,7 +32,7 @@ export const notificationApi = baseApi.injectEndpoints({
     }),
     markAsRead: builder.mutation<IResponse<null>, string>({
       query: (id) => ({
-        url: `/notification/${id}/read`,
+        url: `/notification/read/${id}`,
         method: "PATCH",
       }),
       invalidatesTags: ["NOTIFICATION"],
@@ -44,4 +52,5 @@ export const {
   useUnreadCountQuery,
   useMarkAsReadMutation,
   useMarkAllAsReadMutation,
+  useSendNotificationsMutation,
 } = notificationApi;

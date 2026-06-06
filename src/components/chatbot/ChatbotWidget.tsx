@@ -97,7 +97,7 @@ export default function ChatbotWidget() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 z-50 flex h-[480px] w-[360px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-3xl border border-slate-800 bg-slate-950 shadow-2xl shadow-indigo-950/40"
+            className="fixed bottom-24 right-6 z-50 flex h-120 w-90 max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-3xl border border-slate-800 bg-slate-950 shadow-2xl shadow-indigo-950/40"
             role="dialog"
             aria-label="Support chat"
           >
@@ -166,7 +166,7 @@ export default function ChatbotWidget() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Type your message..."
-                  className="border-slate-800 bg-slate-900"
+                  className="border-slate-800 bg-slate-900 text-white"
                 />
                 <Button type="submit" size="icon" className="shrink-0 rounded-xl">
                   <Send className="size-4" />

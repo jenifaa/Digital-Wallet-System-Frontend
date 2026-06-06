@@ -55,7 +55,7 @@ export default function NotificationCenter() {
           </div>
           <Button
             variant="outline"
-            className="gap-2 rounded-xl border-slate-700"
+            className="gap-2 rounded-xl border-slate-700 text-black"
             onClick={() => markAllAsRead(undefined)}
             disabled={isMarkingAll}
           >
@@ -105,7 +105,7 @@ export default function NotificationCenter() {
           </div>
         )}
 
-        <div className="flex justify-center gap-3">
+        <div className="flex justify-center gap-3 text-black">
           <Button
             variant="outline"
             disabled={page === 1}

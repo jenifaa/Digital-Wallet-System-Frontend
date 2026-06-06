@@ -32,6 +32,7 @@ import ResetPassword from "@/pages/authenticationPage/ResetPassword";
 import ChangePassword from "@/pages/authenticationPage/ChangePassword";
 import FAQ from "@/pages/publicPages/FAQ";
 
+
 const router = createBrowserRouter([
   {
     Component: App,
@@ -77,6 +78,7 @@ const router = createBrowserRouter([
         Component: SetPhone,
         path: "set-phone",
       },
+    
     ],
   },
   {
@@ -107,6 +109,7 @@ const router = createBrowserRouter([
       ...generateRoutes(agentSidebarItems),
     ],
   },
+
   {
     Component: Login,
     path: "/login",
