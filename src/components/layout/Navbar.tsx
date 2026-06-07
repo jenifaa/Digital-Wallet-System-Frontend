@@ -153,7 +153,7 @@ export default function Navbar() {
               </Link>
               <Link
                 to="/register"
-                className="rounded-xl bg-[#1F2340] px-5 py-2 text-sm font-medium text-primary-foreground shadow-lg transition hover:opacity-90"
+                className="rounded-xl text-white bg-[#1F2340] px-5 py-2 text-sm font-medium  shadow-lg transition hover:opacity-90"
               >
                 Get Started
               </Link>

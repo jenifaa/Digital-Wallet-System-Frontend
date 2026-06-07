@@ -7,6 +7,7 @@ import {
   Smartphone,
   Users,
 } from "lucide-react";
+
 import { FeatureCard } from "@/components/marketing/PublicPageHero";
 
 const features = [
@@ -50,26 +51,63 @@ const features = [
 
 export default function FeaturesSection() {
   return (
-    <section className="bg-[#020617] py-20 text-white">
-      <div className="mx-auto w-11/12 max-w-7xl">
-        <div className="mb-12 max-w-2xl">
-          <motion.h2
-            initial={{ opacity: 0, y: 12 }}
+    <section className="relative overflow-hidden bg-[#F8FAFC]">
+      {/* 1. EXTENDED GRADIENT TRANSITION: 
+         Starts dark at the top, stays dark through the hero merge, 
+         and transitions very gradually down to the light color, ending at 80%.
+      */}
+      <div className="absolute inset-0 bg-linear-to-b from-[#1F2340] via-[#1F2340] via-30% to-[#F8FAFC] to-80% " />
+
+      {/* 2. EXTENDED GRID LINES: 
+         The grid lines now fade out much lower down the page (at 65%) 
+         to match your longer background color transition perfectly.
+      */}
+      <div 
+        className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(rgba(255,255,255,0.4)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.4)_1px,transparent_1px)] bg-[size:60px_60px]"
+        style={{
+          maskImage: 'linear-gradient(to bottom, black 0%, rgba(0,0,0,0.6) 30%, transparent 65%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 0%, rgba(0,0,0,0.6) 30%, transparent 65%)'
+        }}
+      />
+
+      <div className="relative z-10">
+        <div className="h-16" />
+
+        <div className="mx-auto w-11/12 max-w-7xl pb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold sm:text-4xl"
+            className="mx-auto mb-20 max-w-3xl text-center"
           >
-            Everything you need in one fintech platform
-          </motion.h2>
-          <p className="mt-3 text-slate-400">
-            From everyday payments to business loans, WalletIQ delivers a
-            premium experience across every touchpoint.
-          </p>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {features.map((feature, index) => (
-            <FeatureCard key={feature.title} {...feature} delay={index * 0.05} />
-          ))}
+            {/* Clean badge styling for dark/transitioning area */}
+            <span className="inline-block rounded-full border border-indigo-400/20 bg-indigo-500/10 px-4 py-1.5 text-sm font-medium text-indigo-200">
+              Premium Fintech Features
+            </span>
+
+            {/* FIXED: Shifted back to light text colors because the long transition 
+               keeps this upper section beautifully dark and blue. 
+            */}
+            <h2 className="mt-6 text-4xl font-black text-white md:text-5xl tracking-tight">
+              Everything you need in one fintech platform
+            </h2>
+
+            <p className="mt-6 text-lg text-slate-200 font-normal">
+              From everyday payments to business loans, WalletIQ delivers a
+              premium experience across every touchpoint.
+            </p>
+          </motion.div>
+
+          {/* Cards */}
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+            {features.map((feature, index) => (
+              <FeatureCard
+                key={feature.title}
+                {...feature}
+                delay={index * 0.08}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
