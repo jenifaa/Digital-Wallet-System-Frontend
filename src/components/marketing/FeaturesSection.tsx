@@ -56,14 +56,23 @@ export default function FeaturesSection() {
          Starts dark at the top, stays dark through the hero merge, 
          and transitions very gradually down to the light color, ending at 80%.
       */}
-      <div className="absolute inset-0 bg-linear-to-b from-[#1F2340] via-[#1F2340] via-30% to-[#F8FAFC] to-80% " />
+      <div className="absolute inset-0 bg-linear-to-b from-[#1F2340] via-[#2A3158] via-20% to-[#F8FAFC] to-80% " />
+
+{/* <div className="absolute -right-20 top-20 h-72 w-72 rounded-full bg-[#8B90D0]/30 blur-3xl" /> */}
+<div className="absolute -right-5 -top-20 h-72 w-72 rounded-full bg-[#8B90D0]/25 blur-3xl" />
+
+
+<div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-[#8B90D0]/20 blur-3xl" />
+
+
+
 
       {/* 2. EXTENDED GRID LINES: 
          The grid lines now fade out much lower down the page (at 65%) 
          to match your longer background color transition perfectly.
       */}
       <div 
-        className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(rgba(255,255,255,0.4)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.4)_1px,transparent_1px)] bg-[size:60px_60px]"
+        className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(rgba(255,255,255,0.4)_1px,transparent_1px),linear-gradient(to_right,rgba(255,255,255,0.4)_1px,transparent_1px)] bg-size-[60px_60px]"
         style={{
           maskImage: 'linear-gradient(to bottom, black 0%, rgba(0,0,0,0.6) 30%, transparent 65%)',
           WebkitMaskImage: 'linear-gradient(to bottom, black 0%, rgba(0,0,0,0.6) 30%, transparent 65%)'
@@ -73,7 +82,7 @@ export default function FeaturesSection() {
       <div className="relative z-10">
         <div className="h-16" />
 
-        <div className="mx-auto w-11/12 max-w-7xl pb-24">
+        <div className="mx-auto w-11/12 max-w-7xl pb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
