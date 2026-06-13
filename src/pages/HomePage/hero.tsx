@@ -1,413 +1,214 @@
+// HeroSection.tsx
+// Pure CSS/div hero — no Three.js needed.
+// Uses your robot image + CSS keyframe icon burst + float effect.
+// Put your robot image in: public/robot.png  (or update ROBOT_IMG below)
+// Icons are rendered as emoji chips — swap the content for <img> tags pointing to your /icons folder
 
-// import {
-//   ArrowRight,
-//   CheckCircle2,
-//   Globe,
-//   Headphones,
-// } from "lucide-react"
+import { useEffect, useRef } from "react";
+import { Link } from "react-router";
 
-// import { Button } from "@/components/ui/button"
-// import { Card, CardContent } from "@/components/ui/card"
+const ROBOT_IMG = "/src/assets/images/rob.png"; // ← point to your robot image
 
-// export default function HeroSection() {
-//   return (
-//     <section className="relative overflow-hidden bg-[#f3f4f6]">
-//       {/* angled background */}
-//       <div className="absolute left-0 top-[38%] h-175 w-full -skew-y-6 bg-[#003f43]" />
+const ICONS = [
+  { emoji: "💸", label: "Send money",     tx: "-18px",  ty: "-175px", rot: "-8deg",  fy: "-8px",  delay: "0.05s", floatDelay: "0.7s"  },
+  { emoji: "💳", label: "Virtual card",   tx: "95px",   ty: "-155px", rot: "6deg",   fy: "-10px", delay: "0.12s", floatDelay: "1.1s"  },
+  { emoji: "📊", label: "Analytics",      tx: "175px",  ty: "-90px",  rot: "10deg",  fy: "-7px",  delay: "0.2s",  floatDelay: "1.5s"  },
+  { emoji: "🔒", label: "Security",       tx: "195px",  ty: "20px",   rot: "-5deg",  fy: "-9px",  delay: "0.28s", floatDelay: "0.9s"  },
+  { emoji: "🌐", label: "Global",         tx: "145px",  ty: "120px",  rot: "8deg",   fy: "-6px",  delay: "0.36s", floatDelay: "1.3s"  },
+  { emoji: "⚡", label: "Instant",        tx: "-105px", ty: "-130px", rot: "-12deg", fy: "-11px", delay: "0.44s", floatDelay: "1.7s"  },
+  { emoji: "🛡️", label: "Protection",    tx: "-165px", ty: "-30px",  rot: "4deg",   fy: "-8px",  delay: "0.52s", floatDelay: "0.5s"  },
+  { emoji: "💰", label: "Savings",        tx: "50px",   ty: "-210px", rot: "-3deg",  fy: "-9px",  delay: "0.6s",  floatDelay: "2.0s"  },
+];
 
-//       <div className="relative z-10 mx-auto max-w-7xl px-6 pb-28 pt-8 lg:px-10">
-//         {/* HERO */}
-//         <div className="grid items-center gap-12 lg:grid-cols-2">
-//           {/* LEFT CONTENT */}
-//           <div className="max-w-xl pt-10">
-//             <div className="mb-5 flex items-center gap-2 text-sm font-semibold text-[#003f43]">
-//               <span className="text-lg">✦</span>
-//               <span>Digital Wallet Platform</span>
-//             </div>
+const css = `
+  @keyframes robotFloat {
+    0%,100%{transform:translateX(-50%) translateY(0)}
+    50%{transform:translateX(-50%) translateY(-12px)}
+  }
+  @keyframes iconBurst {
+    0%   { opacity:0; transform:translate(-50%,-50%) scale(0) rotate(0deg) }
+    45%  { opacity:1; transform:translate(var(--tx),var(--ty)) scale(1.18) rotate(var(--rot)) }
+    65%  { transform:translate(var(--tx),var(--ty)) scale(0.94) rotate(var(--rot)) }
+    100% { opacity:1; transform:translate(var(--tx),var(--ty)) scale(1) rotate(var(--rot)) }
+  }
+  @keyframes iconFloat {
+    0%,100%{ transform:translate(var(--tx),var(--ty)) rotate(var(--rot)) translateY(0) scale(1) }
+    40%    { transform:translate(var(--tx),var(--ty)) rotate(var(--rot)) translateY(var(--fy)) scale(1.05) }
+    70%    { transform:translate(var(--tx),var(--ty)) rotate(var(--rot)) translateY(calc(var(--fy)*-0.4)) scale(0.97) }
+  }
+  @keyframes burstGlow {
+    0%  { opacity:0; transform:translate(-50%,-50%) scale(0.1) }
+    30% { opacity:1; transform:translate(-50%,-50%) scale(1) }
+    100%{ opacity:0; transform:translate(-50%,-50%) scale(2) }
+  }
+  @keyframes burstRing {
+    0%  { opacity:0.9; transform:translate(-50%,-50%) scale(0) }
+    100%{ opacity:0;   transform:translate(-50%,-50%) scale(1) }
+  }
+  @keyframes sparkle {
+    0%  { opacity:0; transform:translate(-50%,-50%) scale(0) rotate(0deg) }
+    20% { opacity:1; transform:translate(-50%,-50%) scale(1) rotate(45deg) }
+    100%{ opacity:0; transform:translate(calc(-50% + var(--sx)),calc(-50% + var(--sy))) scale(0) rotate(200deg) }
+  }
+  .hero-icon {
+    position:absolute; left:50%; top:50%;
+    width:52px; height:52px; border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:24px; opacity:0; pointer-events:none; z-index:10;
+    background:linear-gradient(135deg,rgba(25,38,90,0.93),rgba(15,25,65,0.96));
+    box-shadow:0 8px 28px rgba(0,0,0,0.4), 0 0 0 1.5px rgba(110,160,255,0.18);
+  }
+  .hero-icon.active {
+    animation:
+      iconBurst 0.72s cubic-bezier(.22,1.45,.36,1) forwards var(--delay),
+      iconFloat 3.8s ease-in-out infinite var(--float-delay);
+  }
+`;
 
-//             <h1 className="text-5xl font-black leading-[1.05] tracking-tight text-black lg:text-6xl">
-//               Secure & Seamless
-//               <br />
-//               Digital Wallet
-//               <br />
-//               Payments
-//             </h1>
+export default function Hero() {
+  const iconsRef = useRef<HTMLDivElement[]>([]);
+  const glowRef  = useRef<HTMLDivElement>(null);
+  const ring1Ref = useRef<HTMLDivElement>(null);
+  const ring2Ref = useRef<HTMLDivElement>(null);
+  const sparkRef = useRef<HTMLDivElement>(null);
+  const launched = useRef(false);
 
-//             <p className="mt-6 max-w-lg text-base leading-7 text-neutral-600">
-//               A modern wallet system built for secure, fast, and reliable
-//               financial transactions worldwide with complete flexibility and
-//               enterprise-level protection.
-//             </p>
+  function spawnSparkles() {
+    const cont = sparkRef.current;
+    if (!cont) return;
+    cont.innerHTML = "";
+    const chars = ["✦","✧","★","·","⋆","✴"];
+    for (let i = 0; i < 8; i++) {
+      const angle = (i / 8) * Math.PI * 2;
+      const dist  = 55 + Math.random() * 45;
+      const el    = document.createElement("div");
+      el.textContent = chars[i % chars.length];
+      el.style.cssText = `
+        position:absolute;left:0;top:0;
+        font-size:${10 + Math.random() * 9}px;
+        color:rgba(160,210,255,0.95);
+        --sx:${Math.cos(angle)*dist}px;
+        --sy:${Math.sin(angle)*dist}px;
+        animation:sparkle 0.95s ease-out forwards ${i*0.065}s;
+        pointer-events:none;
+      `;
+      cont.appendChild(el);
+    }
+    setTimeout(() => { if (cont) cont.innerHTML = ""; }, 1400);
+  }
 
-//             {/* BUTTONS */}
-//             <div className="mt-8 flex flex-wrap items-center gap-4">
-//               <Button className="h-14 rounded-xl border-2 border-black bg-lime-400 px-8 text-base font-bold text-black shadow-[4px_4px_0px_#000] transition-all hover:-translate-y-0.5 hover:bg-lime-300">
-//                 Get Started
-//               </Button>
+  function triggerBurst() {
+    if (launched.current) return;
+    launched.current = true;
 
-//               <Button
-//                 variant="outline"
-//                 className="h-14 rounded-xl border-2 border-black bg-yellow-300 px-8 text-base font-bold text-black shadow-[4px_4px_0px_#000] transition-all hover:-translate-y-0.5 hover:bg-yellow-200"
-//               >
-//                 About Us
-//               </Button>
-//             </div>
+    [glowRef, ring1Ref, ring2Ref].forEach((r, i) => {
+      if (!r.current) return;
+      const anims = ["burstGlow 0.95s ease-out forwards","burstRing 0.75s ease-out forwards","burstRing 1.0s ease-out 0.1s forwards"];
+      r.current.style.animation = anims[i];
+    });
+    spawnSparkles();
 
-//             {/* FEATURES */}
-//             <div className="mt-7 flex flex-wrap gap-5 text-sm text-neutral-600">
-//               <div className="flex items-center gap-2">
-//                 <CheckCircle2 className="h-4 w-4" />
-//                 No credit card required
-//               </div>
+    iconsRef.current.forEach((el) => {
+      if (!el) return;
+      el.classList.remove("active");
+      void el.offsetWidth;
+      el.classList.add("active");
+    });
+  }
 
-//               <div className="flex items-center gap-2">
-//                 <Globe className="h-4 w-4" />
-//                 Trusted 120+ Countries
-//               </div>
+  useEffect(() => {
+    const t = setTimeout(triggerBurst, 700);
+    return () => clearTimeout(t);
+  }, []);
 
-//               <div className="flex items-center gap-2">
-//                 <Headphones className="h-4 w-4" />
-//                 24/7 Support
-//               </div>
-//             </div>
+  return (
+    <>
+      <style>{css}</style>
+      <section style={{
+        position:"relative", minHeight:"100vh", display:"flex", alignItems:"center",
+        overflow:"hidden",
+        background:"linear-gradient(135deg,#0d0f23 0%,#111433 50%,#0a0d1e 100%)"
+      }}>
+        {/* dot grid */}
+        <div style={{position:"absolute",inset:0,backgroundImage:"radial-gradient(circle,rgba(60,80,200,0.13) 1px,transparent 1px)",backgroundSize:"30px 30px",pointerEvents:"none"}} />
+        {/* glow blob */}
+        <div style={{position:"absolute",top:-100,right:-60,width:500,height:500,borderRadius:"50%",background:"radial-gradient(circle,rgba(50,100,255,0.1) 0%,transparent 70%)",pointerEvents:"none"}} />
 
-//             {/* USERS */}
-//             <div className="mt-8 flex items-center gap-4">
-//               <div className="flex -space-x-3">
-//                 <img
-//                   src="https://i.pravatar.cc/100?img=1"
-//                   alt="user"
-//                   width={46}
-//                   height={46}
-//                   className="rounded-full border-2 border-white"
-//                 />
+        <div style={{position:"relative",zIndex:5,width:"100%",maxWidth:1280,margin:"0 auto",padding:"80px 48px",display:"grid",gridTemplateColumns:"1fr 1fr",gap:32,alignItems:"center"}}>
 
-//                 <img
-//                   src="https://i.pravatar.cc/100?img=2"
-//                   alt="user"
-//                   width={46}
-//                   height={46}
-//                   className="rounded-full border-2 border-white"
-//                 />
-//                 <img
-//                   src="https://i.pravatar.cc/100?img=3"
-//                   alt="user"
-//                   width={46}
-//                   height={46}
-//                   className="rounded-full border-2 border-white"
-//                 />
-//               </div>
+          {/* ─ LEFT: text ─ */}
+          <div style={{display:"flex",flexDirection:"column",gap:20,maxWidth:460}}>
+            <span style={{display:"inline-flex",alignItems:"center",gap:6,background:"rgba(60,100,255,0.14)",border:"1px solid rgba(80,140,255,0.28)",color:"#7eb3ff",padding:"6px 16px",borderRadius:99,fontSize:12,fontWeight:600,width:"fit-content"}}>
+              ✦ AI-powered financial ecosystem
+            </span>
+            <h1 style={{fontSize:"clamp(2rem,4vw,3.4rem)",fontWeight:900,color:"#fff",lineHeight:1.06,letterSpacing:"-0.02em",margin:0}}>
+              Smart Digital{" "}
+              <span style={{background:"linear-gradient(90deg,#5b8eff,#00d4ff)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>Wallet</span>
+              <br />For Modern Finance
+            </h1>
+            <p style={{fontSize:14,color:"rgba(200,215,255,0.65)",lineHeight:1.65,margin:0}}>
+              Send money globally, manage virtual cards, track spending, and automate payments through one intelligent financial platform.
+            </p>
+            <div style={{display:"flex",gap:12,flexWrap:"wrap"}}>
+              <Link to="/wallet" style={{display:"inline-flex",alignItems:"center",gap:6,background:"linear-gradient(135deg,#3a6bff,#1a44cc)",color:"#fff",padding:"12px 24px",borderRadius:12,fontWeight:700,fontSize:14,textDecoration:"none",boxShadow:"0 4px 24px rgba(58,107,255,0.42)"}}>
+                Launch Wallet ↗
+              </Link>
+              <button style={{display:"inline-flex",alignItems:"center",gap:6,background:"rgba(255,255,255,0.07)",border:"1px solid rgba(255,255,255,0.14)",color:"#d0deff",padding:"12px 20px",borderRadius:12,fontWeight:600,fontSize:14,cursor:"pointer"}}>
+                ▶ Watch Demo
+              </button>
+            </div>
+            <div style={{display:"flex",gap:8,flexWrap:"wrap"}}>
+              {["🛡 Bank-level Security","📊 Real-time Analytics","🌐 Global Transfers"].map(t=>(
+                <span key={t} style={{background:"rgba(255,255,255,0.05)",border:"1px solid rgba(255,255,255,0.09)",color:"rgba(200,215,255,0.72)",padding:"5px 12px",borderRadius:8,fontSize:12}}>
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
 
-//               <div>
-//                 <h4 className="text-lg font-black text-black">20.8k+</h4>
-//                 <p className="text-sm text-neutral-500">
-//                   Positive Wallet Reviews
-//                 </p>
-//               </div>
-//             </div>
-//           </div>
+          {/* ─ RIGHT: robot + icons ─ */}
+          <div style={{position:"relative",height:"clamp(400px,60vh,640px)"}}>
 
-//           {/* RIGHT SIDE */}
-//           <div className="relative flex justify-center lg:justify-end">
-//             {/* DASHBOARD */}
-//             <div className="relative w-full max-w-180 rounded-[28px] border-[5px] border-black bg-white p-5 shadow-2xl">
-//               {/* top nav */}
-//               <div className="mb-6 flex items-center justify-between">
-//                 <div className="flex items-center gap-8">
-//                   <h3 className="text-xl font-black">WalletPay</h3>
+            {/* burst glow */}
+            <div ref={glowRef} style={{position:"absolute",left:"62%",top:"36%",width:200,height:200,borderRadius:"50%",background:"radial-gradient(circle,rgba(110,180,255,0.55) 0%,rgba(70,120,255,0.18) 45%,transparent 70%)",transform:"translate(-50%,-50%) scale(0)",opacity:0,pointerEvents:"none",zIndex:3}} />
+            <div ref={ring1Ref} style={{position:"absolute",left:"62%",top:"36%",width:170,height:170,borderRadius:"50%",border:"2.5px solid rgba(120,200,255,0.8)",transform:"translate(-50%,-50%) scale(0)",opacity:0,pointerEvents:"none",zIndex:3}} />
+            <div ref={ring2Ref} style={{position:"absolute",left:"62%",top:"36%",width:240,height:240,borderRadius:"50%",border:"1.5px solid rgba(80,160,255,0.4)",transform:"translate(-50%,-50%) scale(0)",opacity:0,pointerEvents:"none",zIndex:3}} />
+            {/* sparkles anchor */}
+            <div ref={sparkRef} style={{position:"absolute",left:"62%",top:"36%",zIndex:5,pointerEvents:"none"}} />
 
-//                   <div className="hidden items-center gap-3 md:flex">
-//                     <span className="rounded-full bg-black px-4 py-1 text-xs font-semibold text-white">
-//                       Dashboard
-//                     </span>
+            {/* ground shadow */}
+            <div style={{position:"absolute",bottom:0,left:"50%",transform:"translateX(-50%)",width:180,height:22,background:"radial-gradient(ellipse,rgba(60,100,255,0.22) 0%,transparent 75%)",filter:"blur(6px)"}} />
 
-//                     <span className="text-xs font-medium text-neutral-500">
-//                       Payments
-//                     </span>
+            {/* robot image */}
+            <img
+              src={ROBOT_IMG}
+              alt="SPARK7 robot holding a phone"
+              onLoad={() => { launched.current = false; setTimeout(triggerBurst, 300); }}
+              style={{position:"absolute",bottom:0,left:"50%",transform:"translateX(-50%)",height:"92%",objectFit:"contain",objectPosition:"bottom center",filter:"drop-shadow(0 20px 60px rgba(30,80,255,0.35)) drop-shadow(0 0 40px rgba(0,180,255,0.14))",animation:"robotFloat 4s ease-in-out infinite",zIndex:2}}
+            />
 
-//                     <span className="text-xs font-medium text-neutral-500">
-//                       History
-//                     </span>
-
-//                     <span className="text-xs font-medium text-neutral-500">
-//                       Settings
-//                     </span>
-//                   </div>
-//                 </div>
-
-//                 <div className="hidden items-center gap-3 md:flex">
-//                   <div className="h-10 w-40 rounded-full bg-neutral-100" />
-//                   <div className="h-10 w-10 rounded-full bg-neutral-200" />
-//                   <div className="h-10 w-10 rounded-full bg-neutral-200" />
-//                 </div>
-//               </div>
-
-//               {/* content */}
-//               <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
-//                 {/* LEFT */}
-//                 <div className="space-y-4">
-//                   {/* balance */}
-//                   <Card className="rounded-3xl border-none bg-[#5b5cff] text-white shadow-none">
-//                     <CardContent className="p-6">
-//                       <div className="flex items-start justify-between">
-//                         <div>
-//                           <p className="text-sm text-white/80">
-//                             Available Balance
-//                           </p>
-
-//                           <h2 className="mt-2 text-4xl font-black">
-//                             $42,580
-//                           </h2>
-
-//                           <p className="mt-4 text-sm text-white/80">
-//                             Updated today
-//                           </p>
-//                         </div>
-
-//                         <div className="rounded-2xl bg-white/20 p-4">
-//                           <ArrowRight className="h-6 w-6" />
-//                         </div>
-//                       </div>
-//                     </CardContent>
-//                   </Card>
-
-//                   {/* transactions */}
-//                   <Card className="rounded-3xl border-none bg-[#f7f7f7] shadow-none">
-//                     <CardContent className="p-5">
-//                       <div className="mb-5 flex items-center justify-between">
-//                         <h4 className="text-lg font-black">
-//                           Recent Transactions
-//                         </h4>
-
-//                         <span className="text-sm text-neutral-500">
-//                           This Week
-//                         </span>
-//                       </div>
-
-//                       <div className="space-y-4">
-//                         {[
-//                           {
-//                             name: "Netflix",
-//                             amount: "-$15.99",
-//                           },
-//                           {
-//                             name: "Spotify",
-//                             amount: "-$9.99",
-//                           },
-//                           {
-//                             name: "Apple Store",
-//                             amount: "-$149.00",
-//                           },
-//                         ].map((item, index) => (
-//                           <div
-//                             key={index}
-//                             className="flex items-center justify-between rounded-2xl bg-white p-4"
-//                           >
-//                             <div className="flex items-center gap-3">
-//                               <div className="h-12 w-12 rounded-full bg-[#e5e7eb]" />
-
-//                               <div>
-//                                 <h5 className="font-bold">{item.name}</h5>
-//                                 <p className="text-sm text-neutral-500">
-//                                   Subscription
-//                                 </p>
-//                               </div>
-//                             </div>
-
-//                             <span className="font-bold">
-//                               {item.amount}
-//                             </span>
-//                           </div>
-//                         ))}
-//                       </div>
-//                     </CardContent>
-//                   </Card>
-//                 </div>
-
-//                 {/* RIGHT */}
-//                 <div className="space-y-4">
-//                   {/* transfer card */}
-//                   <Card className="rounded-3xl border-none bg-[#f7f7f7] shadow-none">
-//                     <CardContent className="p-5">
-//                       <div className="mb-5 flex items-center justify-between">
-//                         <h4 className="font-black">Scheduled Transfers</h4>
-
-//                         <div className="h-8 w-8 rounded-full bg-white" />
-//                       </div>
-
-//                       <div className="space-y-4">
-//                         {[
-//                           "John Carter",
-//                           "Sarah Smith",
-//                           "Michael Lee",
-//                         ].map((name, i) => (
-//                           <div
-//                             key={i}
-//                             className="rounded-2xl bg-white p-4"
-//                           >
-//                             <div className="flex items-center justify-between">
-//                               <div>
-//                                 <h5 className="font-bold">{name}</h5>
-//                                 <p className="text-sm text-neutral-500">
-//                                   International Transfer
-//                                 </p>
-//                               </div>
-
-//                               <span className="font-black">
-//                                 ${(i + 2) * 250}
-//                               </span>
-//                             </div>
-//                           </div>
-//                         ))}
-//                       </div>
-//                     </CardContent>
-//                   </Card>
-
-//                   {/* analytics */}
-//                   <Card className="rounded-3xl border-none bg-[#f7f7f7] shadow-none">
-//                     <CardContent className="p-5">
-//                       <div className="mb-6 flex items-center justify-between">
-//                         <h4 className="font-black">Wallet Analytics</h4>
-
-//                         <span className="rounded-full bg-black px-3 py-1 text-xs text-white">
-//                           Monthly
-//                         </span>
-//                       </div>
-
-//                       <div className="flex h-56 items-end gap-3">
-//                         {[60, 90, 50, 120, 70, 95, 40].map((h, i) => (
-//                           <div
-//                             key={i}
-//                             className="flex-1 rounded-t-2xl bg-[#5b5cff]"
-//                             style={{ height: `${h}%` }}
-//                           />
-//                         ))}
-//                       </div>
-//                     </CardContent>
-//                   </Card>
-//                 </div>
-//               </div>
-
-//               {/* PHONE MOCKUP */}
-//               <div className="absolute -bottom-20 -left-15 hidden w-62.5 rounded-[40px] border-[5px] border-black bg-white p-5 shadow-2xl lg:block">
-//                 <div className="mb-5 flex items-center justify-between">
-//                   <div className="h-5 w-24 rounded-full bg-black" />
-//                   <div className="flex gap-1">
-//                     <div className="h-2 w-2 rounded-full bg-black" />
-//                     <div className="h-2 w-2 rounded-full bg-black" />
-//                     <div className="h-2 w-2 rounded-full bg-black" />
-//                   </div>
-//                 </div>
-
-//                 <div className="text-center">
-//                   <p className="text-sm text-neutral-500">Total Balance</p>
-
-//                   <h2 className="mt-2 text-4xl font-black">$32,510</h2>
-//                 </div>
-
-//                 <div className="mt-8 grid grid-cols-4 gap-3">
-//                   {["Send", "Receive", "Topup", "More"].map(
-//                     (item, index) => (
-//                       <div key={index} className="text-center">
-//                         <div className="mx-auto mb-2 h-12 w-12 rounded-2xl bg-[#eef2ff]" />
-
-//                         <p className="text-xs font-medium">{item}</p>
-//                       </div>
-//                     )
-//                   )}
-//                 </div>
-
-//                 <div className="mt-8">
-//                   <div className="mb-4 flex items-center justify-between">
-//                     <h5 className="font-black">Transactions</h5>
-
-//                     <span className="text-xs text-neutral-500">
-//                       See all
-//                     </span>
-//                   </div>
-
-//                   <div className="space-y-3">
-//                     {[1, 2].map((item) => (
-//                       <div
-//                         key={item}
-//                         className="flex items-center justify-between"
-//                       >
-//                         <div className="flex items-center gap-3">
-//                           <div className="h-10 w-10 rounded-full bg-[#f3f4f6]" />
-
-//                           <div>
-//                             <h6 className="text-sm font-bold">
-//                               Payment #{item}
-//                             </h6>
-
-//                             <p className="text-xs text-neutral-500">
-//                               Today
-//                             </p>
-//                           </div>
-//                         </div>
-
-//                         <span className="text-sm font-bold">
-//                           -$25.00
-//                         </span>
-//                       </div>
-//                     ))}
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* STATS */}
-//         <div className="relative z-20 mx-auto mt-28 max-w-5xl">
-//           <div className="grid gap-5 rounded-[28px] border border-white/20 bg-white/90 p-5 shadow-2xl backdrop-blur md:grid-cols-4">
-//             {[
-//               {
-//                 value: "140k",
-//                 label: "Active Users",
-//               },
-//               {
-//                 value: "15+",
-//                 label: "Years Of Experience",
-//               },
-//               {
-//                 value: "14k",
-//                 label: "Wallet Downloads",
-//               },
-//               {
-//                 value: "18k+",
-//                 label: "User Reviews",
-//               },
-//             ].map((item, i) => (
-//               <div
-//                 key={i}
-//                 className="rounded-2xl bg-[#f3f4f6] p-8 text-center"
-//               >
-//                 <h3 className="text-5xl font-black text-black">
-//                   {item.value}
-//                 </h3>
-
-//                 <p className="mt-3 text-neutral-500">{item.label}</p>
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-
-//         {/* TRUSTED */}
-//         <div className="mt-20 text-center">
-//           <p className="text-lg font-black text-black">
-//             Trusted by 152,000+ customers worldwide
-//           </p>
-
-//           <div className="mt-10 flex flex-wrap items-center justify-center gap-14 text-3xl font-black text-[#1f1147]">
-//             <span>Sitemark</span>
-//             <span>Greenish</span>
-//             <span>Prismic</span>
-//             <span>Umbrella</span>
-//             <span>Unsplash</span>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   )
-// }
+            {/* floating icon chips */}
+            {ICONS.map((ic, i) => (
+              <div
+                key={i}
+                ref={el => { if(el) iconsRef.current[i]=el; }}
+                className="hero-icon"
+                title={ic.label}
+                style={{
+                  "--tx": ic.tx,
+                  "--ty": ic.ty,
+                  "--rot": ic.rot,
+                  "--fy": ic.fy,
+                  "--delay": ic.delay,
+                  "--float-delay": ic.floatDelay,
+                } as React.CSSProperties}
+              >
+                {ic.emoji}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
