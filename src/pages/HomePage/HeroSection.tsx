@@ -7,10 +7,23 @@ import {
   Globe2,
   Play,
 } from "lucide-react";
-import gsap from "gsap"
-import {useGSAP} from "@gsap/react"
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 
 import phone2 from "@/assets/images/rob.png";
+import robot from "@/assets/images/robot_transparent.webm";
+
+// import im1 from "@/assets/images/1.png";
+// import im2 from "@/assets/images/2.png";
+// import im3 from "@/assets/images/3.png";
+// import im4 from "@/assets/images/4.png";
+// import im5 from "@/assets/images/5.png";
+// import im6 from "@/assets/images/6.png";
+// import im7 from "@/assets/images/7.png";
+// import im8 from "@/assets/images/8.png";
+// import im9 from "@/assets/images/9.png";
+// import im10 from "@/assets/images/10.png";
+
 import i1 from "@/assets/icons/money.png";
 import i2 from "@/assets/icons/notification.png";
 import i3 from "@/assets/icons/loan.png";
@@ -23,95 +36,153 @@ import { useRef } from "react";
 
 gsap.registerPlugin(useGSAP);
 
+// Each icon's final position relative to the robot image center-top area.
+// The robot image is w-100 (~400px). Top-right area ≈ x:55–75%, y:15–45%.
+// We store final offsets from the icon's initial stacked position so GSAP can tween from 0 → these.
+const ICON_CONFIG = [
+  // top-left of cluster — money
+  { finalX: -110, finalY: -90, rotation: -18, floatAmp: 10, floatDur: 2.1 },
+  // top-right — notification
+  { finalX: 100, finalY: -80, rotation: 14, floatAmp: 13, floatDur: 1.9 },
+  // mid-left — loan
+  { finalX: -130, finalY: 30, rotation: -10, floatAmp: 9, floatDur: 2.4 },
+  // mid-right — send
+  { finalX: 120, finalY: 20, rotation: 20, floatAmp: 12, floatDur: 2.0 },
+  // bottom-left — wallet
+  { finalX: -60, finalY: 130, rotation: 8, floatAmp: 11, floatDur: 2.3 },
+  // bottom-right — withdraw
+  { finalX: 70, finalY: 145, rotation: -16, floatAmp: 8, floatDur: 1.8 },
+];
+
 export default function HeroSection() {
-  const iconContainer = useRef(null);
+  const iconContainer = useRef<HTMLDivElement>(null);
+  // const robotRef = useRef<HTMLDivElement>(null);
 
-// useGSAP(() => {
-//   const icons = gsap.utils.toArray(".popup-icon");
+  // const robotFrames = [im1, im2, im3, im4, im5, im6, im7, im8, im9, im10];
 
-//   gsap.set(icons, {
-//     opacity: 0,
-//     scale: 0,
-//   });
+  useGSAP(
+    () => {
+      const icons = gsap.utils.toArray<HTMLElement>(".popup-icon");
 
-//   const tl = gsap.timeline();
+      // 1. Start: all icons hidden, at scale 0, clustered together
+      gsap.set(icons, {
+        opacity: 0,
+        scale: 0,
+        x: 0,
+        y: 0,
+        rotation: 0,
+        filter: "drop-shadow(0px 0px 0px rgba(139,144,208,0))",
+      });
 
-//   tl.to(icons, {
-//     opacity: 1,
-//     scale: 1,
-//     stagger: 0.1,
-//     duration: 0.4,
-//   });
+      const tl = gsap.timeline({ delay: 0.6 });
 
-//   tl.to(icons[0], {
-//     x: -120,
-//     y: -120,
-//     rotation: 15,
-//   });
+      // 2. Entrance: all burst outward simultaneously from cluster
+      icons.forEach((icon, i) => {
+        const cfg = ICON_CONFIG[i];
 
-//   tl.to(
-//     icons[1],
-//     {
-//       x: 120,
-//       y: -100,
-//       rotation: -20,
-//     },
-//     "<"
-//   );
+        // Pop into view with glow flash
+        tl.to(
+          icon,
+          {
+            opacity: 1,
+            scale: 1.25,
+            duration: 0.35,
+            ease: "back.out(2.5)",
+            filter:
+              "drop-shadow(0px 0px 18px rgba(139,144,208,0.95)) drop-shadow(0px 0px 8px rgba(214,210,240,0.8))",
+          },
+          i === 0 ? "burst" : "burst+=0.06", // stagger by 60ms
+        );
 
-//   tl.to(
-//     icons[2],
-//     {
-//       x: -140,
-//       y: 50,
-//       rotation: 10,
-//     },
-//     "<"
-//   );
+        // Fly to final position while settling scale + glow dims
+        tl.to(
+          icon,
+          {
+            x: cfg.finalX,
+            y: cfg.finalY,
+            rotation: cfg.rotation,
+            scale: 1,
+            duration: 0.6,
+            ease: "power3.out",
+            filter:
+              "drop-shadow(0px 4px 12px rgba(139,144,208,0.5)) drop-shadow(0px 0px 4px rgba(214,210,240,0.3))",
+          },
+          `burst+=${i * 0.06 + 0.1}`,
+        );
+      });
 
-//   tl.to(
-//     icons[3],
-//     {
-//       x: 140,
-//       y: 40,
-//       rotation: -15,
-//     },
-//     "<"
-//   );
+      // 3. After entrance: idle float — each icon floats independently
+      tl.call(() => {
+        icons.forEach((icon, i) => {
+          const cfg = ICON_CONFIG[i];
+          gsap.to(icon, {
+            y: `+=${cfg.floatAmp}`,
+            duration: cfg.floatDur,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          });
 
-//   tl.to(
-//     icons[4],
-//     {
-//       x: -60,
-//       y: 150,
-//     },
-//     "<"
-//   );
+          // Subtle glow pulse
+          gsap.to(icon, {
+            filter:
+              "drop-shadow(0px 6px 16px rgba(139,144,208,0.7)) drop-shadow(0px 0px 6px rgba(214,210,240,0.5))",
+            duration: cfg.floatDur * 0.8,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          });
+        });
+      });
+    },
+    { scope: iconContainer },
+  );
 
-//   tl.to(
-//     icons[5],
-//     {
-//       x: 70,
-//       y: 170,
-//     },
-//     "<"
-//   );
+  // useGSAP(() => {
+  //   const frames = gsap.utils.toArray<HTMLElement>(".robot-frame");
 
-//   icons.forEach((icon) => {
-//     gsap.to(icon, {
-//       y: "-=15",
-//       duration: 2,
-//       repeat: -1,
-//       yoyo: true,
-//       ease: "sine.inOut",
-//     });
-//   });
-// },  { scope: iconContainer });
+  //   gsap.set(frames, {
+  //     opacity: 0,
+  //     scale: 1,
+  //   });
 
+  //   gsap.set(frames[0], {
+  //     opacity: 1,
+  //   });
 
+  //   const tl = gsap.timeline({
+  //     repeat: -1,
+  //     repeatDelay: 1,
+  //   });
 
+  //   frames.forEach((frame, i) => {
+  //     if (i === 0) return;
 
+  //     tl.to(frames[i - 1], {
+  //       opacity: 0,
+  //       scale: 0.98,
+  //       duration: 0.25,
+  //       ease: "power2.out",
+  //     });
 
+  //     tl.fromTo(
+  //       frame,
+  //       {
+  //         opacity: 0,
+  //         scale: 0.95,
+  //         y: 10,
+  //       },
+  //       {
+  //         opacity: 1,
+  //         scale: 1,
+  //         y: 0,
+  //         duration: 0.35,
+  //         ease: "back.out(1.7)",
+  //       },
+  //       "<",
+  //     );
+  //   });
+  // }, []);
 
   return (
     <section className="relative overflow-hidden bg-[#1F2340] py-16 text-white">
@@ -121,14 +192,13 @@ export default function HeroSection() {
       {/* grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-size-[70px_70px] opacity-[0.04]" />
 
-      {/* blur effects */}
+      {/* blur blobs */}
       <div className="absolute -left-20 top-20 h-72 w-72 rounded-full bg-[#8B90D0]/30 blur-3xl" />
-
       <div className="absolute -bottom-20 right-0 h-72 w-72 rounded-full bg-[#B7B3D9]/20 blur-3xl" />
 
       <div className="relative z-10 mx-auto w-11/12 px-6 pb-20 pt-10">
         <div className="grid items-center gap-36 lg:grid-cols-[1fr_0.95fr]">
-          {/* LEFT CONTENT */}
+          {/* ── LEFT CONTENT ── */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -173,21 +243,12 @@ export default function HeroSection() {
               </button>
             </div>
 
-            {/* features */}
+            {/* feature pills */}
             <div className="mt-5 flex flex-wrap gap-5">
               {[
-                {
-                  icon: ShieldCheck,
-                  title: "Bank-level Security",
-                },
-                {
-                  icon: TrendingUp,
-                  title: "Real-time Analytics",
-                },
-                {
-                  icon: Globe2,
-                  title: "Global Transfers",
-                },
+                { icon: ShieldCheck, title: "Bank-level Security" },
+                { icon: TrendingUp, title: "Real-time Analytics" },
+                { icon: Globe2, title: "Global Transfers" },
               ].map((item, index) => (
                 <div
                   key={index}
@@ -196,7 +257,6 @@ export default function HeroSection() {
                   <div className="rounded-xl bg-[#8B90D0]/10 p-2 text-[#D6D2F0]">
                     <item.icon className="h-5 w-5" />
                   </div>
-
                   <span className="text-sm font-medium text-[#E8E6F0]">
                     {item.title}
                   </span>
@@ -205,203 +265,58 @@ export default function HeroSection() {
             </div>
           </motion.div>
 
-          {/* RIGHT SIDE */}
+          {/* ── RIGHT SIDE ── */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7 }}
+            // initial={{ opacity: 0, scale: 0.92 }}
+            // animate={{ opacity: 1, scale: 1 }}
+            // transition={{ duration: 0.7 }}
             className="relative"
           >
-            {/* <img
-              src={phone2}
-              alt="wallet phone"
-              className="relative rounded-4xl  hidden w-100 object-contain opacity-90 drop-shadow-[0_25px_50px_rgba(0,0,0,0.7)] xl:block"
-            /> */}
+            {/* Icon burst container — icons are absolutely positioned relative to this */}
+            <div ref={iconContainer} className="relative hidden xl:block">
+              <video src={robot}  className="w-100 object-contain" autoPlay loop />
+              {/* <div ref={robotRef} className="relative h-100 w-100"> */}
+                {/* {robotFrames.map((img, index) => (
+                  <img
+                    key={index}
+                    src={img}
+                    alt={`robot-${index}`}
+                    className="robot-frame absolute inset-0 h-full w-full object-contain"
+                  />
+                ))} */}
+              {/* </div> */}
 
-            <div  ref={iconContainer} className="relative hidden xl:block">
-              <img src={phone2} alt="robot" className="w-125 object-contain" />
-
-              {/* Icons */}
-              <img
+              {/* <img
                 src={i1}
-                className="popup-icon absolute left-[67%] top-[26%] w-12"
+                alt="money"
+                className="popup-icon absolute left-[65%] top-[25%] w-10 cursor-pointer"
               />
-
               <img
                 src={i2}
-                className="popup-icon absolute left-[67%] top-[26%] w-12"
+                alt="notification"
+                className="popup-icon absolute left-[65%] top-[25%] w-10 cursor-pointer"
               />
-
               <img
                 src={i3}
-                className="popup-icon absolute left-[67%] top-[26%] w-12"
+                alt="loan"
+                className="popup-icon absolute left-[65%] top-[25%] w-10 cursor-pointer"
               />
-
               <img
                 src={i4}
-                className="popup-icon absolute left-[67%] top-[26%] w-12"
+                alt="send"
+                className="popup-icon absolute left-[65%] top-[25%] w-10 cursor-pointer"
               />
-
               <img
                 src={i5}
-                className="popup-icon absolute left-[67%] top-[26%] w-12"
+                alt="wallet"
+                className="popup-icon absolute left-[65%] top-[25%] w-10 cursor-pointer"
               />
-
               <img
                 src={i6}
-                className="popup-icon absolute left-[67%] top-[26%] w-12"
-              />
+                alt="withdraw"
+                className="popup-icon absolute left-[65%] top-[25%] w-10 cursor-pointer"
+              /> */}
             </div>
-
-            {/* <div className="absolute -bottom-2 -left-12 scale-95 overflow-hidden rounded-[32px] border border-white/10 bg-white/5 p-5 shadow-[0_20px_70px_rgba(0,0,0,0.5)] backdrop-blur-2xl">
-            
-              <div className="absolute -right-20 -top-20 h-52 w-52 rounded-full bg-[#8B90D0]/20 blur-3xl" />
-
-              <div className="absolute bottom-0 left-0 h-36 w-36 rounded-full bg-[#B7B3D9]/10 blur-3xl" />
-
-           
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-sm font-medium text-[#B6BCD3]">
-                    Total Balance
-                  </p>
-
-                  <h2 className="mt-2 text-3xl font-black tracking-tight">
-                    $84,250
-                  </h2>
-
-                  <div className="mt-4 flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-[#F5A524]" />
-
-                    <p className="text-sm text-[#F5A524]">+18.2% this month</p>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl border border-[#8B90D0]/20 bg-[#8B90D0]/10 px-4 py-3 backdrop-blur-xl">
-                  <p className="text-xs font-medium text-[#D6D2F0]">Revenue</p>
-
-                  <h4 className="mt-1 text-xl font-black text-[#F5A524]">
-                    +18.2%
-                  </h4>
-                </div>
-              </div>
-
-            
-              <div className="mt-5 flex h-24 items-end gap-2 px-6">
-                {[40, 65, 55, 90, 70, 120, 85].map((height, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ height: 0 }}
-                    animate={{ height: `${height}%` }}
-                    transition={{
-                      delay: i * 0.08,
-                      duration: 0.5,
-                    }}
-                    className="relative flex-1 overflow-hidden rounded-t-2xl bg-linear-to-t from-[#8B90D0] via-[#6C72B8] to-[#2B3055]"
-                  >
-                    <div className="absolute inset-0 bg-white/10" />
-                  </motion.div>
-                ))}
-              </div>
-
-          
-              <div className="mt-6 grid gap-3 md:grid-cols-3">
-              
-                <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#2B3055]/90 p-4 backdrop-blur-xl">
-                  <img
-                    src={phone2}
-                    alt=""
-                    className="absolute bottom-0 right-0 w-14 opacity-[0.05]"
-                  />
-
-                  <div className="relative z-10">
-                    <p className="text-xs font-medium text-[#B6BCD3]">
-                      Monthly Spending
-                    </p>
-
-                    <h3 className="mt-2 text-xl font-black text-white">
-                      $2,840
-                    </h3>
-
-                    <p className="mt-2 text-xs font-medium text-[#F5A524]">
-                      +12% this month
-                    </p>
-                  </div>
-                </div>
-
-               
-                <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#2B3055]/90 p-4 backdrop-blur-xl">
-                  <img
-                    src={phone2}
-                    alt=""
-                    className="absolute bottom-0 right-0 w-14 opacity-[0.05]"
-                  />
-
-                  <div className="relative z-10">
-                    <p className="text-xs font-medium text-[#B6BCD3]">
-                      Active Cards
-                    </p>
-
-                    <h3 className="mt-2 text-xl font-black text-white">
-                      12 Cards
-                    </h3>
-
-                    <p className="mt-2 text-xs font-medium text-[#D6D2F0]">
-                      4 virtual cards
-                    </p>
-                  </div>
-                </div>
-
-             
-                <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[#2B3055]/90 p-4 backdrop-blur-xl">
-                  <img
-                    src={phone2}
-                    alt=""
-                    className="absolute bottom-0 right-0 w-14 opacity-[0.05]"
-                  />
-
-                  <div className="relative z-10">
-                    <p className="text-xs font-medium text-[#B6BCD3]">
-                      Transfers
-                    </p>
-
-                    <h3 className="mt-2 text-xl font-black text-white">248k</h3>
-
-                    <p className="mt-2 text-xs font-medium text-[#8B90D0]">
-                      Global payments
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
-            {/* <motion.div className="absolute -bottom-20 -left-68 hidden w-64 rounded-3xl border border-white/10 bg-white/10 p-5 shadow-2xl backdrop-blur-2xl lg:block">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-[#D6D2F0]">Quick Transfer</p>
-
-                <div className="h-3 w-3 rounded-full bg-[#F5A524]" />
-              </div>
-
-              <div className="mt-5 flex items-center gap-3">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#8B90D0]/20 text-lg font-black text-[#D6D2F0]">
-                  A
-                </div>
-
-                <div>
-                  <h4 className="font-bold">Alex Morgan</h4>
-
-                  <p className="text-sm text-[#B6BCD3]">Sent Successfully</p>
-                </div>
-              </div>
-
-              <div className="mt-6 flex items-end justify-between">
-                <h2 className="text-3xl font-black">$1,250</h2>
-
-                <span className="rounded-full bg-[#F5A524]/10 px-3 py-1 text-xs font-semibold text-[#F5A524]">
-                  Completed
-                </span>
-              </div>
-            </motion.div> */}
           </motion.div>
         </div>
       </div>
