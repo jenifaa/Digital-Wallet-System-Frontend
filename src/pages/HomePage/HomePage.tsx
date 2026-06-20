@@ -1,4 +1,4 @@
-import AppFeaturesGrid from "@/components/marketing/AppFeatureGrid";
+
 import HeroSection from "./HeroSection";
 import FeaturesSection from "@/components/marketing/FeaturesSection";
 
@@ -16,11 +16,11 @@ export default function HomePage() {
       <HeroSection />
 
       <FeaturesSection />
- <PremiumFeaturesGrid></PremiumFeaturesGrid>
+      <PremiumFeaturesGrid></PremiumFeaturesGrid>
       <StatsSection />
-     
+
       <WalletCardsSection></WalletCardsSection>
-      <AppFeaturesGrid></AppFeaturesGrid>
+      {/* <AppFeaturesGrid></AppFeaturesGrid> */}
       <TestimonialsSection />
       <CTASection />
     </div>

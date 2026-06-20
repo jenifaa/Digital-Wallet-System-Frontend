@@ -13,7 +13,7 @@ export default function PremiumFeaturesGrid() {
   const [activeTab, setActiveTab] = useState<"card" | "paypal">("card");
 
   return (
-    <section className="relative overflow-hidden bg-[#F8FAFC] py-10 text-slate-900">
+    <section className="relative overflow-hidden bg-[#F8FAFC] py-10  text-slate-900">
       {/* Container Wrapper */}
       <div className="mx-auto w-11/12 max-w-7xl relative z-10">
         
