@@ -118,20 +118,25 @@ export function FeatureCard({
       <motion.div
         whileHover={{ y: -8 }}
         className="
-          relative
-          flex h-16 w-16 items-center justify-center
-          rounded-2xl
-          border border-indigo-500/20
-          bg-[#222954]
-          text-indigo-400
-          cursor-pointer
-          transition-all
-          duration-300
-          hover:border-indigo-400/50
-          hover:shadow-[0_0_40px_rgba(99,102,241,0.4)]
-        "
+  relative
+  flex h-16 w-16 items-center justify-center
+  rounded-2xl
+  border border-white/15
+  bg-[#222954]/90
+  text-[#8B90D0]
+  shadow-[0_18px_45px_rgba(31,35,64,0.28)]
+  backdrop-blur-md
+  cursor-pointer
+  transition-all
+  duration-300
+  hover:-translate-y-1
+  hover:border-[#8B90D0]/60
+  hover:shadow-[0_22px_55px_rgba(99,102,241,0.35)]
+"
       >
-        <Icon className="h-7 w-7" />
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#8B90D0]/15">
+          <Icon className="h-6 w-6 text-[#9BA3FF]" strokeWidth={2.2} />
+        </div>
       </motion.div>
 
       {/* POPUP CARD — portaled to body, positioned via fixed coords so it

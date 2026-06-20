@@ -112,7 +112,7 @@ export default function FeaturesSection() {
     <section className="relative overflow-visible bg-[#F8FAFC]">
       <div className="relative z-20 -translate-y-1/2">
         <div className="mx-auto w-11/12 max-w-7xl ">
-          <div className="mx-auto flex flex-wrap justify-center gap-x-16 gap-y-5">
+          <div className="mx-auto flex flex-wrap justify-center gap-10 gap-y-5">
             {features.map((feature, index) => (
               <FeatureCard
                 key={feature.title}
