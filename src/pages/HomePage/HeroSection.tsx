@@ -8,7 +8,7 @@ import {
   Play,
 } from "lucide-react";
 
-import phone2 from "@/assets/images/p2.png";
+import phone2 from "@/assets/images/p3.png";
 
 import { Link } from "react-router";
 
