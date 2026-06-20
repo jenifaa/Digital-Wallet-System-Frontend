@@ -1,14 +1,15 @@
-
 import HeroSection from "./HeroSection";
 import FeaturesSection from "@/components/marketing/FeaturesSection";
 
-import StatsSection, {
+import {
   CTASection,
   TestimonialsSection,
 } from "@/components/marketing/LandingSections";
 import PremiumFeaturesGrid from "@/components/marketing/MarqueeSection";
 
 import WalletCardsSection from "@/components/marketing/WalletCardsSection";
+import WhyChooseUs from "@/components/marketing/WhyChooseUs";
+import FAQSection from "../publicPages/FAQ";
 
 export default function HomePage() {
   return (
@@ -17,8 +18,9 @@ export default function HomePage() {
 
       <FeaturesSection />
       <PremiumFeaturesGrid></PremiumFeaturesGrid>
-      <StatsSection />
+      <WhyChooseUs></WhyChooseUs>
 
+      <FAQSection></FAQSection>
       <WalletCardsSection></WalletCardsSection>
       {/* <AppFeaturesGrid></AppFeaturesGrid> */}
       <TestimonialsSection />

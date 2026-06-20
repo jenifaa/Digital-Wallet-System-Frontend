@@ -46,7 +46,7 @@ export default function Navbar() {
     { to: "/features", label: "Features", role: "PUBLIC" },
     { to: "/service", label: "Services", role: "PUBLIC" },
     { to: "/pricing", label: "Pricing", role: "PUBLIC" },
-    { to: "/faq", label: "FAQ", role: "PUBLIC" },
+  
     { to: "/contact", label: "Contact", role: "PUBLIC" },
     { to: "/admin", label: "Dashboard", role: role.admin },
     { to: "/admin", label: "Dashboard", role: role.superAdmin },

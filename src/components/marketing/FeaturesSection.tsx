@@ -109,8 +109,8 @@ const features = [
 export default function FeaturesSection() {
   const [activeCard, setActiveCard] = useState<number | null>(null);
   return (
-    <section className="relative overflow-visible bg-[#F8FAFC]">
-      <div className="relative z-20 -translate-y-1/2">
+    <section className="relative mt-20 overflow-visible bg-[#F8FAFC]">
+      <div className="relative py-10">
         <div className="mx-auto w-11/12 max-w-7xl ">
           <div className="mx-auto flex flex-wrap justify-center gap-10 gap-y-5">
             {features.map((feature, index) => (
@@ -126,5 +126,22 @@ export default function FeaturesSection() {
         </div>
       </div>
     </section>
+    // <section className="relative overflow-visible bg-[#F8FAFC]">
+    //   <div className="relative z-20 -translate-y-1/2">
+    //     <div className="mx-auto w-11/12 max-w-7xl ">
+    //       <div className="mx-auto flex flex-wrap justify-center gap-10 gap-y-5">
+    //         {features.map((feature, index) => (
+    //           <FeatureCard
+    //             key={feature.title}
+    //             {...feature}
+    //             active={activeCard === index}
+    //             onHover={() => setActiveCard(index)}
+    //             onLeave={() => setActiveCard(null)}
+    //           />
+    //         ))}
+    //       </div>
+    //     </div>
+    //   </div>
+    // </section>
   );
 }

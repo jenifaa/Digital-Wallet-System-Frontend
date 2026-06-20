@@ -1,70 +1,117 @@
-import PublicPageHero from "@/components/marketing/PublicPageHero";
-import FAQAccordion, { type FAQItem } from "@/components/marketing/FAQAccordion";
-import PageTransition from "@/components/shared/PageTransition";
+import { AnimatePresence, motion } from "framer-motion";
+import { PhoneCall, Plus, Minus } from "lucide-react";
+import { useState } from "react";
 
-const faqItems: FAQItem[] = [
+import faqImage from "@/assets/images/faq.jpg";
+
+const faqs = [
   {
-    category: "Account",
-    question: "How do I create a WalletIQ account?",
+    question: "How to integrate WalletIQ with my business?",
     answer:
-      "Click Get Started, complete registration with your email and phone, verify via OTP, and set your wallet PIN to activate your account.",
+      "You can integrate WalletIQ using our merchant dashboard, payment links, QR checkout, or API tools. Our onboarding flow helps you connect payments quickly and securely.",
   },
   {
-    category: "Account",
-    question: "Can I sign in with Google?",
+    question: "What to do if a transaction fails on WalletIQ?",
     answer:
-      "Yes. Use Continue with Google on the login page. If your phone number is missing, you'll be prompted to complete setup.",
+      "Check the transaction status from your wallet history. If the amount was deducted, it will either be reversed automatically or marked for support review.",
   },
   {
-    category: "Wallet",
-    question: "How do I add money to my wallet?",
+    question: "How does WalletIQ protect user financial data?",
     answer:
-      "Go to Add Money from your dashboard, enter the amount, and complete payment through our secure gateway.",
+      "WalletIQ uses encrypted sessions, secure authentication, fraud monitoring, and strict access controls to help protect every user account.",
   },
   {
-    category: "Wallet",
-    question: "What happens if my wallet is blocked?",
+    question: "Can I use WalletIQ for international payments?",
     answer:
-      "Blocked wallets cannot send or withdraw funds. Contact support or review restrictions on the Wallet Details page.",
-  },
-  {
-    category: "Transactions",
-    question: "How long do transfers take?",
-    answer:
-      "Wallet-to-wallet transfers are processed instantly once your PIN is verified and balance is sufficient.",
-  },
-  {
-    category: "Loans",
-    question: "How do I request a loan?",
-    answer:
-      "Navigate to Loans in your dashboard, submit amount and duration, and track approval status in Loan History.",
-  },
-  {
-    category: "Security",
-    question: "How do I reset my password?",
-    answer:
-      "Use Forgot Password on the login page. A reset link will be sent to your registered email address.",
-  },
-  {
-    category: "Agents",
-    question: "How do agents perform cash-in?",
-    answer:
-      "Approved agents can process cash-in from the Agent Dashboard after customer verification.",
+      "Yes. WalletIQ supports cross-border transfers with transparent rates, secure processing, and real-time transaction updates.",
   },
 ];
 
-export default function FAQ() {
+export default function FAQSection() {
+  const [openIndex, setOpenIndex] = useState(0);
+
   return (
-    <PageTransition>
-      <PublicPageHero
-        badge="FAQ"
-        title="Frequently asked"
-        highlight="questions"
-        description="Find quick answers about accounts, wallets, loans, and security."
-      />
-      <section className="mx-auto w-11/12 max-w-4xl pb-20">
-        <FAQAccordion items={faqItems} />
-      </section>
-    </PageTransition>
+    <section className="bg-[#F8FAFC] px-6 py-24 text-[#1F2340]">
+      <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[0.95fr_1.05fr]">
+        <div>
+          <h2 className="max-w-xl text-5xl font-black leading-tight tracking-tight sm:text-6xl">
+            Frequently Asked{" "}
+            <span className="bg-linear-to-r from-[#23194f] via-[#8B90D0] to-[#3159E7] bg-clip-text text-transparent">
+              Questions
+            </span>
+          </h2>
+
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600">
+            Find quick answers about payments, security, transfers, and business
+            integration with WalletIQ.
+          </p>
+
+          <div className="relative mt-10 max-w-2xl">
+            <img
+              src={faqImage}
+              alt="WalletIQ support"
+              className="h-56 w-full rounded-[22px] object-cover"
+            />
+
+            <div className="absolute -bottom-14 left-0 flex w-90 max-w-[92%] items-center gap-5 rounded-3xl bg-white p-5 shadow-[0_22px_60px_rgba(31,35,64,0.14)]">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[#2f294e] text-white">
+                <PhoneCall className="h-7 w-7" />
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-black text-[#283050]">
+                  Call Us Now!
+                </h3>
+                <p className="mt-1 text-lg text-slate-700">+62 897-897-098</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="pt-4">
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
+
+            return (
+              <div key={faq.question} className="border-b border-slate-300">
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(isOpen ? -1 : index)}
+                  className="flex w-full items-center gap-8 py-7 text-left"
+                >
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center text-[#F59E0B]">
+                    {isOpen ? (
+                      <Minus className="h-5 w-5" />
+                    ) : (
+                      <Plus className="h-5 w-5" />
+                    )}
+                  </span>
+
+                  <span className="text-xl font-black text-black">
+                    {faq.question}
+                  </span>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.28, ease: "easeOut" }}
+                      className="overflow-hidden"
+                    >
+                      <p className="pb-8 pl-16 text-lg leading-8 text-slate-600">
+                        {faq.answer}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }

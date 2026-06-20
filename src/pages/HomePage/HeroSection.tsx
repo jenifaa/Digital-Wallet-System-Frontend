@@ -11,12 +11,13 @@ import {
 } from "lucide-react";
 
 import phone2 from "@/assets/images/pn.png";
+import pr from "@/assets/images/pp.jpg";
 
 import { Link } from "react-router";
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-[#1F2340] pt-24 text-white">
+    <section className="relative overflow-visible bg-[#1F2340] pt-24 text-white">
       {/* gradients */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(139,144,208,0.18),transparent_30%),radial-gradient(circle_at_bottom_left,rgba(183,179,217,0.15),transparent_35%)]" />
 
@@ -27,7 +28,7 @@ export default function HeroSection() {
       <div className="absolute -left-20 top-20 h-72 w-72 rounded-full bg-[#8B90D0]/30 blur-3xl" />
       <div className="absolute -bottom-20 right-0 h-72 w-72 rounded-full bg-[#B7B3D9]/20 blur-3xl" />
 
-      <div className="relative z-10 mx-auto w-11/12 px-6 pb-20 pt-10">
+      <div className="relative z-10 mx-auto w-11/12 px-6 pb-10 pt-10">
         <div className="grid  gap-10 lg:grid-cols-[1fr_0.95fr]">
           {/* ── LEFT CONTENT ── */}
           <motion.div
@@ -124,33 +125,39 @@ export default function HeroSection() {
           </motion.div>
         </div>
         {/* <div className=" absolute bottom-16 left-0 right-0  bg-linear-to-t from-[#F8FAFC] to-transparent rounded-3xl h-40"></div> */}
-        <div className="absolute bottom-0 left-0 right-0 z-0 mx-auto h-64 w-full overflow-hidden rounded-t-[32px] bg-[#F8FAFC]">
+        <div className="absolute -bottom-20 left-0 right-0 z-0 mx-auto h-64 w-full overflow-hidden rounded-[32px] bg-[#444e58]">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_8%_85%,rgba(245,158,11,0.28),transparent_28%),radial-gradient(circle_at_92%_70%,rgba(139,144,208,0.45),transparent_32%)]" />
 
-          <div className="absolute left-10 bottom-16 hidden items-center gap-4 md:flex">
-            <div className="flex -space-x-3">
-              <div className="h-12 w-12 rounded-full border-2 border-white bg-slate-200" />
-              <div className="h-12 w-12 rounded-full border-2 border-white bg-slate-300" />
-              <div className="h-12 w-12 rounded-full border-2 border-white bg-slate-400" />
-            </div>
+          <div className="flex items-center gap-5">
+            {" "}
+            <div className="absolute left-10 bottom-16 ">
+              <p>More Than 12K+ Join Us:</p>
 
-            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-amber-500 text-white shadow-xl">
-              <Plus className="h-7 w-7" />
+              <div className="flex -space-x-3">
+                <img src = {pr} className="h-12 w-12 rounded-full border-2 border-white bg-slate-200" />
+                <div className="h-12 w-12 rounded-full border-2 border-white bg-slate-300" />
+                <div className="h-12 w-12 rounded-full border-2 border-white bg-slate-400" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-amber-500 text-white shadow-xl">
+                  <Plus className="h-7 w-7" />
+                </div>
+              </div>
             </div>
-          </div>
+            <div className="absolute left-[20%] bottom-14 hidden rounded-3xl bg-white px-7 py-4 shadow-[0_24px_70px_rgba(31,35,64,0.12)] lg:block">
+              <div className="flex gap-1 text-amber-500">
+                {[1, 2, 3, 4, 5].map((item) => (
+                  <Star key={item} className="h-5 w-5 fill-current" />
+                ))}
+                <p>(5/5)</p>
+              </div>
 
-          <div className="absolute left-[28%] bottom-14 hidden rounded-3xl bg-white px-7 py-6 shadow-[0_24px_70px_rgba(31,35,64,0.12)] lg:block">
-            <div className="flex gap-1 text-amber-500">
-              {[1, 2, 3, 4, 5].map((item) => (
-                <Star key={item} className="h-5 w-5 fill-current" />
-              ))}
-            </div>
-
-            <div className="mt-4 flex items-center gap-6 border-t border-slate-200 pt-5">
-              <span className="text-6xl font-black text-[#3159E7]">4.6</span>
-              <p className="max-w-44 text-base leading-7 text-slate-600">
-                Positive Reviews From Our Customer
-              </p>
+              <div className=" flex items-center gap-2 border-t border-slate-200 pt-6">
+                <span className="text-6xl  bg-linear-to-r from-[#D6D2F0] via-[#8B90D0] to-[#6C72B8] bg-clip-text text-transparent">
+                  4.6
+                </span>
+                <p className="max-w-44 text-base leading-7 text-slate-600">
+                  Positive Reviews From Our Customer
+                </p>
+              </div>
             </div>
           </div>
         </div>

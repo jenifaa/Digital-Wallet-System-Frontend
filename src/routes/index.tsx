@@ -30,7 +30,7 @@ import Features from "@/pages/publicPages/Features";
 import ForgotPassword from "@/pages/authenticationPage/ForgotPassword";
 import ResetPassword from "@/pages/authenticationPage/ResetPassword";
 import ChangePassword from "@/pages/authenticationPage/ChangePassword";
-import FAQ from "@/pages/publicPages/FAQ";
+
 
 
 const router = createBrowserRouter([
@@ -62,10 +62,7 @@ const router = createBrowserRouter([
         Component: Contact,
         path: "contact",
       },
-      {
-        Component: FAQ,
-        path: "faq",
-      },
+   
       {
         Component: MyProfile,
         path: "profile",
