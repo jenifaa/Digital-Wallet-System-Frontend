@@ -12,6 +12,8 @@ import {
 
 import phone2 from "@/assets/images/pn.png";
 import pr from "@/assets/images/pp.jpg";
+import pr2 from "@/assets/images/p.jpg";
+import pr3 from "@/assets/images/pp2.webp";
 
 import { Link } from "react-router";
 
@@ -135,15 +137,15 @@ export default function HeroSection() {
 
               <div className="flex -space-x-3">
                 <img src = {pr} className="h-12 w-12 rounded-full border-2 border-white bg-slate-200" />
-                <div className="h-12 w-12 rounded-full border-2 border-white bg-slate-300" />
-                <div className="h-12 w-12 rounded-full border-2 border-white bg-slate-400" />
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-amber-500 text-white shadow-xl">
+                <img src = {pr2} className="h-12 w-12 rounded-full border-2 border-white bg-slate-300" />
+                <img  src = {pr3} className="h-12 w-12 rounded-full border-2 border-white bg-slate-400" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#1F2340] text-white shadow-xl">
                   <Plus className="h-7 w-7" />
                 </div>
               </div>
             </div>
             <div className="absolute left-[20%] bottom-14 hidden rounded-3xl bg-white px-7 py-4 shadow-[0_24px_70px_rgba(31,35,64,0.12)] lg:block">
-              <div className="flex gap-1 text-amber-500">
+              <div className="flex gap-1 text-[#1F2340]">
                 {[1, 2, 3, 4, 5].map((item) => (
                   <Star key={item} className="h-5 w-5 fill-current" />
                 ))}

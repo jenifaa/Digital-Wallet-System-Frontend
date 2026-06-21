@@ -24,7 +24,7 @@ export default function PublicPageHero({
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-4 inline-block rounded-full border border-[#8B90D0]/20 bg-[#8B90D0]/10 px-4 py-1.5 text-sm "
+            className="mb-4 inline-block rounded-full border text-slate-400 border-[#8B90D0]/20 bg-[#8B90D0]/10 px-4 py-1.5 text-sm "
           >
             {badge}
           </motion.span>
@@ -33,7 +33,7 @@ export default function PublicPageHero({
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          className="text-4xl font-black tracking-tight sm:text-5xl"
+          className="text-4xl font-black tracking-tight sm:text-5xl text-white"
         >
           {title}{" "}
           {highlight && (
@@ -46,7 +46,7 @@ export default function PublicPageHero({
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mx-auto mt-5 max-w-2xl text-lg "
+          className="mx-auto mt-5 max-w-2xl text-lg text-slate-400 "
         >
           {description}
         </motion.p>

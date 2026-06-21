@@ -10,7 +10,7 @@ import HomePage from "@/pages/HomePage/HomePage";
 import About from "@/pages/publicPages/About";
 import Contact from "@/pages/publicPages/Contact";
 import Pricing from "@/pages/publicPages/Pricing";
-import Service from "@/pages/publicPages/Service";
+
 
 import type { TRole } from "@/types";
 import { generateRoutes } from "@/utils/generateRoutes";
@@ -30,6 +30,7 @@ import Features from "@/pages/publicPages/Features";
 import ForgotPassword from "@/pages/authenticationPage/ForgotPassword";
 import ResetPassword from "@/pages/authenticationPage/ResetPassword";
 import ChangePassword from "@/pages/authenticationPage/ChangePassword";
+import Services from "@/pages/publicPages/Service";
 
 
 
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
         path: "pricing",
       },
       {
-        Component: Service,
+        Component: Services,
         path: "service",
       },
       {

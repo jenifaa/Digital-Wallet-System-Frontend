@@ -107,7 +107,7 @@ export default function UserLoans() {
               key={tab.id}
               variant={activeTab === tab.id ? "default" : "outline"}
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
-              className="gap-2 rounded-xl"
+              className="gap-2 rounded-xl text-slate-400"
             >
               <tab.icon className="size-4" />
               {tab.label}
@@ -127,7 +127,7 @@ export default function UserLoans() {
                     <FieldLabel className="text-slate-300">Amount (৳)</FieldLabel>
                     <Input
                       type="number"
-                      className="border-slate-800 bg-slate-900"
+                      className="border-slate-800 bg-slate-900 text-white"
                       {...form.register("amount", { valueAsNumber: true })}
                     />
                   </Field>
@@ -137,7 +137,7 @@ export default function UserLoans() {
                     </FieldLabel>
                     <Input
                       type="number"
-                      className="border-slate-800 bg-slate-900"
+                      className="border-slate-800 bg-slate-900 text-white"
                       {...form.register("duration", { valueAsNumber: true })}
                     />
                   </Field>
@@ -146,7 +146,7 @@ export default function UserLoans() {
                   <FieldLabel className="text-slate-300">Purpose</FieldLabel>
                   <Textarea
                     rows={4}
-                    className="border-slate-800 bg-slate-900"
+                    className="border-slate-800 bg-slate-900 text-white"
                     {...form.register("purpose")}
                   />
                 </Field>

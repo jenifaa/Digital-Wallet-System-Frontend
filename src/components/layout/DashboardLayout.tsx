@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import { Outlet } from "react-router";
+import { ModeToggle } from "./MoodToggler";
 
 export default function DashboardLayout() {
   const { data } = useUserInfoQuery(undefined);
@@ -29,7 +30,9 @@ export default function DashboardLayout() {
             <span className="hidden text-sm text-muted-foreground sm:inline">
               Dashboard
             </span>
+             <ModeToggle />
           </div>
+          
           {data?.data?.email && <NotificationDropdown />}
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">

@@ -10,6 +10,7 @@ import PremiumFeaturesGrid from "@/components/marketing/MarqueeSection";
 import WalletCardsSection from "@/components/marketing/WalletCardsSection";
 import WhyChooseUs from "@/components/marketing/WhyChooseUs";
 import FAQSection from "../publicPages/FAQ";
+import PricingSection from "@/components/marketing/Pricing";
 
 export default function HomePage() {
   return (
@@ -22,7 +23,7 @@ export default function HomePage() {
 
       <FAQSection></FAQSection>
       <WalletCardsSection></WalletCardsSection>
-      {/* <AppFeaturesGrid></AppFeaturesGrid> */}
+    <PricingSection></PricingSection>
       <TestimonialsSection />
       <CTASection />
     </div>

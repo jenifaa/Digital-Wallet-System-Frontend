@@ -33,7 +33,7 @@ const cards = [
 
 export default function WalletCardsSection() {
   return (
-    <section className="relative overflow-hidden bg-[#F8FAFC] py-24 text-[#1F2340]">
+    <section className="relative overflow-hidden bg-[#F8FAFC] py-24 text-[#1F2340] dark:bg-black">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_25%,rgba(139,144,208,0.16),transparent_30%),radial-gradient(circle_at_85%_70%,rgba(245,158,11,0.12),transparent_28%)]" />
 
       <div className="relative mx-auto w-11/12 max-w-7xl px-4">
@@ -43,7 +43,7 @@ export default function WalletCardsSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mx-auto mb-16 max-w-3xl text-center"
+          className="mx-auto mb-16 max-w-3xl text-center dark:text-white"
         >
           <span className="inline-flex rounded-full border border-[#8B90D0]/30 bg-white/70 px-5 py-2 text-xs font-bold uppercase tracking-[0.22em] text-[#6C72B8] shadow-sm">
             Wallet Experience

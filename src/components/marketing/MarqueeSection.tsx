@@ -6,7 +6,7 @@ export default function PremiumFeaturesGrid() {
   const [activeTab, setActiveTab] = useState<"card" | "paypal">("card");
 
   return (
-    <section className="relative overflow-hidden bg-[#F8FAFC] py-10  text-slate-900">
+    <section className="relative overflow-hidden bg-[#F8FAFC] py-10  text-slate-900 dark:bg-black">
       <div className="flex justify-center item-center">
         <span className=" mb-5 rounded-full border border-[#8B90D0]/40 px-5 py-2 text-xs font-bold uppercase tracking-[0.22em] text-[#6C72B8]">
           Fintech Features

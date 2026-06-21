@@ -112,17 +112,17 @@ export default function AdminLoans() {
             description="Loan requests from users will appear here."
           />
         ) : (
-          <Card className="rounded-3xl border border-slate-800 bg-slate-950/60">
+          <Card className="rounded-3xl border border-slate-800 bg-slate-950/60 text-white">
             <CardContent className="p-0">
               <Table>
-                <TableHeader>
-                  <TableRow className="border-slate-800">
-                    <TableHead>User</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Duration</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                <TableHeader >
+                  <TableRow className="border-slate-800 text-white">
+                    <TableHead className="text-white">User</TableHead>
+                    <TableHead className="text-white">Amount</TableHead>
+                    <TableHead className="text-white">Duration</TableHead>
+                    <TableHead className="text-white">Status</TableHead>
+                    <TableHead className="text-white">Date</TableHead>
+                    <TableHead className="text-right text-white">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

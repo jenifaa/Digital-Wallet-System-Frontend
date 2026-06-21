@@ -109,7 +109,7 @@ const features = [
 export default function FeaturesSection() {
   const [activeCard, setActiveCard] = useState<number | null>(null);
   return (
-    <section className="relative mt-20 overflow-visible bg-[#F8FAFC]">
+    <section className="relative mt-20 overflow-visible bg-[#F8FAFC] dark:bg-black">
       <div className="relative py-10">
         <div className="mx-auto w-11/12 max-w-7xl ">
           <div className="mx-auto flex flex-wrap justify-center gap-10 gap-y-5">

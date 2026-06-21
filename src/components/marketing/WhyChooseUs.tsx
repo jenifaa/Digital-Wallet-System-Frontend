@@ -81,14 +81,14 @@ const stats = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="bg-[#F8FAFC] px-6 py-10 text-[#1F2340]">
+    <section className="bg-[#F8FAFC] px-6 py-10 text-[#1F2340] dark:bg-black">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
           <span className="inline-flex rounded-full border border-[#8B90D0]/40 px-5 py-2 text-xs font-bold uppercase tracking-[0.22em] text-[#6C72B8]">
             Why Choose Us
           </span>
 
-          <h2 className="mx-auto mt-6 max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-5xl">
+          <h2 className="mx-auto mt-6 max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-5xl dark:text-white">
             Embrace the{" "}
             <span className="bg-linear-to-r from-[#D6D2F0] via-[#8B90D0] to-[#6C72B8] bg-clip-text text-transparent">
               future
@@ -166,7 +166,7 @@ function FeatureCard({
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className={`min-h-[210px] rounded-[28px] p-8 shadow-[0_18px_55px_rgba(31,35,64,0.06)] ${
+      className={`min-h-52.5 rounded-[28px] p-8 shadow-[0_18px_55px_rgba(31,35,64,0.06)] ${
         tone === "main" ? "bg-[#EDEBFA]" : "bg-[#F1F4FF]"
       }`}
     >

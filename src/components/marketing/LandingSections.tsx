@@ -134,7 +134,7 @@ export function TestimonialsSection() {
   ];
 
   return (
-    <section className="bg-slate-50 py-28 transition-colors duration-300 dark:bg-[#0F1225] relative overflow-hidden">
+    <section className="bg-slate-50 py-10 transition-colors duration-300 dark:bg-[#0F1225] relative overflow-hidden">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-size-[70px_70px] opacity-1.5 dark:bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] dark:opacity-2" />
 
       <div className="relative z-10 mx-auto w-11/12 max-w-7xl">
