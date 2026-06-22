@@ -13,6 +13,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { Link } from "react-router";
+import logo from "@/assets/icons/lgo.png";
 
 import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import { getSidebarItems } from "@/utils/getSidebarItems";
@@ -26,7 +27,33 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   };
   return (
     <Sidebar {...props}>
-      <SidebarHeader>{/* //logo will be here */}</SidebarHeader>
+      <SidebarHeader>
+        {" "}
+        <div className="flex items-center gap-3">
+          <Link
+            to="/"
+            className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md"
+          >
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-full w-full object-contain"
+            />
+          </Link>
+
+          <div>
+            <h1 className="text-base font-semibold tracking-tight">
+              Wallet
+              <span className="bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent font-extrabold tracking-tight">
+                IQ
+              </span>{" "}
+            </h1>
+            <p className="text-xs text-muted-foreground -mt-0.5">
+              Modern Experience
+            </p>
+          </div>
+        </div>
+      </SidebarHeader>
       {/* <SidebarContent>
         {data.navMain.map((item) => (
           <SidebarGroup key={item.title}>

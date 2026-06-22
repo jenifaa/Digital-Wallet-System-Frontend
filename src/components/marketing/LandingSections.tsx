@@ -142,7 +142,7 @@ export function TestimonialsSection() {
           <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-200 bg-slate-100 px-4 py-1.5 text-xs font-bold tracking-wider text-slate-500 uppercase dark:border-white/5 dark:bg-white/5 dark:text-[#8B90D0]">
             <Sparkles className="size-3.5" /> Social Proof
           </span>
-          <h2 className="mt-4 text-3xl font-black uppercase tracking-tight text-slate-900 sm:text-5xl dark:text-white">
+          <h2 className="mt-4 text-3xl font-medium uppercase tracking-tight text-slate-900 sm:text-5xl dark:text-white">
             Loved by our community
           </h2>
         </div>

@@ -20,7 +20,7 @@ export default function PremiumFeaturesGrid() {
           <div className="flex flex-col justify-between rounded-[40px] bg-slate-50 border border-slate-200/70 p-8 sm:p-12 shadow-[0_4px_30px_rgba(0,0,0,0.02)] overflow-hidden relative group">
             {/* Context Content */}
             <div className="max-w-xl mb-12">
-              <h2 className="text-3xl font-black uppercase tracking-tight text-slate-900 sm:text-4xl leading-none">
+              <h2 className="text-3xl font-medium uppercase tracking-tight text-slate-900 sm:text-4xl leading-10">
                 BUILD A FINTECH WITH <br />
                 <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6C72B8] to-[#8B90D0]">
                   BANKING AS A SERVICE
@@ -134,7 +134,7 @@ export default function PremiumFeaturesGrid() {
           <div className="flex flex-col justify-between rounded-[40px] bg-slate-50 border border-slate-200/60 p-8 sm:p-12 shadow-[0_4px_30px_rgba(0,0,0,0.02)] overflow-hidden relative group">
             {/* Context Content */}
             <div className="max-w-xl mb-12">
-              <h2 className="text-3xl font-black uppercase tracking-tight text-slate-900 sm:text-4xl leading-none">
+              <h2 className="text-3xl font-medium uppercase tracking-tight text-slate-900 sm:text-4xl leading-10">
                 ACCEPT AND OPTIMIZE <br />
                 <span className="text-transparent bg-clip-text bg-linear-to-r from-[#6C72B8] to-[#8B90D0]">
                   PAYMENT GLOBALLY

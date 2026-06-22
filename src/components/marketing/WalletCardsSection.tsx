@@ -38,7 +38,7 @@ export default function WalletCardsSection() {
             Wallet Experience
           </span>
 
-          <h2 className="mt-5 text-3xl font-black leading-tight tracking-tight sm:text-4xl md:text-5xl">
+          <h2 className="mt-5 text-3xl font-medium leading-tight tracking-tight sm:text-4xl md:text-5xl">
             Smart Digital{" "}
             <span className="bg-linear-to-r from-[#D6D2F0] via-[#8B90D0] to-[#6C72B8] bg-clip-text text-transparent">
               Wallet
@@ -46,7 +46,7 @@ export default function WalletCardsSection() {
             Experience
           </h2>
 
-          <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base md:text-lg">
+          <p className="mx-auto mt-2 max-w-2xl text-sm leading-7 text-slate-500 sm:text-base md:text-md">
             Easy to use mobile app that supports Android and iOS with secure
             payments, transfers, and card management.
           </p>

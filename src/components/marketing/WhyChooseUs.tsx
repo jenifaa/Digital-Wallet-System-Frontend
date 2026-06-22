@@ -81,14 +81,14 @@ const stats = [
 
 export default function WhyChooseUs() {
   return (
-    <section className="bg-[#F8FAFC] px-6 py-10 text-[#1F2340] dark:bg-black">
+    <section className="bg-[#F8FAFC] px-6 pb-10 pt-20 text-[#1F2340] dark:bg-black">
       <div className="mx-auto max-w-7xl">
         <div className="text-center">
           <span className="inline-flex rounded-full border border-[#8B90D0]/40 px-5 py-2 text-xs font-bold uppercase tracking-[0.22em] text-[#6C72B8]">
             Why Choose Us
           </span>
 
-          <h2 className="mx-auto mt-6 max-w-4xl text-4xl font-black leading-tight tracking-tight sm:text-5xl dark:text-white">
+          <h2 className="mx-auto mt-6 max-w-4xl text-4xl font-medium leading-tight tracking-tight sm:text-5xl dark:text-white">
             Embrace the{" "}
             <span className="bg-linear-to-r from-[#D6D2F0] via-[#8B90D0] to-[#6C72B8] bg-clip-text text-transparent">
               future
@@ -96,7 +96,7 @@ export default function WhyChooseUs() {
             of finance.
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-500">
+          <p className="mx-auto  max-w-2xl text-lg leading-8 text-slate-500">
             We ensure secure, seamless, and efficient transactions.
           </p>
         </div>

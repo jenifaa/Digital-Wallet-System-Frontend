@@ -65,13 +65,13 @@ export default function Navbar() {
       <div className="container w-11/12 mx-auto flex h-16 items-center justify-between px-4 lg:px-6">
         {/* Logo */}
         <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md">
+          <Link to="/" className="flex h-10 w-10 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-md">
             <img
               src={logo}
               alt="Logo"
               className="h-full w-full object-contain"
             />
-          </div>
+          </Link>
 
           <div>
             <h1 className="text-base font-semibold tracking-tight">

@@ -11,6 +11,7 @@ import WalletCardsSection from "@/components/marketing/WalletCardsSection";
 import WhyChooseUs from "@/components/marketing/WhyChooseUs";
 import FAQSection from "../publicPages/FAQ";
 import PricingSection from "@/components/marketing/Pricing";
+import DigitalTransactionPage from "@/components/marketing/DigitalTransactionPage";
 
 export default function HomePage() {
   return (
@@ -20,6 +21,7 @@ export default function HomePage() {
       <FeaturesSection />
       <PremiumFeaturesGrid></PremiumFeaturesGrid>
       <WhyChooseUs></WhyChooseUs>
+      <DigitalTransactionPage></DigitalTransactionPage>
 
       <FAQSection></FAQSection>
       <WalletCardsSection></WalletCardsSection>

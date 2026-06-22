@@ -34,7 +34,7 @@ export default function FAQSection() {
     <section className="bg-[#F8FAFC] px-6 py-24 text-[#1F2340] dark:bg-black">
       <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[0.95fr_1.05fr]">
         <div>
-          <h2 className="max-w-xl text-5xl font-black leading-tight tracking-tight sm:text-6xl dark:text-white">
+          <h2 className="max-w-xl text-5xl font-light leading-tight tracking-tight sm:text-6xl dark:text-white">
             Frequently Asked{" "}
             <span className="bg-linear-to-r from-[#23194f] via-[#8B90D0] to-[#3159E7] bg-clip-text text-transparent">
               Questions

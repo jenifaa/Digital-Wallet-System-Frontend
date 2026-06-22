@@ -81,14 +81,14 @@ export default function PricingSection() {
             Pricing Plans
           </span>
 
-          <h2 className="mt-6 text-4xl font-black leading-tight tracking-tight md:text-5xl">
+          <h2 className="mt-6 text-4xl font-medium leading-tight tracking-tight md:text-5xl">
             Simple pricing for{" "}
             <span className="bg-linear-to-r from-[#D6D2F0] via-[#8B90D0] to-[#6C72B8] bg-clip-text text-transparent">
               every wallet
             </span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-slate-500">
+          <p className="mx-auto mt-2 max-w-2xl text-md leading-8 text-slate-500">
             Choose the plan that fits your payments, transfers, cards, and
             business needs.
           </p>

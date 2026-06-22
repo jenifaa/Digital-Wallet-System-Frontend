@@ -97,7 +97,7 @@ export default function UserAnalytics() {
           </div>
         </div>
 
-        <Card className="overflow-hidden rounded-[32px] border border-indigo-500/20 bg-linear-to-br from-indigo-600 via-indigo-700 to-slate-950 shadow-2xl shadow-indigo-950/40">
+        <Card className="overflow-hidden rounded-[32px] border border-indigo-500/20 bg-[#1F2340] shadow-2xl shadow-indigo-950/40">
           <CardContent className="relative p-7">
             <div className="absolute right-0 top-0 h-44 w-44 rounded-full bg-indigo-400/10 blur-3xl" />
 
@@ -107,7 +107,7 @@ export default function UserAnalytics() {
                   <p className="text-sm text-indigo-100/70">Total Balance</p>
 
                   <div className="mt-2 flex items-center gap-3">
-                    <h2 className="text-4xl font-bold tracking-tight">
+                    <h2 className="text-4xl font-bold tracking-tight text-white">
                       {isLoading
                         ? "Loading..."
                         : showBalance

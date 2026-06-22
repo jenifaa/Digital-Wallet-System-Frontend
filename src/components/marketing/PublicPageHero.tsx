@@ -33,7 +33,7 @@ export default function PublicPageHero({
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          className="text-4xl font-black tracking-tight sm:text-5xl text-white"
+          className="text-4xl font-medium tracking-tight sm:text-5xl text-white"
         >
           {title}{" "}
           {highlight && (

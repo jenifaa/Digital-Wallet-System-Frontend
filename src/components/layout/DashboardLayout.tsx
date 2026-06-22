@@ -17,6 +17,8 @@ export default function DashboardLayout() {
 
   return (
     <SidebarProvider>
+     
+
       <AppSidebar />
       <SidebarInset>
         <Toaster />
@@ -30,9 +32,9 @@ export default function DashboardLayout() {
             <span className="hidden text-sm text-muted-foreground sm:inline">
               Dashboard
             </span>
-             <ModeToggle />
+            <ModeToggle />
           </div>
-          
+
           {data?.data?.email && <NotificationDropdown />}
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">

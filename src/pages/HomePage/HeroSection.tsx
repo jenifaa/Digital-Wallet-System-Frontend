@@ -45,7 +45,7 @@ export default function HeroSection() {
             </div>
 
             {/* heading */}
-            <h1 className="max-w-3xl text-5xl font-black leading-none tracking-tight sm:text-6xl lg:text-6xl">
+            <h1 className="max-w-3xl text-5xl font-bold leading-18 tracking-tight sm:text-6xl lg:text-6xl">
               Smart Digital
               <span className="bg-linear-to-r from-[#D6D2F0] via-[#8B90D0] to-[#6C72B8] bg-clip-text text-transparent">
                 {" "}
