@@ -69,7 +69,7 @@ export default function WalletCardsSection() {
           <div className="absolute left-8 top-8 h-24 w-24 rounded-full bg-[#F59E0B]/15 blur-2xl" />
           <div className="absolute right-10 top-16 h-32 w-32 rounded-full bg-[#8B90D0]/20 blur-2xl" />
 
-          <div className="relative grid overflow-hidden rounded-[32px] bg-[#EEF0FF] md:grid-cols-3">
+          <div className="relative grid overflow-hidden rounded-[32px] bg-[#EEF0FF] grid-cols-3">
             {cards.map((card, index) => (
               <motion.div
                 key={card.id}
@@ -99,7 +99,7 @@ export default function WalletCardsSection() {
                 <motion.div
                   whileHover={{ y: -10 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="relative flex h-[460px] w-full items-end justify-center sm:h-[520px] lg:h-[580px]"
+                  className="relative flex h-115 w-full items-end justify-center sm:h-130 lg:h-145"
                 >
                   <div className="absolute inset-x-8 bottom-6 h-16 rounded-full bg-[#1F2340]/16 blur-2xl" />
 
