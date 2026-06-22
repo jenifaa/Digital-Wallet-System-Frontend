@@ -1,4 +1,3 @@
-
 import { AxiosInstance } from "@/lib/axios";
 import type { BaseQueryFn } from "@reduxjs/toolkit/query";
 import type { AxiosError, AxiosRequestConfig } from "axios";
@@ -23,6 +22,8 @@ export const axiosBaseQuery =
         data,
         params,
         headers,
+
+        withCredentials: true,
       });
       return { data: result.data };
     } catch (axiosError) {

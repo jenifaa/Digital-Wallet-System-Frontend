@@ -9,6 +9,7 @@ export const authApi = baseApi.injectEndpoints({
         url: "/auth/login",
         method: "POST",
         data: userInfo,
+        
       }),
     }),
     logout: builder.mutation({
