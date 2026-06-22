@@ -46,7 +46,7 @@ export default function Navbar() {
     { to: "/features", label: "Features", role: "PUBLIC" },
     { to: "/service", label: "Services", role: "PUBLIC" },
     { to: "/pricing", label: "Pricing", role: "PUBLIC" },
-  
+
     { to: "/contact", label: "Contact", role: "PUBLIC" },
     { to: "/admin", label: "Dashboard", role: role.admin },
     { to: "/admin", label: "Dashboard", role: role.superAdmin },
@@ -165,33 +165,37 @@ export default function Navbar() {
         {/* Mobile Menu */}
         <details className="relative lg:hidden">
           <summary className="flex gap-4 cursor-pointer list-none items-center rounded-xl border p-2 hover:bg-muted">
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <img
-                  src={
-                    data?.data?.picture ||
-                    "https://i.ibb.co.com/xttK0CDW/pp.jpg"
-                  }
-                  className="w-10 h-10 rounded-full"
-                  alt=""
-                />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuGroup>
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                  <DropdownMenuItem>
-                    <Link to="/change-password">Change Password</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link to="/profile">My Profile</Link>
-                  </DropdownMenuItem>
-                </DropdownMenuGroup>
-                <DropdownMenuSeparator />
+            {data?.data?.email && (
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <img
+                      src={
+                        data?.data?.picture ||
+                        "https://i.ibb.co.com/xttK0CDW/pp.jpg"
+                      }
+                      className="w-10 h-10 rounded-full"
+                      alt=""
+                    />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuGroup>
+                      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                      <DropdownMenuItem>
+                        <Link to="/change-password">Change Password</Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Link to="/profile">My Profile</Link>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                    <DropdownMenuSeparator />
 
-                <DropdownMenuItem>Announcement</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                    <DropdownMenuItem>Announcement</DropdownMenuItem>
+                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            )}
             <ModeToggle />
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -231,7 +235,7 @@ export default function Navbar() {
                 <Button
                   onClick={handleLogout}
                   variant="outline"
-                  className="text-black"
+                  className="dark:text-white text-black "
                 >
                   LogOut
                 </Button>
@@ -240,13 +244,13 @@ export default function Navbar() {
                 <>
                   <Link
                     to="/login"
-                    className="rounded-xl border px-4 py-2 text-sm font-medium transition text-black hover:bg-muted hover:text-black"
+                    className="dark:text-white rounded-xl border px-4 py-2 text-sm font-medium transition text-black hover:bg-muted hover:text-black"
                   >
                     Login
                   </Link>
                   <Link
                     to="/register"
-                    className="rounded-xl bg-[#1F2340] px-5 py-2 text-sm font-medium text-primary-foreground shadow-lg transition hover:opacity-90"
+                    className="dark:text-white rounded-xl bg-[#1F2340] px-5 py-2 text-sm font-medium text-primary-foreground shadow-lg transition hover:opacity-90"
                   >
                     Get Started
                   </Link>

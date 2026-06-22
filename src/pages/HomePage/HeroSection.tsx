@@ -10,7 +10,7 @@ import {
   Star,
 } from "lucide-react";
 
-import phone2 from "@/assets/images/pn.png";
+import phone2 from "@/assets/images/phoneImg.png";
 import pr from "@/assets/images/pp.jpg";
 import pr2 from "@/assets/images/p.jpg";
 import pr3 from "@/assets/images/pp2.webp";
@@ -132,16 +132,16 @@ export default function HeroSection() {
 
           <div className="flex items-center gap-5">
             {" "}
-            <div className="absolute left-10 bottom-16 ">
-              <p>More Than 12K+ Join Us:</p>
+            <div className="absolute left-10 md:bottom-16 bottom-12 ">
+              <p className="mb-2">More Than 12K+ Join Us:</p>
 
               <div className="flex -space-x-3">
                 <img src = {pr} className="h-12 w-12 rounded-full border-2 border-white bg-slate-200" />
                 <img src = {pr2} className="h-12 w-12 rounded-full border-2 border-white bg-slate-300" />
                 <img  src = {pr3} className="h-12 w-12 rounded-full border-2 border-white bg-slate-400" />
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#1F2340] text-white shadow-xl">
+                <Link to="/register" className="flex h-14 w-14 items-center justify-center rounded-full bg-[#1F2340] text-white shadow-xl">
                   <Plus className="h-7 w-7" />
-                </div>
+                </Link>
               </div>
             </div>
             <div className="absolute left-[20%] bottom-14 hidden rounded-3xl bg-white px-7 py-4 shadow-[0_24px_70px_rgba(31,35,64,0.12)] lg:block">
