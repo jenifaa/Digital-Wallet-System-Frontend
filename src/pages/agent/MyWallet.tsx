@@ -98,7 +98,7 @@ export default function MyWallet() {
             <CardContent className="space-y-4">
               <div>
                 <p className="text-sm text-slate-400">Current Balance</p>
-                <p className="text-3xl font-bold">
+                <p className="text-3xl font-bold text-white">
                   ৳ {wallet?.balance?.toLocaleString() ?? "0"}
                 </p>
               </div>

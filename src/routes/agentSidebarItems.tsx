@@ -1,8 +1,11 @@
 import AgentAnalytics from "@/pages/agent/agentAnalytics";
-import CashIn from "@/components/modules/User/CashIn";
-import CashOut from "@/components/modules/User/CashOut";
 
 import type { ISidebarItems } from "@/types";
+import MyWallet from "@/pages/agent/MyWallet";
+import SetPin from "@/components/modules/User/SetPin";
+import MyTransactions from "@/pages/user/MyTransactions";
+import UserLoans from "@/pages/user/UserLoans";
+import NotificationCenter from "@/pages/user/NotificationCenter";
 
 export const agentSidebarItems: ISidebarItems[] = [
   {
@@ -14,14 +17,29 @@ export const agentSidebarItems: ISidebarItems[] = [
         component: AgentAnalytics,
       },
       {
-        title: "Cash In",
-        url: "/agent/cash-in",
-        component: CashIn,
+        title: "My Wallet",
+        url: "/agent/my-wallet",
+        component: MyWallet,
       },
       {
-        title: "Cash Out",
-        url: "/agent/cash-out",
-        component: CashOut,
+        title: "Set Pin",
+        url: "/agent/set-pin",
+        component: SetPin,
+      },
+      {
+        title: "My Transactions",
+        url: "/agent/history",
+        component: MyTransactions,
+      },
+      {
+        title: "Loans",
+        url: "/agent/loans",
+        component: UserLoans,
+      },
+      {
+        title: "Notifications",
+        url: "/agent/notifications",
+        component: NotificationCenter,
       },
     ],
   },
