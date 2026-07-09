@@ -69,7 +69,6 @@ export default function UserAnalytics() {
   const { data: transactionsData } = useMyTransactionsQuery(undefined);
 
   const recentTransactions = transactionsData?.data?.slice(0, 4) || [];
-  console.log(myWallet, userInfo);
 
   return (
     <div className="min-h-screen bg-[#020617] text-white">

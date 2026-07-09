@@ -19,7 +19,6 @@ interface IProps {
 export function DeleteConfirmation({ children, onConfirm }: IProps) {
   const handleConfirm = () => {
     onConfirm();
-    console.log("Confirm Clicked");
   };
   return (
     <AlertDialog>
