@@ -1,4 +1,4 @@
-# 💳 FinVault — Digital Wallet Frontend
+# 💳 WalletIQ — Digital Wallet Frontend
 
 > A modern, full-featured digital wallet web application built with React, TypeScript, and a rich ecosystem of production-grade libraries. Designed for speed, scalability, and a polished user experience.
 
@@ -27,7 +27,7 @@
 
 ## Overview
 
-**FinVault** is a production-ready digital wallet frontend that lets users send money, manage wallets, view transaction history, take out loans, track analytics, and more — all wrapped in a sleek, animated interface. The frontend communicates with a Node.js/Express REST API backend secured by JWT dual-token authentication.
+**WalletIQ** is a production-ready digital wallet frontend that lets users send money, manage wallets, view transaction history, take out loans, track analytics, and more — all wrapped in a sleek, animated interface. The frontend communicates with a Node.js/Express REST API backend secured by JWT dual-token authentication.
 
 Key design goals:
 
