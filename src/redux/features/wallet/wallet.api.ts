@@ -50,7 +50,23 @@ export const walletApi = baseApi.injectEndpoints({
         data: pinInfo,
       }),
     }),
+    deleteWallet: builder.mutation({
+      // TODO: Integrate with backend DELETE /wallet/:id when backend API is ready
+      query: (id: string) => ({
+        url: `/wallet/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["WALLET"],
+    }),
   }),
 });
 
-export const { useMyWalletQuery, useSetPinMutation ,useForgetPinMutation,useResetPinMutation, useAllWalletsQuery, useUpdateWalletStatusMutation} = walletApi;
+export const {
+  useMyWalletQuery,
+  useSetPinMutation,
+  useForgetPinMutation,
+  useResetPinMutation,
+  useAllWalletsQuery,
+  useUpdateWalletStatusMutation,
+  useDeleteWalletMutation,
+} = walletApi;

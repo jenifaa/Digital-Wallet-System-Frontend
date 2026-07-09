@@ -9,7 +9,6 @@ export const authApi = baseApi.injectEndpoints({
         url: "/auth/login",
         method: "POST",
         data: userInfo,
-        
       }),
     }),
     logout: builder.mutation({
@@ -99,10 +98,7 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
     changePassword: builder.mutation({
-      query: (data: {
-        currentPassword: string;
-        newPassword: string;
-      }) => ({
+      query: (data: { currentPassword: string; newPassword: string }) => ({
         url: "/auth/change-password",
         method: "POST",
         data,
@@ -114,6 +110,45 @@ export const authApi = baseApi.injectEndpoints({
         method: "GET",
         params: { query },
       }),
+    }),
+    deleteUser: builder.mutation({
+      query: (id) => ({
+        url: `/user/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["USER"],
+    }),
+    requestAgent: builder.mutation({
+      query: () => ({
+        url: "/user/apply-agent",
+        method: "POST",
+      }),
+      invalidatesTags: ["USER"],
+    }),
+    approveAgent: builder.mutation({
+      // TODO: Integrate with backend PATCH /user/:id/approve-agent when backend API is ready
+      query: (id: string) => ({
+        url: `/user/approve-agent/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
+    rejectAgent: builder.mutation({
+      // TODO: Integrate with backend PATCH /user/:id/reject-agent when backend API is ready
+      query: (id: string) => ({
+        url: `/user/reject-agent/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
+    updateUserStatus: builder.mutation({
+      // TODO: Integrate with backend PATCH /user/:id/status when backend API is ready
+      query: ({ id, status }: { id: string; status: string }) => ({
+        url: `/user/${id}/status`,
+        method: "PATCH",
+        data: { status },
+      }),
+      invalidatesTags: ["USER"],
     }),
   }),
 });
@@ -135,4 +170,9 @@ export const {
   useChangePasswordMutation,
   useSearchUsersQuery,
   useLazySearchUsersQuery,
+  useDeleteUserMutation,
+  useRequestAgentMutation,
+  useApproveAgentMutation,
+  useRejectAgentMutation,
+  useUpdateUserStatusMutation,
 } = authApi;

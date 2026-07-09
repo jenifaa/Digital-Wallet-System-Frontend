@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import logo from "@/assets/icons/lgo.png";
 import {
   authApi,
@@ -24,6 +24,7 @@ export default function Navbar() {
   console.log(data);
   const [logout] = useLogoutMutation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const userRole = data?.data?.role;
   useEffect(() => {
@@ -36,10 +37,21 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // const handleLogout = async () => {
+  //   await logout(undefined).unwrap();
+  //   dispatch(authApi.util.resetApiState());
+  // };
   const handleLogout = async () => {
+  try {
     await logout(undefined).unwrap();
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     dispatch(authApi.util.resetApiState());
-  };
+    navigate("/login");
+  } catch (error) {
+    console.log("Logout failed:", error);
+  }
+};
   const navLinks = [
     { to: "/", label: "Home", role: "PUBLIC" },
     { to: "/about", label: "About", role: "PUBLIC" },
