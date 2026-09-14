@@ -82,18 +82,18 @@ export function LoginForm({
       }}
       {...props}
     >
-      <div className="w-full mx-auto flex items-center justify-center  max-w-7xl ">
-        <div className="flex justify-center">
+      <div className="w-full mx-auto md:flex items-center justify-center   max-w-7xl ">
+        <div className="flex justify-center  ">
           <img
             src={img}
             alt="Login"
-            className="max-w-147.5 rounded-3xl  object-contain"
+            className="max-w-sm md:max-w-130 lg:max-w-146 md:rounded-l-3xl  object-contain md:border-t-2 md:border-b-2 md:border-l-2 md:border-r-0 md:border-white shadow-2xl"
           />
         </div>
 
-        <div className="w-full max-w-md space-y-6">
+        <div className="w-full max-w-sm  lg:max-w-md sm:mx-auto md:mx-0 lg:space-y-6">
           {/* Card */}
-          <Card className="shadow-lg border-muted/60  bg-[#D7D7FC] p-5">
+          <Card className="  bg-[#e3e3f8] md:h-123 lg:h-full  p-5 rounded-none md:rounded-r-3xl md:border-t-2 md:border-b-2 md:border-r-2 md:border-l-0 md:border-white shadow-2xl">
             <CardHeader className="">
               <CardTitle className="text-xl text-black font-semibold">
                 Sign in
@@ -107,9 +107,9 @@ export function LoginForm({
               <form
                 id="login-form"
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
+                className="lg:space-y-4"
               >
-                <FieldGroup className="space-y-4">
+                <FieldGroup className="lg:space-y-4">
                   {/* EMAIL */}
                   <Controller
                     name="email"
@@ -204,7 +204,7 @@ export function LoginForm({
                 </FieldGroup>
 
                 {/* ACTION BUTTON */}
-                <Button type="submit" className="w-full h-11">
+                <Button type="submit" className="w-full h-11 border-2 border-gray-400">
                   Sign in
                 </Button>
               </form>
@@ -212,7 +212,7 @@ export function LoginForm({
               {/* Divider */}
               <div className="relative flex items-center justify-center">
                 <div className="w-full border-t border-black" />
-                <span className="absolute bg-[#D7D7FC]  px-3 text-xs text-black font-semibold">
+                <span className="absolute bg-[#e3e3f8]  px-3 text-xs text-black font-semibold">
                   OR
                 </span>
               </div>

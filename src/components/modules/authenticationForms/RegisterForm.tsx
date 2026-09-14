@@ -126,18 +126,20 @@ export default function RegisterForm({
       }}
       {...props}
     >
-      <div className="w-full mx-auto flex items-center justify-center ">
+      <div className="w-full mx-auto md:flex  items-center justify-center ">
         <div className="flex justify-center ">
           <img
             src={img}
             alt="Login"
-            className="max-w-119  rounded-l-3xl object-contain border-t-2 border-b-2 border-l-2 border-r-0 border-white shadow-2xl"
+            className="w-full max-w-sm md:w-auto  md:max-w-119 rounded-t-3xl md:rounded-tr-none md:rounded-l-3xl object-contain border-2 md:border-r-0 border-white shadow-2xl"
           />
         </div>
-        <div className="w-full max-w-150 space-y-6 ">
-          <Card className=" px-5 py-8 bg-[#D7D7FC] text-black rounded-none rounded-r-3xl border-t-2 border-b-2 border-r-2 border-l-0 border-white shadow-2xl">
+        <div className="w-full  max-w-150 space-y-6 ">
+          <Card className=" px-5 py-8 bg-[#e3e3f8]  md:w-full mx-auto text-black rounded-none md:rounded-r-3xl md:border-t-2 md:border-b-2 md:border-r-2 md:border-l-0 md:border-white  shadow-2xl s">
             <CardHeader>
-              <CardTitle className="font-semibold ">Create Your Account</CardTitle>
+              <CardTitle className="font-semibold ">
+                Create Your Account
+              </CardTitle>
 
               <CardDescription>
                 Fill in your details to create an account
@@ -150,7 +152,7 @@ export default function RegisterForm({
                 className="space-y-4 "
               >
                 <FieldGroup className="space-y-4 ">
-                  <div className="flex  items-center justify-between">
+                  <div className="md:flex  items-center justify-between">
                     <div className="space-y-4">
                       <Controller
                         name="name"
@@ -159,7 +161,11 @@ export default function RegisterForm({
                           <Field>
                             <FieldLabel>Name</FieldLabel>
 
-                            <Input {...field} placeholder="John Doe" className="border-2 border-gray-400" />
+                            <Input
+                              {...field}
+                              placeholder="John Doe"
+                              className="border-2 border-gray-400"
+                            />
 
                             {fieldState.error && (
                               <FieldError errors={[fieldState.error]} />
@@ -196,7 +202,11 @@ export default function RegisterForm({
                           <Field>
                             <FieldLabel>Phone</FieldLabel>
 
-                            <Input {...field} placeholder="+8801XXXXXXXXX" className="border-2 border-gray-400" />
+                            <Input
+                              {...field}
+                              placeholder="+8801XXXXXXXXX"
+                              className="border-2 border-gray-400"
+                            />
 
                             {fieldState.error && (
                               <FieldError errors={[fieldState.error]} />
@@ -280,7 +290,10 @@ export default function RegisterForm({
                   </div>
                 </FieldGroup>
 
-                <Button type="submit" className="h-11 w-full mt-3 border-2 border-gray-400">
+                <Button
+                  type="submit"
+                  className="h-11 w-full mt-3 border-2 border-gray-400"
+                >
                   Create account
                 </Button>
               </form>
