@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useNavigate, Link } from "react-router";
 // import img from "@/assets/images/login.png";
 import bg from "@/assets/images/bg.jpg";
+import img from "@/assets/images/login.png";
 
 import { cn } from "@/lib/utils";
 import { useRegisterMutation } from "@/redux/features/auth/auth.api";
@@ -125,163 +126,177 @@ export default function RegisterForm({
       }}
       {...props}
     >
-      <div className="w-full max-w-148 space-y-6 ">
-        <Card className="shadow-lg border-muted/60 p-5 bg-[#D7D7FC] rounded-none">
-          <CardHeader>
-            <CardTitle>Register</CardTitle>
+      <div className="w-full mx-auto flex items-center justify-center ">
+        <div className="flex justify-center ">
+          <img
+            src={img}
+            alt="Login"
+            className="max-w-119  rounded-l-3xl object-contain border-t-2 border-b-2 border-l-2 border-r-0 border-white shadow-2xl"
+          />
+        </div>
+        <div className="w-full max-w-150 space-y-6 ">
+          <Card className=" px-5 py-8 bg-[#D7D7FC] text-black rounded-none rounded-r-3xl border-t-2 border-b-2 border-r-2 border-l-0 border-white shadow-2xl">
+            <CardHeader>
+              <CardTitle className="font-semibold ">Create Your Account</CardTitle>
 
-            <CardDescription>
-              Fill in your details to create an account
-            </CardDescription>
-          </CardHeader>
+              <CardDescription>
+                Fill in your details to create an account
+              </CardDescription>
+            </CardHeader>
 
-          <CardContent>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
-              <FieldGroup className="space-y-4 ">
-                <div className="flex  items-center justify-between">
-                  <div className="space-y-4">
-                    <Controller
-                      name="name"
-                      control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field>
-                          <FieldLabel>Name</FieldLabel>
-
-                          <Input {...field} placeholder="John Doe" />
-
-                          {fieldState.error && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
-
-                    <Controller
-                      name="email"
-                      control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field>
-                          <FieldLabel>Email</FieldLabel>
-
-                          <Input
-                            {...field}
-                            type="email"
-                            placeholder="you@example.com"
-                          />
-
-                          {fieldState.error && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
-
-                    <Controller
-                      name="phone"
-                      control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field>
-                          <FieldLabel>Phone</FieldLabel>
-
-                          <Input {...field} placeholder="+8801XXXXXXXXX" />
-
-                          {fieldState.error && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
-                  </div>
-                  <div className="space-y-4">
-                    <Controller
-                      name="role"
-                      control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field>
-                          <FieldLabel>Select Role</FieldLabel>
-
-                          <Select
-                            value={field.value}
-                            onValueChange={field.onChange}
-                          >
-                            <SelectTrigger className="w-full">
-                              <SelectValue placeholder="Choose role" />
-                            </SelectTrigger>
-
-                            <SelectContent>
-                              <SelectItem value="USER">USER</SelectItem>
-
-                              <SelectItem value="AGENT">AGENT</SelectItem>
-                            </SelectContent>
-                          </Select>
-
-                          {fieldState.error && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
-
-                    <Controller
-                      name="password"
-                      control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field>
-                          <FieldLabel>Password</FieldLabel>
-
-                          <Input
-                            {...field}
-                            type="password"
-                            placeholder="••••••••"
-                          />
-
-                          {fieldState.error && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
-
-                    <Controller
-                      name="confirmPassword"
-                      control={form.control}
-                      render={({ field, fieldState }) => (
-                        <Field>
-                          <FieldLabel>Confirm Password</FieldLabel>
-
-                          <Input
-                            {...field}
-                            type="password"
-                            placeholder="••••••••"
-                          />
-
-                          {fieldState.error && (
-                            <FieldError errors={[fieldState.error]} />
-                          )}
-                        </Field>
-                      )}
-                    />
-                  </div>
-                </div>
-              </FieldGroup>
-
-              <Button type="submit" className="h-11 w-full mt-3">
-                Create account
-              </Button>
-            </form>
-            <p className="text-center text-sm text-muted-foreground mt-4">
-              Already have an account?{" "}
-              <Link
-                to="/login"
-                className="font-medium text-primary hover:underline"
+            <CardContent>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4 "
               >
-                Sign in
-              </Link>
-            </p>
-          </CardContent>
-        </Card>
+                <FieldGroup className="space-y-4 ">
+                  <div className="flex  items-center justify-between">
+                    <div className="space-y-4">
+                      <Controller
+                        name="name"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <FieldLabel>Name</FieldLabel>
 
-        {/* <p className="text-center text-sm text-muted-foreground">
+                            <Input {...field} placeholder="John Doe" className="border-2 border-gray-400" />
+
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      <Controller
+                        name="email"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <FieldLabel>Email</FieldLabel>
+
+                            <Input
+                              {...field}
+                              type="email"
+                              placeholder="you@example.com"
+                              className="border-2 border-gray-400"
+                            />
+
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      <Controller
+                        name="phone"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <FieldLabel>Phone</FieldLabel>
+
+                            <Input {...field} placeholder="+8801XXXXXXXXX" className="border-2 border-gray-400" />
+
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+                    </div>
+                    <div className="space-y-4">
+                      <Controller
+                        name="role"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <FieldLabel>Select Role</FieldLabel>
+
+                            <Select
+                              value={field.value}
+                              onValueChange={field.onChange}
+                            >
+                              <SelectTrigger className="w-full">
+                                <SelectValue placeholder="Choose role" />
+                              </SelectTrigger>
+
+                              <SelectContent>
+                                <SelectItem value="USER">USER</SelectItem>
+
+                                <SelectItem value="AGENT">AGENT</SelectItem>
+                              </SelectContent>
+                            </Select>
+
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      <Controller
+                        name="password"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <FieldLabel>Password</FieldLabel>
+
+                            <Input
+                              {...field}
+                              type="password"
+                              placeholder="••••••••"
+                              className="border-2 border-gray-400"
+                            />
+
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      <Controller
+                        name="confirmPassword"
+                        control={form.control}
+                        render={({ field, fieldState }) => (
+                          <Field>
+                            <FieldLabel>Confirm Password</FieldLabel>
+
+                            <Input
+                              {...field}
+                              type="password"
+                              placeholder="••••••••"
+                              className="border-2 border-gray-400"
+                            />
+
+                            {fieldState.error && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+                    </div>
+                  </div>
+                </FieldGroup>
+
+                <Button type="submit" className="h-11 w-full mt-3 border-2 border-gray-400">
+                  Create account
+                </Button>
+              </form>
+              <p className="text-center text-sm text-gray-500 mt-4">
+                Already have an account?{" "}
+                <Link
+                  to="/login"
+                  className="font-medium text-black hover:underline"
+                >
+                  Sign in
+                </Link>
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* <p className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link
             to="/login"
@@ -290,6 +305,7 @@ export default function RegisterForm({
             Sign in
           </Link>
         </p> */}
+        </div>
       </div>
     </div>
   );
