@@ -67,9 +67,32 @@ export default function UserAnalytics() {
   const { data: myWallet, isLoading } = useMyWalletQuery(undefined);
   const { data: userInfo } = useUserInfoQuery(undefined);
   const { data: transactionsData } = useMyTransactionsQuery(undefined);
-
+  const currentUserId = userInfo?.data?._id;
   const recentTransactions = transactionsData?.data?.slice(0, 4) || [];
 
+  const getDisplayType = (transaction: any) => {
+    const senderId = String(
+      transaction.sender?._id ?? transaction.sender ?? "",
+    );
+
+    const receiverId = String(
+      transaction.receiver?._id ?? transaction.receiver ?? "",
+    );
+
+    const userId = String(currentUserId ?? "");
+
+    if (transaction.type === "SEND") {
+      if (receiverId === userId) {
+        return "RECEIVE";
+      }
+
+      if (senderId === userId) {
+        return "SEND";
+      }
+    }
+
+    return transaction.type;
+  };
   return (
     <div className="min-h-screen bg-[#020617] text-white">
       <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-6">
@@ -189,7 +212,9 @@ export default function UserAnalytics() {
             <CardContent className="p-6">
               <div className="mb-6 flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-300">Recent Transactions</h2>
+                  <h2 className="text-lg font-semibold text-gray-300">
+                    Recent Transactions
+                  </h2>
 
                   <p className="text-sm text-slate-400">
                     Your latest wallet activities
@@ -207,38 +232,45 @@ export default function UserAnalytics() {
               </div>
 
               <div className="space-y-4">
-                {recentTransactions.map((item:any) => (
-                  <div
-                    key={item._id}
-                    className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900/60 p-4"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="rounded-2xl bg-indigo-500/10 p-3">
-                        <ScanLine className="size-5 text-indigo-400" />
-                      </div>
+                {recentTransactions.map((item: any) => {
+                  const displayType = getDisplayType(item);
 
-                      <div>
-                        <h3 className="font-medium text-white">
-                          {item.type.replace("_", " ")}
-                        </h3>
+                  const isIncoming =
+                    displayType === "RECEIVE" ||
+                    displayType === "ADD" ||
+                    displayType === "CASH_IN";
 
-                        <p className="text-sm text-slate-400">
-                          {new Date(item.createdAt).toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-
-                    <p
-                      className={`font-semibold ${
-                        item.entry === "CREDIT"
-                          ? "text-emerald-400"
-                          : "text-rose-400"
-                      }`}
+                  return (
+                    <div
+                      key={item._id}
+                      className="flex items-center justify-between rounded-2xl border border-slate-800 bg-slate-900/60 p-4"
                     >
-                      {item.entry === "CREDIT" ? "+" : "-"}৳{item.amount}
-                    </p>
-                  </div>
-                ))}
+                      <div className="flex items-center gap-4">
+                        <div className="rounded-2xl bg-indigo-500/10 p-3">
+                          <ScanLine className="size-5 text-indigo-400" />
+                        </div>
+
+                        <div>
+                          <h3 className="font-medium text-white">
+                            {displayType.replace("_", " ")}
+                          </h3>
+
+                          <p className="text-sm text-slate-400">
+                            {new Date(item.createdAt).toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+
+                      <p
+                        className={`font-semibold ${
+                          isIncoming ? "text-emerald-400" : "text-rose-400"
+                        }`}
+                      >
+                        {isIncoming ? "+" : "-"}৳{item.amount}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             </CardContent>
           </Card>

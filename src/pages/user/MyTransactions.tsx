@@ -41,6 +41,7 @@ import { Button } from "@/components/ui/button";
 import PageSkeleton from "@/components/shared/PageSkeleton";
 import SearchFilterBar from "@/components/shared/SearchFilterBar";
 import { useMyTransactionsQuery } from "@/redux/features/transaction/transaction.api";
+import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -52,6 +53,9 @@ export default function MyTransactions() {
   const [sortBy, setSortBy] = useState("newest");
 
   const { data, isLoading } = useMyTransactionsQuery(undefined);
+  const { data: userData } = useUserInfoQuery(undefined);
+
+  const currentUserId = userData?.data?._id;
 
   const transactions = data?.data || [];
 
@@ -93,10 +97,37 @@ export default function MyTransactions() {
     startIndex + ITEMS_PER_PAGE,
   );
 
+  const getDisplayType = (transaction: any) => {
+    const senderId = String(
+      transaction.sender?._id ?? transaction.sender ?? "",
+    );
+
+    const receiverId = String(
+      transaction.receiver?._id ?? transaction.receiver ?? "",
+    );
+
+    const userId = String(currentUserId ?? "");
+
+    if (transaction.type === "SEND") {
+      if (receiverId === userId) {
+        return "RECEIVE";
+      }
+
+      if (senderId === userId) {
+        return "SEND";
+      }
+    }
+
+    return transaction.type;
+  };
+
   const getTransactionIcon = (type: string) => {
     switch (type) {
       case "SEND":
         return <ArrowUpRight className="size-4 text-rose-400" />;
+
+      case "RECEIVE":
+        return <ArrowDownLeft className="size-4 text-emerald-400" />;
 
       case "ADD":
         return <Wallet className="size-4 text-emerald-400" />;
@@ -236,24 +267,26 @@ export default function MyTransactions() {
                       >
                         <TableCell>
                           <div className="flex items-center gap-2 font-medium text-white">
-                            {getTransactionIcon(transaction.type)}
+                            {getTransactionIcon(getDisplayType(transaction))}
 
-                            {transaction.type.replace("_", " ")}
+                            {getDisplayType(transaction).replace("_", " ")}
                           </div>
                         </TableCell>
 
                         <TableCell
                           className={`font-semibold ${
-                            transaction.entry === "DEBIT" ||
-                            transaction.type === "ADD_MONEY"
-                              ? "text-rose-400"
-                              : "text-emerald-400"
+                            getDisplayType(transaction) === "RECEIVE" ||
+                            getDisplayType(transaction) === "ADD" ||
+                            getDisplayType(transaction) === "CASH_IN"
+                              ? "text-emerald-400"
+                              : "text-rose-400"
                           }`}
                         >
-                          {transaction.entry === "DEBIT" ||
-                          transaction.type === "ADD_MONEY"
-                            ? "-"
-                            : "+"}
+                          {getDisplayType(transaction) === "RECEIVE" ||
+                          getDisplayType(transaction) === "ADD" ||
+                          getDisplayType(transaction) === "CASH_IN"
+                            ? "+"
+                            : "-"}
                           ৳{transaction.amount}
                         </TableCell>
 
