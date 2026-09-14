@@ -3,9 +3,8 @@ import * as React from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router";
-import img from "@/assets/images/login.png"
-import bg from "@/assets/images/bg.jpg"
-
+import img from "@/assets/images/login.png";
+import bg from "@/assets/images/bg.jpg";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -69,137 +68,143 @@ export function LoginForm({
   return (
     <div
       className={cn(
-        "min-h-screen flex items-center justify-center px-4 bg-muted/30",
-        className
+        "min-h-screen flex items-center justify-center px-4 py-10",
+        className,
       )}
+      style={{
+        backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
       {...props}
     >
-      <div className="w-full max-w-md space-y-6">
-
-        {/* Header */}
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight">
-            Welcome back
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Login to continue to your dashboard
-          </p>
+      <div className="w-full mx-auto flex items-center justify-center  max-w-7xl ">
+        <div className="flex justify-center">
+          <img src={img} alt="Login" className="max-w-147.5 rounded-l-3xl  object-contain" />
         </div>
 
-        {/* Card */}
-        <Card className="shadow-lg border-muted/60">
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-xl">Sign in</CardTitle>
-            <CardDescription>
-              Enter your credentials below
-            </CardDescription>
-          </CardHeader>
+        <div className="w-full max-w-md space-y-6">
+          {/* Card */}
+          <Card className="shadow-lg border-muted/60 ">
+            <CardHeader className="space-y-1">
+              <CardTitle className="text-xl">Sign in</CardTitle>
+              <CardDescription>Enter your credentials below</CardDescription>
+            </CardHeader>
 
-          <CardContent className="space-y-5">
-            <form
-              id="login-form"
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4"
-            >
-              <FieldGroup className="space-y-4">
+            <CardContent className="space-y-5">
+              <form
+                id="login-form"
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-4"
+              >
+                <FieldGroup className="space-y-4">
+                  {/* EMAIL */}
+                  <Controller
+                    name="email"
+                    control={form.control}
+                    rules={{
+                      required: "Email is required",
+                    }}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel>Email</FieldLabel>
+                        <Input
+                          {...field}
+                          type="email"
+                          placeholder="you@example.com"
+                          className="h-11"
+                        />
+                        {fieldState.error && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
 
-                {/* EMAIL */}
-                <Controller
-                  name="email"
-                  control={form.control}
-                  rules={{
-                    required: "Email is required",
-                  }}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel>Email</FieldLabel>
-                      <Input
-                        {...field}
-                        type="email"
-                        placeholder="you@example.com"
-                        className="h-11"
-                      />
-                      {fieldState.error && (
-                        <FieldError errors={[fieldState.error]} />
-                      )}
-                    </Field>
-                  )}
-                />
+                  {/* PASSWORD */}
+                  <Controller
+                    name="password"
+                    control={form.control}
+                    rules={{
+                      required: "Password is required",
+                    }}
+                    render={({ field, fieldState }) => (
+                      <Field data-invalid={fieldState.invalid}>
+                        <FieldLabel>Password</FieldLabel>
+                        <Input
+                          {...field}
+                          type="password"
+                          placeholder="••••••••"
+                          className="h-11"
+                        />
+                        <FieldDescription>
+                          Must be at least 6 characters
+                        </FieldDescription>
+                        {fieldState.error && (
+                          <FieldError errors={[fieldState.error]} />
+                        )}
+                      </Field>
+                    )}
+                  />
 
-                {/* PASSWORD */}
-                <Controller
-                  name="password"
-                  control={form.control}
-                  rules={{
-                    required: "Password is required",
-                  }}
-                  render={({ field, fieldState }) => (
-                    <Field data-invalid={fieldState.invalid}>
-                      <FieldLabel>Password</FieldLabel>
-                      <Input
-                        {...field}
-                        type="password"
-                        placeholder="••••••••"
-                        className="h-11"
-                      />
-                      <FieldDescription>
-                        Must be at least 6 characters
-                      </FieldDescription>
-                      {fieldState.error && (
-                        <FieldError errors={[fieldState.error]} />
-                      )}
-                    </Field>
-                  )}
-                />
+                  <div className="flex justify-end">
+                    <Link
+                      to="/forgot-password"
+                      className="text-sm font-medium text-primary hover:underline"
+                    >
+                      Forgot password?
+                    </Link>
+                  </div>
+                </FieldGroup>
 
-                <div className="flex justify-end">
-                  <Link
-                    to="/forgot-password"
-                    className="text-sm font-medium text-primary hover:underline"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-              </FieldGroup>
+                {/* ACTION BUTTON */}
+                <Button type="submit" className="w-full h-11">
+                  Sign in
+                </Button>
+              </form>
 
-              {/* ACTION BUTTON */}
-              <Button type="submit" className="w-full h-11">
-                Sign in
+              {/* Divider */}
+              <div className="relative flex items-center justify-center">
+                <div className="w-full border-t" />
+                <span className="absolute bg-background px-3 text-xs text-muted-foreground">
+                  OR
+                </span>
+              </div>
+
+              {/* GOOGLE LOGIN */}
+              <Button
+                onClick={() =>
+                  window.open(`${config.baseUrl}/auth/google`, "_self")
+                }
+                type="button"
+                variant="outline"
+                className="w-full h-11"
+              >
+                Continue with Google
               </Button>
-            </form>
+            </CardContent>
+            <p className="text-center text-sm text-muted-foreground">
+              Don&apos;t have an account?{" "}
+              <Link
+                to="/register"
+                className="font-medium text-primary hover:underline"
+              >
+                Create account
+              </Link>
+            </p>
+          </Card>
 
-            {/* Divider */}
-            <div className="relative flex items-center justify-center">
-              <div className="w-full border-t" />
-              <span className="absolute bg-background px-3 text-xs text-muted-foreground">
-                OR
-              </span>
-            </div>
-
-            {/* GOOGLE LOGIN */}
-            <Button
-              onClick={() =>
-                window.open(`${config.baseUrl}/auth/google`, "_self")
-              }
-              type="button"
-              variant="outline"
-              className="w-full h-11"
+          {/* Footer */}
+          {/* <p className="text-center text-sm text-muted-foreground">
+            Don&apos;t have an account?{" "}
+            <Link
+              to="/register"
+              className="font-medium text-primary hover:underline"
             >
-              Continue with Google
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Footer */}
-        <p className="text-center text-sm text-muted-foreground">
-          Don&apos;t have an account?{" "}
-          <Link
-            to="/register"
-            className="font-medium text-primary hover:underline"
-          >
-            Create account
-          </Link>
-        </p>
+              Create account
+            </Link>
+          </p> */}
+        </div>
       </div>
     </div>
   );
