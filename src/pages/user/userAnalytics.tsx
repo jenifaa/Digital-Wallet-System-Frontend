@@ -189,7 +189,7 @@ export default function UserAnalytics() {
             <CardContent className="p-6">
               <div className="mb-6 flex items-center justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold">Recent Transactions</h2>
+                  <h2 className="text-lg font-semibold text-gray-300">Recent Transactions</h2>
 
                   <p className="text-sm text-slate-400">
                     Your latest wallet activities
@@ -247,7 +247,7 @@ export default function UserAnalytics() {
             <Card className="rounded-3xl border border-slate-800 bg-linear-to-br from-slate-900 to-slate-950">
               <CardContent className="p-6">
                 <div className="mb-5 flex items-center justify-between">
-                  <h2 className="font-semibold">Wallet Overview</h2>
+                  <h2 className="font-semibold text-white">Wallet Overview</h2>
 
                   <Home className="size-5 text-indigo-400" />
                 </div>

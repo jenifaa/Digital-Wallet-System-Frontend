@@ -26,7 +26,9 @@ import { useResetPasswordMutation } from "@/redux/features/auth/auth.api";
 
 const schema = z
   .object({
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters"),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -41,29 +43,40 @@ export function ResetPasswordForm({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   const [searchParams] = useSearchParams();
+
+  const id = searchParams.get("id") ?? "";
   const token = searchParams.get("token") ?? "";
+
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { password: "", confirmPassword: "" },
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+    },
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    if (!token) {
-      toast.error("Invalid or missing reset token");
+    if (!id || !token) {
+      toast.error("Invalid or missing reset link");
       return;
     }
 
     try {
       const res = await resetPassword({
+        id,
         token,
-        password: data.password,
+        newPassword: data.password,
       }).unwrap();
+
       toast.success(res?.message || "Password reset successfully");
+
       form.reset();
     } catch (err: any) {
-      toast.error(err?.data?.message || "Unable to reset password");
+      toast.error(
+        err?.data?.message || "Unable to reset password"
+      );
     }
   };
 
@@ -77,7 +90,10 @@ export function ResetPasswordForm({
     >
       <div className="w-full max-w-md space-y-6">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold tracking-tight">Reset password</h1>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Reset password
+          </h1>
+
           <p className="text-sm text-muted-foreground">
             Choose a strong new password for your account
           </p>
@@ -85,13 +101,20 @@ export function ResetPasswordForm({
 
         <Card className="border-muted/60 shadow-lg">
           <CardHeader className="space-y-1">
-            <CardTitle className="text-xl">Create new password</CardTitle>
+            <CardTitle className="text-xl">
+              Create new password
+            </CardTitle>
+
             <CardDescription>
-              Your new password must be at least 6 characters
+              Your new password must be at least 8 characters
             </CardDescription>
           </CardHeader>
+
           <CardContent>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4"
+            >
               <FieldGroup className="space-y-4">
                 <Controller
                   name="password"
@@ -99,30 +122,35 @@ export function ResetPasswordForm({
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel>New password</FieldLabel>
+
                       <Input
                         {...field}
                         type="password"
                         placeholder="••••••••"
                         className="h-11"
                       />
+
                       {fieldState.error && (
                         <FieldError errors={[fieldState.error]} />
                       )}
                     </Field>
                   )}
                 />
+
                 <Controller
                   name="confirmPassword"
                   control={form.control}
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>
                       <FieldLabel>Confirm password</FieldLabel>
+
                       <Input
                         {...field}
                         type="password"
                         placeholder="••••••••"
                         className="h-11"
                       />
+
                       {fieldState.error && (
                         <FieldError errors={[fieldState.error]} />
                       )}
@@ -130,7 +158,12 @@ export function ResetPasswordForm({
                   )}
                 />
               </FieldGroup>
-              <Button type="submit" className="h-11 w-full" disabled={isLoading}>
+
+              <Button
+                type="submit"
+                className="h-11 w-full"
+                disabled={isLoading}
+              >
                 {isLoading ? "Updating..." : "Update password"}
               </Button>
             </form>
@@ -138,7 +171,10 @@ export function ResetPasswordForm({
         </Card>
 
         <p className="text-center text-sm text-muted-foreground">
-          <Link to="/login" className="font-medium text-primary hover:underline">
+          <Link
+            to="/login"
+            className="font-medium text-primary hover:underline"
+          >
             Back to login
           </Link>
         </p>

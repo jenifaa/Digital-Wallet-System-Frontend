@@ -98,18 +98,18 @@ export default function MyWallet() {
             <CardContent className="space-y-4">
               <div>
                 <p className="text-sm text-slate-400">Current Balance</p>
-                <p className="text-3xl font-bold">
+                <p className="text-3xl font-bold text-white">
                   ৳ {wallet?.balance?.toLocaleString() ?? "0"}
                 </p>
               </div>
               <div>
-                <p className="text-sm text-slate-400">Account Holder</p>
-                <p className="font-medium">{userInfo?.data?.name}</p>
-                <p className="text-sm text-slate-400">{userInfo?.data?.email}</p>
+                <p className="text-lg text-slate-400">Account Holder</p>
+                <p className="font-medium text-white">{userInfo?.data?.name}</p>
+                <p className="text-sm text-white">{userInfo?.data?.email}</p>
               </div>
               <div>
                 <p className="text-sm text-slate-400">PIN Status</p>
-                <p className="font-medium">
+                <p className="font-medium text-white">
                   {wallet?.security?.isPinSet ? "PIN is set" : "PIN not set"}
                 </p>
               </div>
