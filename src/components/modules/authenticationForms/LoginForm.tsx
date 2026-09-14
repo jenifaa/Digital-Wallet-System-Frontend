@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { Link, useNavigate } from "react-router";
 import img from "@/assets/images/login.png";
 import bg from "@/assets/images/bg.jpg";
-
+import google from "@/assets/icons/google.png";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,6 +26,8 @@ import { cn } from "@/lib/utils";
 
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import config from "@/config";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Eye, EyeOff } from "lucide-react";
 
 type LoginInputs = {
   email: string;
@@ -38,6 +40,8 @@ export function LoginForm({
 }: React.HTMLAttributes<HTMLDivElement>) {
   const navigate = useNavigate();
   const [login] = useLoginMutation();
+
+   const [showPassword, setShowPassword] = React.useState(false);
 
   const form = useForm<LoginInputs>({
     defaultValues: {
@@ -80,18 +84,26 @@ export function LoginForm({
     >
       <div className="w-full mx-auto flex items-center justify-center  max-w-7xl ">
         <div className="flex justify-center">
-          <img src={img} alt="Login" className="max-w-147.5 rounded-l-3xl  object-contain" />
+          <img
+            src={img}
+            alt="Login"
+            className="max-w-147.5 rounded-3xl  object-contain"
+          />
         </div>
 
         <div className="w-full max-w-md space-y-6">
           {/* Card */}
-          <Card className="shadow-lg border-muted/60 ">
-            <CardHeader className="space-y-1">
-              <CardTitle className="text-xl">Sign in</CardTitle>
-              <CardDescription>Enter your credentials below</CardDescription>
+          <Card className="shadow-lg border-muted/60  bg-[#D7D7FC] p-5">
+            <CardHeader className="">
+              <CardTitle className="text-xl text-black font-semibold">
+                Sign in
+              </CardTitle>
+              <CardDescription className="text-gray-600">
+                Enter your credentials below
+              </CardDescription>
             </CardHeader>
 
-            <CardContent className="space-y-5">
+            <CardContent className="space-y-4 text-black">
               <form
                 id="login-form"
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -112,7 +124,7 @@ export function LoginForm({
                           {...field}
                           type="email"
                           placeholder="you@example.com"
-                          className="h-11"
+                          className="h-11 border-2 border-gray-400"
                         />
                         {fieldState.error && (
                           <FieldError errors={[fieldState.error]} />
@@ -131,12 +143,30 @@ export function LoginForm({
                     render={({ field, fieldState }) => (
                       <Field data-invalid={fieldState.invalid}>
                         <FieldLabel>Password</FieldLabel>
-                        <Input
-                          {...field}
-                          type="password"
-                          placeholder="••••••••"
-                          className="h-11"
-                        />
+                        <InputGroup className="h-11 border-2 border-gray-400">
+                          <InputGroupInput
+                           {...field}
+                            id="inline-end-input"
+                           type={showPassword ? "text" : "password"}
+                            placeholder="Enter password"
+                            className=""
+                          />
+                          <InputGroupAddon align="inline-end">
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword((prev) => !prev)}
+                              className="text-muted-foreground hover:text-foreground"
+                              aria-label={showPassword ? "Hide password" : "Show password"}
+                              tabIndex={-1}
+                            >
+                              {showPassword ? (
+                                <Eye className="h-4 w-4" />
+                              ) : (
+                                <EyeOff className="h-4 w-4" />
+                              )}
+                            </button>
+                          </InputGroupAddon>
+                        </InputGroup>
                         <FieldDescription>
                           Must be at least 6 characters
                         </FieldDescription>
@@ -144,13 +174,29 @@ export function LoginForm({
                           <FieldError errors={[fieldState.error]} />
                         )}
                       </Field>
+
+                      // <Field data-invalid={fieldState.invalid}>
+                      //   <FieldLabel>Password</FieldLabel>
+                      //   <Input
+                      //     {...field}
+                      //     type="password"
+                      //     placeholder="••••••••"
+                      //     className="h-11 border-2 border-gray-400"
+                      //   />
+                      //   <FieldDescription>
+                      //     Must be at least 6 characters
+                      //   </FieldDescription>
+                      //   {fieldState.error && (
+                      //     <FieldError errors={[fieldState.error]} />
+                      //   )}
+                      // </Field>
                     )}
                   />
 
                   <div className="flex justify-end">
                     <Link
                       to="/forgot-password"
-                      className="text-sm font-medium text-primary hover:underline"
+                      className="text-sm font-medium text-black hover:underline"
                     >
                       Forgot password?
                     </Link>
@@ -165,8 +211,8 @@ export function LoginForm({
 
               {/* Divider */}
               <div className="relative flex items-center justify-center">
-                <div className="w-full border-t" />
-                <span className="absolute bg-background px-3 text-xs text-muted-foreground">
+                <div className="w-full border-t border-black" />
+                <span className="absolute bg-[#D7D7FC]  px-3 text-xs text-black font-semibold">
                   OR
                 </span>
               </div>
@@ -180,14 +226,15 @@ export function LoginForm({
                 variant="outline"
                 className="w-full h-11"
               >
+                <img src={google} alt="Google" className="w-5 h-5 " />
                 Continue with Google
               </Button>
             </CardContent>
-            <p className="text-center text-sm text-muted-foreground">
+            <p className="text-center text-sm text-gray-600">
               Don&apos;t have an account?{" "}
               <Link
                 to="/register"
-                className="font-medium text-primary hover:underline"
+                className="font-medium text-black hover:underline"
               >
                 Create account
               </Link>
