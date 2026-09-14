@@ -1,4 +1,4 @@
-export type WalletStatus = "ACTIVE" | "BLOCKED" | "DEACTIVATED";
+export type WalletStatus = "ACTIVE" | "BLOCKED" | "DEACTIVATED" | "SUSPENDED";
 
 export interface IWalletSecurity {
   isPinSet: boolean;

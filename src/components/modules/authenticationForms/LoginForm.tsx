@@ -3,6 +3,9 @@ import * as React from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import { toast } from "sonner";
 import { Link, useNavigate } from "react-router";
+import img from "@/assets/images/login.png"
+import bg from "@/assets/images/bg.jpg"
+
 
 import { Button } from "@/components/ui/button";
 import {

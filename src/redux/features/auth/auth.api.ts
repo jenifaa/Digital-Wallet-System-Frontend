@@ -54,9 +54,10 @@ export const authApi = baseApi.injectEndpoints({
       providesTags: ["USER"],
     }),
     getAllUsers: builder.query({
-      query: () => ({
+      query: (params?: Record<string, string | number | undefined>) => ({
         url: "/user/all-users",
         method: "GET",
+        params,
       }),
       providesTags: ["USER"],
     }),
@@ -108,8 +109,23 @@ export const authApi = baseApi.injectEndpoints({
       query: (query: string) => ({
         url: "/user/search",
         method: "GET",
+        params: { searchTerm: query },
+      }),
+    }),
+    lookupRecipient: builder.query({
+      query: (query: string) => ({
+        url: "/user/lookup-recipient",
+        method: "GET",
         params: { query },
       }),
+    }),
+    searchAgents: builder.query({
+      query: (params?: Record<string, string | number | undefined>) => ({
+        url: "/user/search/agents",
+        method: "GET",
+        params,
+      }),
+      providesTags: ["USER"],
     }),
     deleteUser: builder.mutation({
       query: (id) => ({
@@ -125,28 +141,48 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
+    makeAgent: builder.mutation({
+      query: (id: string) => ({
+        url: `/user/make-agent/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
     approveAgent: builder.mutation({
-      // TODO: Integrate with backend PATCH /user/:id/approve-agent when backend API is ready
       query: (id: string) => ({
         url: `/user/approve-agent/${id}`,
         method: "PATCH",
       }),
-      invalidatesTags: ["USER"],
+      invalidatesTags: ["USER", "NOTIFICATION"],
     }),
     rejectAgent: builder.mutation({
-      // TODO: Integrate with backend PATCH /user/:id/reject-agent when backend API is ready
-      query: (id: string) => ({
+      query: ({ id, reason }: { id: string; reason?: string }) => ({
         url: `/user/reject-agent/${id}`,
         method: "PATCH",
+        data: { reason },
       }),
-      invalidatesTags: ["USER"],
+      invalidatesTags: ["USER", "NOTIFICATION"],
+    }),
+    suspendAgent: builder.mutation({
+      query: ({ id, reason }: { id: string; reason?: string }) => ({
+        url: `/user/suspend-agent/${id}`,
+        method: "PATCH",
+        data: { reason },
+      }),
+      invalidatesTags: ["USER", "NOTIFICATION"],
+    }),
+    reactivateAgent: builder.mutation({
+      query: (id: string) => ({
+        url: `/user/reactivate-agent/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER", "NOTIFICATION"],
     }),
     updateUserStatus: builder.mutation({
-      // TODO: Integrate with backend PATCH /user/:id/status when backend API is ready
       query: ({ id, status }: { id: string; status: string }) => ({
-        url: `/user/${id}/status`,
+        url: `/user/${id}`,
         method: "PATCH",
-        data: { status },
+        data: { isActive: status },
       }),
       invalidatesTags: ["USER"],
     }),
@@ -170,9 +206,14 @@ export const {
   useChangePasswordMutation,
   useSearchUsersQuery,
   useLazySearchUsersQuery,
+  useLazyLookupRecipientQuery,
+  useSearchAgentsQuery,
   useDeleteUserMutation,
   useRequestAgentMutation,
+  useMakeAgentMutation,
   useApproveAgentMutation,
   useRejectAgentMutation,
+  useSuspendAgentMutation,
+  useReactivateAgentMutation,
   useUpdateUserStatusMutation,
 } = authApi;

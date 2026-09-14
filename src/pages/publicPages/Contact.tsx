@@ -1,4 +1,5 @@
 
+
 import PublicPageHero from "@/components/marketing/PublicPageHero";
 import PageTransition from "@/components/shared/PageTransition";
 import { Button } from "@/components/ui/button";
@@ -31,8 +32,10 @@ export default function Contact() {
     },
   });
 
+ 
   const onSubmit = async (data: FormValues) => {
     toast.success("Message sent! Our team will get back to you within 24 hours.");
+    console.log(data)
     form.reset();
   };
 

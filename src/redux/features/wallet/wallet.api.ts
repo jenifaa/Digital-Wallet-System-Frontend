@@ -11,10 +11,11 @@ export const walletApi = baseApi.injectEndpoints({
       }),
       providesTags: ["WALLET"],
     }),
-    allWallets: builder.query<IResponse<IWallet[]>, void>({
-      query: () => ({
+    allWallets: builder.query<IResponse<IWallet[]>, Record<string, string | number | undefined> | void>({
+      query: (params) => ({
         url: "/wallet/all-wallet",
         method: "GET",
+        params: params ?? undefined,
       }),
       providesTags: ["WALLET"],
     }),
@@ -22,10 +23,12 @@ export const walletApi = baseApi.injectEndpoints({
       IResponse<IWallet>,
       { id: string; status: string }
     >({
-      query: ({ id, ...data }) => ({
-        url: `/wallet/${id}/status`,
+      query: ({ id, status }) => ({
+        url:
+          status === "BLOCKED"
+            ? `/wallet/block/${id}`
+            : `/wallet/unblock/${id}`,
         method: "PATCH",
-        data,
       }),
       invalidatesTags: ["WALLET"],
     }),
@@ -51,12 +54,11 @@ export const walletApi = baseApi.injectEndpoints({
       }),
     }),
     deleteWallet: builder.mutation({
-      // TODO: Integrate with backend DELETE /wallet/:id when backend API is ready
       query: (id: string) => ({
         url: `/wallet/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["WALLET"],
+      invalidatesTags: ["WALLET", "USER"],
     }),
   }),
 });
