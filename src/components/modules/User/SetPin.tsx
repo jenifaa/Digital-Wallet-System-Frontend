@@ -28,6 +28,7 @@ import {
 import { useMyWalletQuery } from "@/redux/features/wallet/wallet.api";
 
 import { useSetPinMutation } from "@/redux/features/wallet/wallet.api";
+import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 
 type TSetPinForm = {
   pin: string;
@@ -40,6 +41,10 @@ export default function SetPin() {
   const { data: myWallet, isLoading } = useMyWalletQuery(undefined);
 
   const [setPin, { isLoading: isSettingPin }] = useSetPinMutation();
+
+  const { data: userData } = useUserInfoQuery(undefined);
+
+const user = userData?.data;
 
   const form = useForm<TSetPinForm>({
     defaultValues: {
@@ -54,9 +59,9 @@ export default function SetPin() {
     if (isPinSet) {
       toast.info("PIN already set");
 
-      navigate("/user/analytics");
+      navigate(`/${user?.role}/analytics`);
     }
-  }, [myWallet, navigate]);
+  }, [myWallet, navigate,user?.role]);
 
   const onSubmit = async (data: TSetPinForm) => {
     if (data.pin !== data.confirmPin) {
@@ -80,7 +85,7 @@ export default function SetPin() {
 
       form.reset();
 
-      navigate("/user/analytics");
+      navigate(`/${user?.role}/analytics`);
     } catch (error: any) {
       toast.error(error?.data?.message || "Failed to set PIN");
     }

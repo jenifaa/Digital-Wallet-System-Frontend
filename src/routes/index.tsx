@@ -105,6 +105,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/agent/analytics" /> },
       ...generateRoutes(agentSidebarItems),
+      ...userPrivateRoutes
     ],
   },
 

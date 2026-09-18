@@ -101,7 +101,9 @@ export default function CashOut() {
               </div>
 
               <div>
-                <CardTitle className="text-2xl text-white">Cash Out</CardTitle>
+                <CardTitle className="text-2xl text-white">
+                  Cash Out
+                </CardTitle>
 
                 <CardDescription className="text-slate-400">
                   Withdraw money through an authorized agent
@@ -114,14 +116,16 @@ export default function CashOut() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FieldGroup className="space-y-5">
                 <Field>
-                  <FieldLabel className="text-slate-300">Agent ID</FieldLabel>
+                  <FieldLabel className="text-slate-300">
+                    Agent Phone Number
+                  </FieldLabel>
 
                   <Input
-                    type="text"
-                    placeholder="Enter agent ID"
+                    type="tel"
+                    placeholder="Enter agent phone number"
                     className="h-12 border-slate-800 bg-slate-900 text-white"
                     {...form.register("agent", {
-                      required: "Agent ID is required",
+                      required: "Agent phone number is required",
                     })}
                   />
 
@@ -131,7 +135,9 @@ export default function CashOut() {
                 </Field>
 
                 <Field>
-                  <FieldLabel className="text-slate-300">Amount</FieldLabel>
+                  <FieldLabel className="text-slate-300">
+                    Amount
+                  </FieldLabel>
 
                   <Input
                     type="number"
@@ -152,7 +158,9 @@ export default function CashOut() {
                 </Field>
 
                 <Field>
-                  <FieldLabel className="text-slate-300">Wallet PIN</FieldLabel>
+                  <FieldLabel className="text-slate-300">
+                    Wallet PIN
+                  </FieldLabel>
 
                   <Input
                     type="password"
