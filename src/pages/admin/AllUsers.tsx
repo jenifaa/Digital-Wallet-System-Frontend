@@ -39,6 +39,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { Input } from "@/components/ui/input";
+import img from "@/assets/icons/block.png";
+import unblock from "@/assets/icons/unlock.png";
 
 import {
   Table,
@@ -351,29 +353,53 @@ export default function AllUsers() {
 
                           {user?.role !== "SUPER_ADMIN" && (
                             <>
-                              <Button
-                                size="icon"
-                                variant="outline"
-                                onClick={() =>
-                                  handleUpdateStatus(
-                                    user?._id,
-                                    user?.isActive === "BLOCKED"
-                                      ? "ACTIVE"
-                                      : "BLOCKED",
-                                  )
-                                }
-                                className={`h-9 w-14 rounded-xl ${
-                                  user?.isActive === "BLOCKED"
-                                    ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20"
-                                    : "border-amber-500/20 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20"
-                                }`}
-                              >
-                                <p className="text-xs px-2">
+                              <div className="group relative">
+                                {/* Tooltip */}
+                                <div className="pointer-events-none absolute bottom-full left-1/2 mb-2 -translate-x-1/2 whitespace-nowrap rounded-lg border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs font-medium text-white opacity-0 shadow-xl transition-all duration-200 group-hover:opacity-100">
                                   {user?.isActive === "BLOCKED"
                                     ? "Unblock"
                                     : "Block"}
-                                </p>
-                              </Button>
+
+                                  {/* Tooltip arrow */}
+                                  <div className="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-slate-700" />
+                                </div>
+
+                                <Button
+                                  size="icon"
+                                  variant="outline"
+                                  onClick={() =>
+                                    handleUpdateStatus(
+                                      user?._id,
+                                      user?.isActive === "BLOCKED"
+                                        ? "ACTIVE"
+                                        : "BLOCKED",
+                                    )
+                                  }
+                                  className={`h-9 w-9 rounded-xl ${
+                                    user?.isActive === "BLOCKED"
+                                      ? "border-blue-500/30 bg-green-700 text-white hover:bg-green-800"
+                                      : "border-red-500/20 bg-red-800 hover:bg-red-500/20 text-white"
+                                  }`}
+                                >
+                                  <img
+                                    src={
+                                      user?.isActive === "BLOCKED"
+                                        ? unblock
+                                        : img
+                                    }
+                                    alt={
+                                      user?.isActive === "BLOCKED"
+                                        ? "Unblock user"
+                                        : "Block user"
+                                    }
+                                    className={`h-5 w-5 object-contain ${
+                                      user?.isActive === "BLOCKED"
+                                        ? "brightness-0 invert"
+                                        : "brightness-0 invert"
+                                    }`}
+                                  />
+                                </Button>
+                              </div>
 
                               <Button
                                 size="icon"
