@@ -26,7 +26,11 @@ import { cn } from "@/lib/utils";
 
 import { useLoginMutation } from "@/redux/features/auth/auth.api";
 import config from "@/config";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 import { Eye, EyeOff } from "lucide-react";
 
 type LoginInputs = {
@@ -41,7 +45,7 @@ export function LoginForm({
   const navigate = useNavigate();
   const [login] = useLoginMutation();
 
-   const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const form = useForm<LoginInputs>({
     defaultValues: {
@@ -62,6 +66,22 @@ export function LoginForm({
       if (message === "User is not verified") {
         toast.error("Account not verified");
         navigate("/verify", { state: { email: data.email } });
+        return;
+      }
+
+      if (message === "User not found, Wrong email!!.") {
+        form.setError("email", {
+          type: "server",
+          message: "Email is incorrect",
+        });
+        return;
+      }
+
+      if (message === "Incorrect password.") {
+        form.setError("password", {
+          type: "server",
+          message: "Password does not match",
+        });
         return;
       }
 
@@ -145,9 +165,9 @@ export function LoginForm({
                         <FieldLabel>Password</FieldLabel>
                         <InputGroup className="h-11 border-2 border-gray-400">
                           <InputGroupInput
-                           {...field}
+                            {...field}
                             id="inline-end-input"
-                           type={showPassword ? "text" : "password"}
+                            type={showPassword ? "text" : "password"}
                             placeholder="Enter password"
                             className=""
                           />
@@ -156,7 +176,9 @@ export function LoginForm({
                               type="button"
                               onClick={() => setShowPassword((prev) => !prev)}
                               className="text-muted-foreground hover:text-foreground"
-                              aria-label={showPassword ? "Hide password" : "Show password"}
+                              aria-label={
+                                showPassword ? "Hide password" : "Show password"
+                              }
                               tabIndex={-1}
                             >
                               {showPassword ? (
@@ -204,7 +226,10 @@ export function LoginForm({
                 </FieldGroup>
 
                 {/* ACTION BUTTON */}
-                <Button type="submit" className="w-full h-11 border-2 border-gray-400">
+                <Button
+                  type="submit"
+                  className="w-full h-11 border-2 border-gray-400"
+                >
                   Sign in
                 </Button>
               </form>
