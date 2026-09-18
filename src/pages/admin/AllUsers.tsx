@@ -13,12 +13,21 @@ import {
   ShieldCheck,
   // ShieldX,
   Trash2,
-
   UserPlus,
   Users,
 } from "lucide-react";
 
-import { useApproveAgentMutation, useDeleteUserMutation, useGetAllUsersQuery, useMakeAdminMutation, useMakeAgentMutation, useReactivateAgentMutation, useRejectAgentMutation, useSuspendAgentMutation, useUpdateUserStatusMutation } from "@/redux/features/auth/auth.api";
+import {
+  useApproveAgentMutation,
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+  useMakeAdminMutation,
+  useMakeAgentMutation,
+  // useReactivateAgentMutation,
+  // useRejectAgentMutation,
+  // useSuspendAgentMutation,
+  useUpdateUserStatusMutation,
+} from "@/redux/features/auth/auth.api";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
@@ -38,6 +47,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { toast } from "sonner";
 
 export default function AllUsers() {
   const { data, isLoading } = useGetAllUsersQuery(undefined);
@@ -46,39 +56,32 @@ export default function AllUsers() {
   const [makeAdmin] = useMakeAdminMutation();
   const [deleteUser] = useDeleteUserMutation();
 
-  const [rejectAgent] = useRejectAgentMutation();
-  const [suspendAgent] = useSuspendAgentMutation();
-  const [reactivateAgent] = useReactivateAgentMutation();
+  // const [rejectAgent] = useRejectAgentMutation();
+  // const [suspendAgent] = useSuspendAgentMutation();
+  // const [reactivateAgent] = useReactivateAgentMutation();
   const [updateUserStatus] = useUpdateUserStatusMutation();
 
-
-
   const [searchTerm, setSearchTerm] = useState("");
-
 
   const meta = data?.meta;
 
   const filteredUsers = useMemo(() => {
-    
-  const users = data?.data || [];
+    const users = data?.data || [];
     return users.filter(
       (user: any) =>
         user?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user?.email?.toLowerCase().includes(searchTerm.toLowerCase())
+        user?.email?.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }, [data?.data, searchTerm]);
 
   const admins = filteredUsers.filter(
-    (user: any) =>
-      user?.role === "SUPER_ADMIN" || user?.role === "ADMIN"
+    (user: any) => user?.role === "SUPER_ADMIN" || user?.role === "ADMIN",
   );
 
-  const agents = filteredUsers.filter(
-    (user: any) => user?.role === "AGENT"
-  );
+  const agents = filteredUsers.filter((user: any) => user?.role === "AGENT");
 
   const normalUsers = filteredUsers.filter(
-    (user: any) => user?.role === "USER" || !user?.role
+    (user: any) => user?.role === "USER" || !user?.role,
   );
 
   if (isLoading) {
@@ -89,14 +92,63 @@ export default function AllUsers() {
     );
   }
 
+  const handleMakeAgent = async (userId: string) => {
+    try {
+      await makeAgent(userId).unwrap();
+      toast.success("User has been made an agent successfully");
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Failed to make agent");
+    }
+  };
+
+  const handleMakeAdmin = async (userId: string) => {
+    try {
+      await makeAdmin(userId).unwrap();
+      toast.success("User has been promoted to admin successfully");
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Failed to make admin");
+    }
+  };
+
+  const handleApproveAgent = async (userId: string) => {
+    try {
+      await approveAgent(userId).unwrap();
+      toast.success("Agent approved successfully");
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Failed to approve agent");
+    }
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    try {
+      await deleteUser(userId).unwrap();
+      toast.success("User deleted successfully");
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Failed to delete user");
+    }
+  };
+
+  const handleUpdateStatus = async (
+    userId: string,
+    status: "ACTIVE" | "BLOCKED" | "INACTIVE",
+  ) => {
+    try {
+      await updateUserStatus({
+        id: userId,
+        status,
+      }).unwrap();
+
+      toast.success(`User status updated to ${status}`);
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Failed to update user status");
+    }
+  };
+
   const renderTable = (
     title: string,
     description: string,
     usersData: any[],
-    theme:
-      | "violet"
-      | "cyan"
-      | "rose"
+    theme: "violet" | "cyan" | "rose",
   ) => {
     const themes = {
       violet: {
@@ -125,9 +177,7 @@ export default function AllUsers() {
                 {title}
               </CardTitle>
 
-              <p className="mt-1 text-sm text-slate-400">
-                {description}
-              </p>
+              <p className="mt-1 text-sm text-slate-400">{description}</p>
             </div>
 
             <div
@@ -147,17 +197,11 @@ export default function AllUsers() {
                     User
                   </TableHead>
 
-                  <TableHead className="text-slate-300">
-                    Email
-                  </TableHead>
+                  <TableHead className="text-slate-300">Email</TableHead>
 
-                  <TableHead className="text-slate-300">
-                    Role
-                  </TableHead>
+                  <TableHead className="text-slate-300">Role</TableHead>
 
-                  <TableHead className="text-slate-300">
-                    Status
-                  </TableHead>
+                  <TableHead className="text-slate-300">Status</TableHead>
 
                   <TableHead className="text-right pr-6 text-slate-300">
                     Actions
@@ -198,9 +242,7 @@ export default function AllUsers() {
                         <div className="flex items-center gap-2 text-slate-300">
                           <Mail className="size-4 text-slate-500" />
 
-                          <span className="truncate">
-                            {user?.email}
-                          </span>
+                          <span className="truncate">{user?.email}</span>
                         </div>
                       </TableCell>
 
@@ -210,8 +252,8 @@ export default function AllUsers() {
                             user?.role === "SUPER_ADMIN"
                               ? "border-rose-500/20 bg-rose-500/10 text-rose-400"
                               : user?.role === "AGENT"
-                              ? "border-cyan-500/20 bg-cyan-500/10 text-cyan-400"
-                              : "border-violet-500/20 bg-violet-500/10 text-violet-300"
+                                ? "border-cyan-500/20 bg-cyan-500/10 text-cyan-400"
+                                : "border-violet-500/20 bg-violet-500/10 text-violet-300"
                           }`}
                         >
                           {user?.role || "USER"}
@@ -234,6 +276,7 @@ export default function AllUsers() {
                             <>
                               <Button
                                 size="sm"
+                                onClick={() => handleMakeAgent(user?._id)}
                                 className="h-9 rounded-xl bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20"
                               >
                                 <UserPlus className="mr-2 size-4" />
@@ -242,6 +285,7 @@ export default function AllUsers() {
 
                               <Button
                                 size="sm"
+                                onClick={() => handleMakeAdmin(user?._id)}
                                 className="h-9 rounded-xl bg-violet-500/10 text-violet-300 hover:bg-violet-500/20"
                               >
                                 <Crown className="mr-2 size-4" />
@@ -250,32 +294,43 @@ export default function AllUsers() {
                             </>
                           )}
 
-                          {user?.role === "AGENT" &&
-                            !user?.isAgentApproved && (
-                              <Button
-                                size="sm"
-                                className="h-9 rounded-xl bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20"
-                              >
-                                <BadgeCheck className="mr-2 size-4" />
-                                Approve
-                              </Button>
-                            )}
+                          {user?.role === "AGENT" && !user?.isAgentApproved && (
+                            <Button
+                              size="sm"
+                              onClick={() => handleApproveAgent(user?._id)}
+                              className="h-9 rounded-xl bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20"
+                            >
+                              <BadgeCheck className="mr-2 size-4" />
+                              Approve
+                            </Button>
+                          )}
 
                           {user?.role !== "SUPER_ADMIN" && (
                             <>
                               <Button
                                 size="icon"
                                 variant="outline"
-                                className="h-9 w-9 rounded-xl border-amber-500/20 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 hover:text-amber-200"
+                                onClick={() =>
+                                  handleUpdateStatus(
+                                    user?._id,
+                                    user?.isActive === "BLOCKED"
+                                      ? "ACTIVE"
+                                      : "BLOCKED",
+                                  )
+                                }
+                                className="h-9 w-9 rounded-xl border-amber-500/20 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20"
                               >
-                                {/* <ShieldX className="size-4" /> */}
-                                <p>Block</p>
-              
+                                <p>
+                                  {user?.isActive === "BLOCKED"
+                                    ? "Unblock"
+                                    : "Block"}
+                                </p>
                               </Button>
 
                               <Button
                                 size="icon"
                                 variant="outline"
+                                onClick={() => handleDeleteUser(user?._id)}
                                 className="h-9 w-9 rounded-xl border-rose-500/20 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20 hover:text-rose-200"
                               >
                                 <Trash2 className="size-4" />
@@ -288,10 +343,7 @@ export default function AllUsers() {
                   ))
                 ) : (
                   <TableRow className="border-slate-800">
-                    <TableCell
-                      colSpan={5}
-                      className="h-40 text-center"
-                    >
+                    <TableCell colSpan={5} className="h-40 text-center">
                       <div className="flex flex-col items-center justify-center">
                         <Users className="size-12 text-slate-700" />
 
@@ -332,17 +384,15 @@ export default function AllUsers() {
             </h1>
 
             <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-400">
-              Manage admins, agents and users separately with complete
-              control over approvals, permissions and moderation actions.
+              Manage admins, agents and users separately with complete control
+              over approvals, permissions and moderation actions.
             </p>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-3">
             <Card className="rounded-3xl border border-violet-500/10 bg-violet-500/5">
               <CardContent className="p-5">
-                <p className="text-sm text-slate-400">
-                  Total Users
-                </p>
+                <p className="text-sm text-slate-400">Total Users</p>
 
                 <h2 className="mt-2 text-4xl font-black text-white">
                   {meta?.total || 0}
@@ -352,9 +402,7 @@ export default function AllUsers() {
 
             <Card className="rounded-3xl border border-cyan-500/10 bg-cyan-500/5">
               <CardContent className="p-5">
-                <p className="text-sm text-slate-400">
-                  Agents
-                </p>
+                <p className="text-sm text-slate-400">Agents</p>
 
                 <h2 className="mt-2 text-4xl font-black text-white">
                   {agents.length}
@@ -364,9 +412,7 @@ export default function AllUsers() {
 
             <Card className="rounded-3xl border border-rose-500/10 bg-rose-500/5">
               <CardContent className="p-5">
-                <p className="text-sm text-slate-400">
-                  Admins
-                </p>
+                <p className="text-sm text-slate-400">Admins</p>
 
                 <h2 className="mt-2 text-4xl font-black text-white">
                   {admins.length}
@@ -396,21 +442,21 @@ export default function AllUsers() {
             "Admins",
             "Platform administrators with high-level permissions",
             admins,
-            "rose"
+            "rose",
           )}
 
           {renderTable(
             "Agents",
             "Approved and pending platform agents",
             agents,
-            "cyan"
+            "cyan",
           )}
 
           {renderTable(
             "Users",
             "Regular platform users and customers",
             normalUsers,
-            "violet"
+            "violet",
           )}
         </div>
 
@@ -420,10 +466,7 @@ export default function AllUsers() {
             <span className="font-semibold text-white">
               {filteredUsers.length}
             </span>{" "}
-            of{" "}
-            <span className="font-semibold text-white">
-              {meta?.total}
-            </span>{" "}
+            of <span className="font-semibold text-white">{meta?.total}</span>{" "}
             users
           </div>
 
