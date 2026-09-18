@@ -18,7 +18,7 @@ import {
   Users,
 } from "lucide-react";
 
-import { useGetAllUsersQuery } from "@/redux/features/auth/auth.api";
+import { useApproveAgentMutation, useDeleteUserMutation, useGetAllUsersQuery, useMakeAdminMutation, useMakeAgentMutation, useReactivateAgentMutation, useRejectAgentMutation, useSuspendAgentMutation, useUpdateUserStatusMutation } from "@/redux/features/auth/auth.api";
 
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
@@ -41,6 +41,17 @@ import {
 
 export default function AllUsers() {
   const { data, isLoading } = useGetAllUsersQuery(undefined);
+  const [makeAgent] = useMakeAgentMutation();
+  const [approveAgent] = useApproveAgentMutation();
+  const [makeAdmin] = useMakeAdminMutation();
+  const [deleteUser] = useDeleteUserMutation();
+
+  const [rejectAgent] = useRejectAgentMutation();
+  const [suspendAgent] = useSuspendAgentMutation();
+  const [reactivateAgent] = useReactivateAgentMutation();
+  const [updateUserStatus] = useUpdateUserStatusMutation();
+
+
 
   const [searchTerm, setSearchTerm] = useState("");
 

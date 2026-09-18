@@ -148,6 +148,13 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
+    makeAdmin: builder.mutation({
+      query: (id: string) => ({
+        url: `/user/make-admin/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
     approveAgent: builder.mutation({
       query: (id: string) => ({
         url: `/user/approve-agent/${id}`,
@@ -211,6 +218,7 @@ export const {
   useDeleteUserMutation,
   useRequestAgentMutation,
   useMakeAgentMutation,
+  useMakeAdminMutation,
   useApproveAgentMutation,
   useRejectAgentMutation,
   useSuspendAgentMutation,
