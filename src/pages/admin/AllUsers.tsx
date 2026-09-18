@@ -23,6 +23,7 @@ import {
   useGetAllUsersQuery,
   useMakeAdminMutation,
   useMakeAgentMutation,
+  useMakeUserMutation,
   // useReactivateAgentMutation,
   // useRejectAgentMutation,
   // useSuspendAgentMutation,
@@ -56,7 +57,7 @@ export default function AllUsers() {
   const [makeAdmin] = useMakeAdminMutation();
   const [deleteUser] = useDeleteUserMutation();
 
-  // const [rejectAgent] = useRejectAgentMutation();
+  const [makeUser] = useMakeUserMutation();
   // const [suspendAgent] = useSuspendAgentMutation();
   // const [reactivateAgent] = useReactivateAgentMutation();
   const [updateUserStatus] = useUpdateUserStatusMutation();
@@ -116,6 +117,14 @@ export default function AllUsers() {
       toast.success("Agent approved successfully");
     } catch (error: any) {
       toast.error(error?.data?.message || "Failed to approve agent");
+    }
+  };
+  const handleMakeUser = async (userId: string) => {
+    try {
+      await makeUser(userId).unwrap();
+      toast.success("Agent has been converted back to user");
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Failed to make user");
     }
   };
 
@@ -261,13 +270,48 @@ export default function AllUsers() {
                       </TableCell>
 
                       <TableCell>
-                        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1">
-                          <div className="size-2 rounded-full bg-emerald-400" />
+                        <div
+                          className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 ${
+                            user?.isActive === "BLOCKED"
+                              ? "border-rose-500/20 bg-rose-500/10"
+                              : user?.isActive === "INACTIVE"
+                                ? "border-amber-500/20 bg-amber-500/10"
+                                : "border-emerald-500/20 bg-emerald-500/10"
+                          }`}
+                        >
+                          <div
+                            className={`size-2 rounded-full ${
+                              user?.isActive === "BLOCKED"
+                                ? "bg-rose-400"
+                                : user?.isActive === "INACTIVE"
+                                  ? "bg-amber-400"
+                                  : "bg-emerald-400"
+                            }`}
+                          />
 
-                          <span className="text-xs font-medium text-emerald-400">
-                            ACTIVE
+                          <span
+                            className={`text-xs font-medium ${
+                              user?.isActive === "BLOCKED"
+                                ? "text-rose-400"
+                                : user?.isActive === "INACTIVE"
+                                  ? "text-amber-400"
+                                  : "text-emerald-400"
+                            }`}
+                          >
+                            {user?.isActive || "ACTIVE"}
                           </span>
                         </div>
+                        {user?.isDeleted && (
+                          <>
+                            <br />
+                            <div className="mt-1 inline-flex items-center gap-1.5 rounded-full border border-rose-500/20 bg-rose-500/10 px-2.5 py-1">
+                              <div className="size-1.5 rounded-full bg-rose-400" />
+                              <span className="text-[11px] font-semibold tracking-wide text-rose-400">
+                                DELETED
+                              </span>
+                            </div>
+                          </>
+                        )}
                       </TableCell>
 
                       <TableCell className="pr-6">
@@ -318,9 +362,13 @@ export default function AllUsers() {
                                       : "BLOCKED",
                                   )
                                 }
-                                className="h-9 w-9 rounded-xl border-amber-500/20 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20"
+                                className={`h-9 w-14 rounded-xl ${
+                                  user?.isActive === "BLOCKED"
+                                    ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20"
+                                    : "border-amber-500/20 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20"
+                                }`}
                               >
-                                <p>
+                                <p className="text-xs px-2">
                                   {user?.isActive === "BLOCKED"
                                     ? "Unblock"
                                     : "Block"}
@@ -335,6 +383,15 @@ export default function AllUsers() {
                               >
                                 <Trash2 className="size-4" />
                               </Button>
+                              {user?.role === "AGENT" && (
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleMakeUser(user?._id)}
+                                  className="h-9 rounded-xl bg-violet-500/10 text-violet-300 hover:bg-violet-500/20"
+                                >
+                                  Make User
+                                </Button>
+                              )}
                             </>
                           )}
                         </div>

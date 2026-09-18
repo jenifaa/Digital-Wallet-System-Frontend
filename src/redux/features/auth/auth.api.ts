@@ -155,6 +155,13 @@ export const authApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["USER"],
     }),
+    makeUser: builder.mutation({
+      query: (id: string) => ({
+        url: `/user/make-user/${id}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["USER"],
+    }),
     approveAgent: builder.mutation({
       query: (id: string) => ({
         url: `/user/approve-agent/${id}`,
@@ -224,4 +231,5 @@ export const {
   useSuspendAgentMutation,
   useReactivateAgentMutation,
   useUpdateUserStatusMutation,
+  useMakeUserMutation
 } = authApi;
